@@ -59,7 +59,7 @@ export const Header = ({
             </h1>
 
             <p className="text-xs sm:text-sm text-slate-400 mt-0.5">
-              Exploring how company age, spinoff status, and regional cohort make companies qualify or drop out of the count.
+              Adjust the age cutoff, spinoff/from-scratch rule, and region filters below to see which companies clear the $10B+ bar.
             </p>
           </div>
 
