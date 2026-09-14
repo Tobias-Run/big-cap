@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
-import { 
+import { CURRENT_YEAR } from '../utils/dateConstants';
+import {
   Download, 
   ArrowUpDown, 
   ArrowUp, 
@@ -47,8 +48,8 @@ export const SearchableDataTable = ({
       let bVal = b[sortField];
 
       if (sortField === 'age') {
-        aVal = 2024 - a.foundingYear;
-        bVal = 2024 - b.foundingYear;
+        aVal = CURRENT_YEAR - a.foundingYear;
+        bVal = CURRENT_YEAR - b.foundingYear;
       }
 
       if (typeof aVal === 'string') {
@@ -71,7 +72,7 @@ export const SearchableDataTable = ({
       `"${c.ticker}"`,
       c.marketCap,
       c.foundingYear,
-      2024 - c.foundingYear,
+      CURRENT_YEAR - c.foundingYear,
       c.isTech ? 'High-Tech' : 'Other',
       `"${c.industry}"`,
       `"${c.country}"`,
@@ -178,7 +179,7 @@ export const SearchableDataTable = ({
             </thead>
             <tbody className="divide-y divide-slate-800/60 text-slate-300">
               {processedData.map((c) => {
-                const age = 2024 - c.foundingYear;
+                const age = CURRENT_YEAR - c.foundingYear;
                 return (
                   <tr 
                     key={c.id} 

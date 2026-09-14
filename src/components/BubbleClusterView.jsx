@@ -1,7 +1,28 @@
 import React, { useEffect, useRef, useState, useMemo } from 'react';
 import * as d3 from 'd3';
 import { audioSynth } from '../utils/audioSynth';
+import { CURRENT_YEAR } from '../utils/dateConstants';
 import { Info, Sparkles, ZoomIn, ZoomOut, RotateCcw } from 'lucide-react';
+
+// Shared by the initial bubble render, the mouseleave restore handler, and
+// the dedicated search-highlight effect below, so all three agree on what a
+// bubble's "resting" (non-hovered) stroke should look like.
+function restingBubbleStroke(d, isCrazy, searchQuery) {
+  const isMatch = searchQuery && d.name.toLowerCase().includes(searchQuery.toLowerCase());
+  if (isMatch) {
+    return { stroke: '#fbbf24', strokeWidth: 4, filter: 'drop-shadow(0 0 14px #fbbf24)' };
+  }
+  if (isCrazy) {
+    return {
+      stroke: d.isTech ? '#86efac' : '#93c5fd',
+      strokeWidth: 1.5,
+      filter: d.isTech
+        ? 'drop-shadow(0 0 8px rgba(34,197,94,0.5))'
+        : 'drop-shadow(0 0 8px rgba(59,130,246,0.5))'
+    };
+  }
+  return { stroke: '#ffffff', strokeWidth: 1, filter: 'none' };
+}
 
 export const BubbleClusterView = ({
   filteredCompanies,
@@ -18,12 +39,26 @@ export const BubbleClusterView = ({
   const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
   const [dimensions, setDimensions] = useState({ width: 1200, height: 780 });
 
+  // The mouseleave handler below is created once per simulation run (see the
+  // main D3 effect) and closes over whatever `searchQuery` was at that time.
+  // Since searchQuery is intentionally no longer a dependency of that effect
+  // (see comment there), the handler reads this ref instead so it always
+  // restores the *current* search-match color instead of a stale one.
+  const searchQueryRef = useRef(searchQuery);
+  useEffect(() => {
+    searchQueryRef.current = searchQuery;
+  }, [searchQuery]);
+
   // Update dimensions dynamically on window resize
   useEffect(() => {
     const updateSize = () => {
       if (containerRef.current) {
         const { clientWidth } = containerRef.current;
-        const width = Math.max(clientWidth, 800);
+        // Floor only guards against a transient 0px measurement before first
+        // layout; it no longer forces desktop-sized (800px) force-sim
+        // coordinates onto a narrower container. The SVG's viewBox (below)
+        // is what keeps the chart entirely visible at any width.
+        const width = Math.max(clientWidth, 320);
         // Height proportional to width and number of selected regions
         const height = selectedRegions.length > 3 ? 840 : 740;
         setDimensions({ width, height });
@@ -180,12 +215,16 @@ export const BubbleClusterView = ({
       })
       .on('mouseleave', (event, d) => {
         setHoveredNode(null);
+        // Read the ref (not the `searchQuery` prop closed over when this
+        // handler was created) so a search typed while hovering a bubble
+        // isn't wiped out the moment the mouse leaves it.
+        const resting = restingBubbleStroke(d, isCrazy, searchQueryRef.current);
         d3.select(event.currentTarget).select('circle')
           .transition()
           .duration(200)
-          .attr('stroke-width', isCrazy ? 2 : 1)
-          .attr('stroke', isCrazy ? (d.isTech ? '#86efac' : '#93c5fd') : '#ffffff')
-          .attr('filter', isCrazy ? (d.isTech ? 'drop-shadow(0 0 8px rgba(34,197,94,0.6))' : 'drop-shadow(0 0 8px rgba(59,130,246,0.6))') : 'none');
+          .attr('stroke-width', resting.strokeWidth)
+          .attr('stroke', resting.stroke)
+          .attr('filter', resting.filter);
       })
       .on('click', (event, d) => {
         onSelectCompany(d);
@@ -221,29 +260,13 @@ export const BubbleClusterView = ({
         }
       })
       .attr('fill-opacity', isCrazy ? 0.92 : 0.88)
-      .attr('stroke', d => {
-        if (searchQuery && d.name.toLowerCase().includes(searchQuery.toLowerCase())) {
-          return '#fbbf24'; // Golden search match
-        }
-        return isCrazy ? (d.isTech ? '#86efac' : '#93c5fd') : '#ffffff';
-      })
-      .attr('stroke-width', d => {
-        if (searchQuery && d.name.toLowerCase().includes(searchQuery.toLowerCase())) {
-          return 4;
-        }
-        return isCrazy ? 1.5 : 1;
-      })
-      .style('filter', d => {
-        if (searchQuery && d.name.toLowerCase().includes(searchQuery.toLowerCase())) {
-          return 'drop-shadow(0 0 14px #fbbf24)';
-        }
-        if (isCrazy) {
-          return d.isTech 
-            ? 'drop-shadow(0 0 8px rgba(34,197,94,0.5))' 
-            : 'drop-shadow(0 0 8px rgba(59,130,246,0.5))';
-        }
-        return 'none';
-      });
+      // Initial stroke uses whatever searchQuery is current right now (via
+      // the ref, since searchQuery isn't a dependency of this effect — see
+      // the dedicated search-highlight effect below, which re-applies this
+      // on every keystroke without re-running the simulation).
+      .attr('stroke', d => restingBubbleStroke(d, isCrazy, searchQueryRef.current).stroke)
+      .attr('stroke-width', d => restingBubbleStroke(d, isCrazy, searchQueryRef.current).strokeWidth)
+      .style('filter', d => restingBubbleStroke(d, isCrazy, searchQueryRef.current).filter);
 
     // Text labels for large enough bubbles (r >= 17)
     bubbles.filter(d => d.r >= 16)
@@ -291,7 +314,26 @@ export const BubbleClusterView = ({
     return () => {
       simulation.stop();
     };
-  }, [filteredCompanies, dimensions, clusterCenters, isCrazy, searchQuery]);
+    // searchQuery intentionally excluded: highlighting a match must not
+    // restart the force simulation (which reseeds every bubble's position
+    // with a fresh random jitter, see `x`/`y` above and makes the whole
+    // cluster jump on every keystroke). See the dedicated effect below.
+  }, [filteredCompanies, dimensions, clusterCenters, isCrazy]);
+
+  // Re-applies the search-match highlight to already-rendered bubbles
+  // in-place, without touching the simulation or node positions above.
+  useEffect(() => {
+    if (!svgRef.current) return;
+    d3.select(svgRef.current)
+      .selectAll('.nodes-layer .bubble')
+      .each(function (d) {
+        const resting = restingBubbleStroke(d, isCrazy, searchQuery);
+        d3.select(this).select('circle')
+          .attr('stroke', resting.stroke)
+          .attr('stroke-width', resting.strokeWidth)
+          .style('filter', resting.filter);
+      });
+  }, [searchQuery, isCrazy, filteredCompanies]);
 
   // Handle supernova shockwave burst effect
   useEffect(() => {
@@ -344,6 +386,8 @@ export const BubbleClusterView = ({
         ref={svgRef}
         width={dimensions.width}
         height={dimensions.height}
+        viewBox={`0 0 ${dimensions.width} ${dimensions.height}`}
+        preserveAspectRatio="xMidYMid meet"
         className="relative z-10 w-full overflow-visible"
       >
         <defs>
@@ -478,7 +522,7 @@ export const BubbleClusterView = ({
             <div>
               <span className="text-[10px] uppercase font-mono text-slate-500 block">Founded / Age</span>
               <span className="text-sm font-semibold text-slate-200">
-                {hoveredNode.foundingYear} ({2024 - hoveredNode.foundingYear}y)
+                {hoveredNode.foundingYear} ({CURRENT_YEAR - hoveredNode.foundingYear}y)
               </span>
             </div>
           </div>

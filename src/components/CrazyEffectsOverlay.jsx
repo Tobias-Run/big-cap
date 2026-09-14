@@ -2,33 +2,33 @@ import React, { useEffect, useState } from 'react';
 import { Flame, Sparkles, MessageSquare, Zap } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
-export const CrazyEffectsOverlay = ({ 
-  mode, 
-  onSupernovaBurst, 
-  supernovaTrigger 
+const WITTY_QUOTES = [
+  "🏛️ Euro-Museum Mode: Active. Only centuries-old luxury conglomerates permitted beyond 50 years.",
+  "🇳🇱 ASML was a 1984 Philips/ASM joint venture: Excluded by McAfee, crowned by semiconductor physics.",
+  "🎂 Microsoft turns 50 in 2025: Aging out of the Arriviste Club!",
+  "🇩🇪 Move age slider to 52 to summon SAP from the statistical void.",
+  "⚡ NVIDIA alone exceeds the combined market valuation of several European national exchanges.",
+  "🇹🇼 TSMC: Morris Chang's 1987 pure-play foundry gambit created the global chip ecosystem.",
+  "🇬🇧 Post-Brexit Geography: ARM Holdings is in Cambridge, UK—toggle 'Broad Europe' to see it.",
+  "🇧🇷 Nu Holdings (Nubank) & MercadoLibre: Latin America's tech champions rising in Rest of World."
+];
+
+export const CrazyEffectsOverlay = ({
+  mode,
+  onSupernovaBurst,
+  supernovaTrigger
 }) => {
-  if (mode !== 'crazy') return null;
-
+  // Both hooks below must run before the `mode !== 'crazy'` early return:
+  // React requires the same hooks to run on every render of this component.
   const [tickerIndex, setTickerIndex] = useState(0);
-
-  const wittyQuotes = [
-    "🏛️ Euro-Museum Mode: Active. Only centuries-old luxury conglomerates permitted beyond 50 years.",
-    "🇳🇱 ASML was a 1984 Philips/ASM joint venture: Excluded by McAfee, crowned by semiconductor physics.",
-    "🎂 Microsoft turns 50 in 2025: Aging out of the Arriviste Club!",
-    "🇩🇪 Move age slider to 52 to summon SAP from the statistical void.",
-    "⚡ NVIDIA alone exceeds the combined market valuation of several European national exchanges.",
-    "🇹🇼 TSMC: Morris Chang's 1987 pure-play foundry gambit created the global chip ecosystem.",
-    "🇬🇧 Post-Brexit Geography: ARM Holdings is in Cambridge, UK—toggle 'Broad Europe' to see it.",
-    "🇧🇷 Nu Holdings (Nubank) & MercadoLibre: Latin America's tech champions rising in Rest of World."
-  ];
 
   // Rotate quotes every 6 seconds
   useEffect(() => {
     const timer = setInterval(() => {
-      setTickerIndex((prev) => (prev + 1) % wittyQuotes.length);
+      setTickerIndex((prev) => (prev + 1) % WITTY_QUOTES.length);
     }, 6000);
     return () => clearInterval(timer);
-  }, [wittyQuotes.length]);
+  }, []);
 
   // Trigger cosmic confetti when supernova shockwave fires
   useEffect(() => {
@@ -42,6 +42,8 @@ export const CrazyEffectsOverlay = ({
     }
   }, [supernovaTrigger]);
 
+  if (mode !== 'crazy') return null;
+
   return (
     <div className="pointer-events-none fixed bottom-0 left-0 right-0 z-30 p-2 sm:p-3 flex flex-col items-center">
       {/* Humorous / Insightful Debate Commentary Ticker */}
@@ -53,7 +55,7 @@ export const CrazyEffectsOverlay = ({
           </span>
 
           <span className="text-slate-200 font-medium truncate transition-all duration-300">
-            {wittyQuotes[tickerIndex]}
+            {WITTY_QUOTES[tickerIndex]}
           </span>
         </div>
 

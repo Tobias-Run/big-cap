@@ -26,7 +26,7 @@ export const companiesData = [
     founders: "Steve Jobs, Steve Wozniak, Ronald Wayne",
     ipoYear: 1980,
     headquarters: "Cupertino, CA, USA",
-    citation: "SEC Form 10-K / Apple Computer Inc. IPO Prospectus (1980)",
+    citation: "Apple Computer Inc. IPO Prospectus (1980, predates SEC EDGAR); current filings on SEC EDGAR",
     citationUrl: "https://www.sec.gov/edgar/browse/?CIK=0000320193"
   },
   {
@@ -66,7 +66,7 @@ export const companiesData = [
     founders: "Bill Gates, Paul Allen",
     ipoYear: 1986,
     headquarters: "Redmond, WA, USA",
-    citation: "SEC Form 10-K / Microsoft Corp S-1 IPO Filing (1986)",
+    citation: "Microsoft Corp S-1 IPO Filing (1986, predates SEC EDGAR); current filings on SEC EDGAR",
     citationUrl: "https://www.sec.gov/edgar/browse/?CIK=0000789019"
   },
   {
@@ -186,7 +186,7 @@ export const companiesData = [
     founders: "Larry Ellison, Bob Miner, Ed Oates",
     ipoYear: 1986,
     headquarters: "Austin, TX, USA",
-    citation: "SEC Form 10-K / Oracle Systems Corp IPO Prospectus (1986)",
+    citation: "Oracle Systems Corp IPO Prospectus (1986, predates SEC EDGAR); current filings on SEC EDGAR",
     citationUrl: "https://www.sec.gov/edgar/browse/?CIK=0001341439"
   },
   {
@@ -286,7 +286,7 @@ export const companiesData = [
     founders: "Leonard Bosack, Sandy Lerner",
     ipoYear: 1990,
     headquarters: "San Jose, CA, USA",
-    citation: "SEC Form 10-K / Cisco Systems Inc Form S-1 (1990)",
+    citation: "Cisco Systems Inc Form S-1 (1990, predates SEC EDGAR); current filings on SEC EDGAR",
     citationUrl: "https://www.sec.gov/edgar/browse/?CIK=0000858877"
   },
   {
@@ -306,7 +306,7 @@ export const companiesData = [
     founders: "John Warnock, Charles Geschke",
     ipoYear: 1986,
     headquarters: "San Jose, CA, USA",
-    citation: "SEC Form 10-K / Adobe Systems Inc IPO (1986)",
+    citation: "Adobe Systems Inc IPO (1986, predates SEC EDGAR); current filings on SEC EDGAR",
     citationUrl: "https://www.sec.gov/edgar/browse/?CIK=0000796343"
   },
   {
@@ -426,7 +426,7 @@ export const companiesData = [
     founders: "William Bowes, George Rathmann",
     ipoYear: 1983,
     headquarters: "Thousand Oaks, CA, USA",
-    citation: "SEC Form 10-K / Amgen Inc Form S-1 (1983)",
+    citation: "Amgen Inc Form S-1 (1983, predates SEC EDGAR); current filings on SEC EDGAR",
     citationUrl: "https://www.sec.gov/edgar/browse/?CIK=0000318154"
   },
   {

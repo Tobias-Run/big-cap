@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
-import { 
+import { CURRENT_YEAR } from '../utils/dateConstants';
+import {
   X, 
   ExternalLink, 
   Building2, 
@@ -13,12 +14,8 @@ import {
 } from 'lucide-react';
 
 export const CompanyDetailModal = ({ company, onClose, mode }) => {
-  if (!company) return null;
-
-  const isCrazy = mode === 'crazy';
-  const age = 2024 - company.foundingYear;
-
-  // Close on Escape key
+  // Close on Escape key. Must run before the `!company` early return below:
+  // React requires the same hooks to run on every render of this component.
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === 'Escape') onClose();
@@ -26,6 +23,11 @@ export const CompanyDetailModal = ({ company, onClose, mode }) => {
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [onClose]);
+
+  if (!company) return null;
+
+  const isCrazy = mode === 'crazy';
+  const age = CURRENT_YEAR - company.foundingYear;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/75 backdrop-blur-sm animate-fade-in">
@@ -155,7 +157,7 @@ export const CompanyDetailModal = ({ company, onClose, mode }) => {
             <div className="flex items-center justify-between">
               <span className="text-xs font-semibold text-blue-300 flex items-center gap-1.5 uppercase tracking-wider">
                 <FileCheck className="w-3.5 h-3.5 text-blue-400" />
-                <span>Authoritative Citation & Verification</span>
+                <span>Cited Source</span>
               </span>
             </div>
 
@@ -170,7 +172,10 @@ export const CompanyDetailModal = ({ company, onClose, mode }) => {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 text-xs text-blue-400 hover:text-blue-300 font-medium hover:underline pt-1"
               >
-                <span>View Official Statutory Regulatory Filing / IR</span>
+                {/* Most links here are investor-relations / EDGAR browse
+                    pages, not a direct link to the specific historical
+                    filing named above — see the Data Lineage modal. */}
+                <span>Visit Company IR / Regulator Filings Page</span>
                 <ExternalLink className="w-3 h-3" />
               </a>
             )}

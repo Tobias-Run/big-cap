@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import { Clock, Calendar, TrendingUp, Sparkles, Building, ArrowRight } from 'lucide-react';
+import { CURRENT_YEAR } from '../utils/dateConstants';
 
 export const TimelineView = ({ 
   filteredCompanies, 
@@ -14,7 +15,7 @@ export const TimelineView = ({
       title: 'Mobile, Cloud & AI Era',
       years: '2004 – Present',
       minYear: 2004,
-      maxYear: 2024,
+      maxYear: CURRENT_YEAR,
       color: 'border-pink-500 bg-pink-950/20 text-pink-300',
       badge: 'Current Era',
       description: 'The era of hyperscale clouds, smartphones, electric autonomous vehicles, and generative AI platforms.'

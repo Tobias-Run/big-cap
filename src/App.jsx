@@ -12,6 +12,7 @@ import { CrazyEffectsOverlay } from './components/CrazyEffectsOverlay';
 import { companiesData } from './data/companiesData';
 import { audioSynth } from './utils/audioSynth';
 import { Info, AlertCircle, Sparkles } from 'lucide-react';
+import { CURRENT_YEAR } from './utils/dateConstants';
 
 function App() {
   // Mode: 'serious' (Institutional) or 'crazy' (Supernova)
@@ -87,7 +88,7 @@ function App() {
     return companiesData.filter(company => {
       // 1. Age threshold
       if (!allAges) {
-        const age = 2024 - company.foundingYear;
+        const age = CURRENT_YEAR - company.foundingYear;
         if (age > ageThreshold) return false;
       }
 

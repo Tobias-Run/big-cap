@@ -14,10 +14,8 @@ import {
 import { sourcesMetadata } from '../data/sourcesMetadata';
 
 export const DataLineageModal = ({ isOpen, onClose, mode }) => {
-  if (!isOpen) return null;
-
-  const isCrazy = mode === 'crazy';
-
+  // Must run before the `!isOpen` early return below: React requires the
+  // same hooks to run on every render of this component.
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === 'Escape') onClose();
@@ -25,6 +23,10 @@ export const DataLineageModal = ({ isOpen, onClose, mode }) => {
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [onClose]);
+
+  if (!isOpen) return null;
+
+  const isCrazy = mode === 'crazy';
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-md animate-fade-in">
@@ -194,6 +196,14 @@ export const DataLineageModal = ({ isOpen, onClose, mode }) => {
                 </div>
               ))}
             </div>
+
+            <p className="text-[11px] text-slate-500 pt-1 border-t border-slate-800/80 mt-1">
+              Note: per-company citation links (in each company's dossier) mostly point to
+              the company's investor-relations page or SEC EDGAR filing browser for that
+              entity, not a direct link to the specific historical document named in the
+              citation text — several predate EDGAR's own coverage, which starts in the
+              early-to-mid 1990s.
+            </p>
           </div>
         </div>
 

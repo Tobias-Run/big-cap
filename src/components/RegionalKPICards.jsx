@@ -1,5 +1,6 @@
 import React from 'react';
-import { 
+import { CURRENT_YEAR } from '../utils/dateConstants';
+import {
   TrendingUp, 
   Cpu, 
   Building, 
@@ -44,7 +45,7 @@ export const RegionalKPICards = ({
     const largest = sorted[0] || null;
 
     // Median/avg age
-    const ages = list.map(c => 2024 - c.foundingYear);
+    const ages = list.map(c => CURRENT_YEAR - c.foundingYear);
     const avgAge = ages.length > 0 ? Math.round(ages.reduce((a, b) => a + b, 0) / ages.length) : 0;
 
     return {

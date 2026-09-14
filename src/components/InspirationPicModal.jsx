@@ -2,10 +2,8 @@ import React, { useEffect } from 'react';
 import { X, ExternalLink, Quote, Sparkles, HelpCircle } from 'lucide-react';
 
 export const InspirationPicModal = ({ isOpen, onClose, mode }) => {
-  if (!isOpen) return null;
-
-  const isCrazy = mode === 'crazy';
-
+  // Must run before the `!isOpen` early return below: React requires the
+  // same hooks to run on every render of this component.
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === 'Escape') onClose();
@@ -13,6 +11,10 @@ export const InspirationPicModal = ({ isOpen, onClose, mode }) => {
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [onClose]);
+
+  if (!isOpen) return null;
+
+  const isCrazy = mode === 'crazy';
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/85 backdrop-blur-md animate-fade-in">

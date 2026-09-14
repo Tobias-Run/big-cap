@@ -1,5 +1,6 @@
 import React from 'react';
-import { 
+import { CURRENT_YEAR } from '../utils/dateConstants';
+import {
   Sliders, 
   Globe2, 
   Check, 
@@ -33,7 +34,7 @@ export const ControlsBar = ({
   mode
 }) => {
   const isCrazy = mode === 'crazy';
-  const currentYear = 2024;
+  const currentYear = CURRENT_YEAR;
   const cutOffYear = currentYear - ageThreshold;
 
   const markets = [
