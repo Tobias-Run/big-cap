@@ -1,0 +1,325 @@
+import React from 'react';
+import { 
+  Sliders, 
+  Globe2, 
+  Check, 
+  Search, 
+  Layers, 
+  HelpCircle, 
+  RotateCcw,
+  Sparkles,
+  Zap,
+  Info
+} from 'lucide-react';
+
+export const ControlsBar = ({
+  ageThreshold,
+  setAgeThreshold,
+  allAges,
+  setAllAges,
+  selectedRegions,
+  toggleRegion,
+  strictFromScratch,
+  setStrictFromScratch,
+  includeNonEuEurope,
+  setIncludeNonEuEurope,
+  minMarketCap,
+  setMinMarketCap,
+  sectorFilter,
+  setSectorFilter,
+  searchQuery,
+  setSearchQuery,
+  onResetFilters,
+  mode
+}) => {
+  const isCrazy = mode === 'crazy';
+  const currentYear = 2024;
+  const cutOffYear = currentYear - ageThreshold;
+
+  const markets = [
+    { key: 'US', label: 'United States', flag: '🇺🇸', color: 'border-blue-500 text-blue-300' },
+    { key: 'EU', label: 'European Union', flag: '🇪🇺', color: 'border-yellow-500 text-yellow-300' },
+    { key: 'CHINA', label: 'China', flag: '🇨🇳', color: 'border-red-500 text-red-300' },
+    { key: 'ASIA_EX_CHINA', label: 'Asia ex-China', flag: '🌏', color: 'border-emerald-500 text-emerald-300' },
+    { key: 'ROW', label: 'Rest of World', flag: '🌐', color: 'border-purple-500 text-purple-300' }
+  ];
+
+  const presets = [
+    { label: 'McAfee 50-Yr Cutoff', age: 50, all: false, note: 'Viral baseline (1974-2024)' },
+    { label: 'SAP Re-entry (52-Yr)', age: 52, all: false, note: 'Recovers SAP (1972)' },
+    { label: 'Cloud & Social Era (20-Yr)', age: 20, all: false, note: 'Post-2004 winners' },
+    { label: 'Mobile & AI Era (15-Yr)', age: 15, all: false, note: 'Post-2009 surge' },
+    { label: 'Century Heritage (100-Yr)', age: 100, all: false, note: 'European legacy masters' },
+    { label: 'All Historical Ages', age: 150, all: true, note: 'No age cutoff' }
+  ];
+
+  return (
+    <div className={`border-b transition-colors ${
+      isCrazy 
+        ? 'bg-slate-950/70 border-purple-950/60' 
+        : 'bg-slate-900/60 border-slate-800/80'
+    }`}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 space-y-4">
+        {/* ROW 1: Age Threshold Slider & Presets */}
+        <div className="bg-slate-900/90 border border-slate-800 rounded-xl p-3.5 shadow-sm">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2.5">
+            <div className="flex items-center gap-2">
+              <Sliders className="w-4 h-4 text-purple-400" />
+              <label htmlFor="age-slider" className="text-xs font-semibold uppercase tracking-wider text-slate-300">
+                Company Age Threshold:
+              </label>
+              <span className="text-sm font-bold text-white px-2 py-0.5 rounded bg-slate-800 border border-slate-700">
+                {allAges ? "All Ages (Any founding year)" : `≤ ${ageThreshold} Years Old`}
+              </span>
+              {!allAges && (
+                <span className="text-xs text-slate-400">
+                  (Founded {cutOffYear} – {currentYear})
+                </span>
+              )}
+            </div>
+
+            {/* Quick age preset buttons */}
+            <div className="flex items-center gap-1.5 flex-wrap">
+              <span className="text-[11px] text-slate-500 uppercase font-mono mr-1">Presets:</span>
+              {presets.map((p) => {
+                const isActive = allAges ? p.all : (!p.all && ageThreshold === p.age);
+                return (
+                  <button
+                    key={p.label}
+                    type="button"
+                    onClick={() => {
+                      if (p.all) {
+                        setAllAges(true);
+                      } else {
+                        setAllAges(false);
+                        setAgeThreshold(p.age);
+                      }
+                    }}
+                    className={`text-[11px] px-2 py-1 rounded-md transition-all font-medium ${
+                      isActive 
+                        ? 'bg-purple-600 text-white shadow-sm shadow-purple-500/30' 
+                        : 'bg-slate-800/90 hover:bg-slate-700 text-slate-300'
+                    }`}
+                    title={p.note}
+                  >
+                    {p.label}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Range Slider and Milestone indicators */}
+          <div className="space-y-1.5">
+            <input
+              id="age-slider"
+              type="range"
+              min="5"
+              max="100"
+              step="1"
+              value={allAges ? 100 : ageThreshold}
+              onChange={(e) => {
+                setAllAges(false);
+                setAgeThreshold(Number(e.target.value));
+              }}
+              className="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500/40"
+            />
+
+            <div className="flex justify-between text-[10px] text-slate-500 font-mono">
+              <span>5 yrs (2019)</span>
+              <span>15 yrs (2009 Uber/Sea)</span>
+              <span className="text-purple-400 font-semibold">50 yrs (1974 McAfee frontier)</span>
+              <span className="text-amber-400 font-semibold">52 yrs (1972 SAP)</span>
+              <span>75 yrs (1949)</span>
+              <span>100+ yrs (1924)</span>
+            </div>
+          </div>
+        </div>
+
+        {/* ROW 2: Markets Inclusion & Methodology Toggles */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-3">
+          {/* Market Inclusion Multi-select Chips */}
+          <div className="lg:col-span-7 bg-slate-900/90 border border-slate-800 rounded-xl p-3 flex flex-col justify-between">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-xs font-semibold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
+                <Globe2 className="w-3.5 h-3.5 text-blue-400" />
+                <span>Markets Included ({selectedRegions.length}):</span>
+              </span>
+              <span className="text-[11px] text-slate-400">Click to toggle regional clusters</span>
+            </div>
+
+            <div className="flex items-center gap-2 flex-wrap">
+              {markets.map((m) => {
+                const isSelected = selectedRegions.includes(m.key);
+                return (
+                  <button
+                    key={m.key}
+                    type="button"
+                    onClick={() => toggleRegion(m.key)}
+                    className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium border transition-all ${
+                      isSelected
+                        ? `bg-slate-800/90 ${m.color} shadow-sm border-current`
+                        : 'bg-slate-950/60 border-slate-800/90 text-slate-500 hover:text-slate-300'
+                    }`}
+                  >
+                    <span className="text-sm">{m.flag}</span>
+                    <span>{m.label}</span>
+                    {isSelected && <Check className="w-3 h-3 ml-0.5 opacity-80" />}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Lineage & Geography Nuance Toggles */}
+          <div className="lg:col-span-5 bg-slate-900/90 border border-slate-800 rounded-xl p-3 flex flex-col justify-between">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-xs font-semibold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
+                <Layers className="w-3.5 h-3.5 text-amber-400" />
+                <span>Methodology Nuances:</span>
+              </span>
+              <span className="text-[11px] text-slate-400">ASML / Spinoff & UK effects</span>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              {/* Strict From-Scratch Toggle */}
+              <button
+                type="button"
+                onClick={() => setStrictFromScratch(!strictFromScratch)}
+                className={`flex items-center justify-between px-2.5 py-1.5 rounded-lg border text-xs font-medium text-left transition-colors ${
+                  strictFromScratch
+                    ? 'bg-emerald-950/40 border-emerald-700/60 text-emerald-300'
+                    : 'bg-amber-950/40 border-amber-700/60 text-amber-300'
+                }`}
+                title={strictFromScratch ? "Strict: Excludes JVs like ASML & Spinoffs like AbbVie/Ferrari" : "Permissive: Includes ASML, Ferrari, AbbVie, TSMC"}
+              >
+                <div className="truncate pr-1">
+                  <div className="font-semibold truncate">
+                    {strictFromScratch ? "From-Scratch Only" : "Include Spinoffs & JVs"}
+                  </div>
+                  <div className="text-[10px] opacity-75 truncate">
+                    {strictFromScratch ? "McAfee/Draghi standard" : "Includes ASML, Ferrari"}
+                  </div>
+                </div>
+                <div className={`w-2 h-2 rounded-full flex-shrink-0 ${strictFromScratch ? 'bg-emerald-400' : 'bg-amber-400'}`} />
+              </button>
+
+              {/* Broad Europe Toggle */}
+              <button
+                type="button"
+                onClick={() => setIncludeNonEuEurope(!includeNonEuEurope)}
+                className={`flex items-center justify-between px-2.5 py-1.5 rounded-lg border text-xs font-medium text-left transition-colors ${
+                  includeNonEuEurope
+                    ? 'bg-blue-950/40 border-blue-700/60 text-blue-300'
+                    : 'bg-slate-800 border-slate-700 text-slate-300'
+                }`}
+                title="Include non-EU European nations (UK, Switzerland, Norway) to observe ARM Holdings & AstraZeneca"
+              >
+                <div className="truncate pr-1">
+                  <div className="font-semibold truncate">
+                    {includeNonEuEurope ? "Broad Europe (inc UK)" : "Strict EU-27 Only"}
+                  </div>
+                  <div className="text-[10px] opacity-75 truncate">
+                    {includeNonEuEurope ? "ARM Holdings included" : "Post-Brexit boundary"}
+                  </div>
+                </div>
+                <div className={`w-2 h-2 rounded-full flex-shrink-0 ${includeNonEuEurope ? 'bg-blue-400' : 'bg-slate-400'}`} />
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* ROW 3: Minimum Market Cap, Sector Filters & Search */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-1">
+          <div className="flex items-center gap-3 flex-wrap w-full sm:w-auto">
+            {/* Minimum Market Cap Filter */}
+            <div className="flex items-center gap-1.5 bg-slate-900 border border-slate-800 rounded-lg px-2.5 py-1">
+              <span className="text-[11px] font-semibold text-slate-400 uppercase">Min Cap:</span>
+              {[10, 25, 50, 100, 1000].map((cap) => (
+                <button
+                  key={cap}
+                  type="button"
+                  onClick={() => setMinMarketCap(cap)}
+                  className={`text-xs px-2 py-0.5 rounded font-mono font-medium transition-colors ${
+                    minMarketCap === cap 
+                      ? 'bg-purple-600 text-white' 
+                      : 'text-slate-400 hover:text-slate-200'
+                  }`}
+                  title={cap === 10 ? "McAfee $10B baseline" : cap === 100 ? "Draghi €100B milestone" : cap === 1000 ? "$1 Trillion Club" : ""}
+                >
+                  {cap === 1000 ? "$1T+" : `$${cap}B+`}
+                </button>
+              ))}
+            </div>
+
+            {/* Sector classification filter & legend */}
+            <div className="flex items-center gap-1.5 bg-slate-900 border border-slate-800 rounded-lg px-2.5 py-1">
+              <span className="text-[11px] font-semibold text-slate-400 uppercase">Sector:</span>
+              <button
+                type="button"
+                onClick={() => setSectorFilter('all')}
+                className={`text-xs px-2 py-0.5 rounded transition-colors ${
+                  sectorFilter === 'all' ? 'bg-slate-700 text-white' : 'text-slate-400 hover:text-slate-200'
+                }`}
+              >
+                All
+              </button>
+              <button
+                type="button"
+                onClick={() => setSectorFilter('tech')}
+                className={`text-xs px-2 py-0.5 rounded flex items-center gap-1 transition-colors ${
+                  sectorFilter === 'tech' ? 'bg-emerald-600 text-white' : 'text-emerald-400 hover:bg-emerald-950/40'
+                }`}
+              >
+                <span className="w-2 h-2 rounded-full bg-emerald-400 inline-block"></span>
+                <span>High-Tech</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setSectorFilter('non-tech')}
+                className={`text-xs px-2 py-0.5 rounded flex items-center gap-1 transition-colors ${
+                  sectorFilter === 'non-tech' ? 'bg-blue-600 text-white' : 'text-blue-400 hover:bg-blue-950/40'
+                }`}
+              >
+                <span className="w-2 h-2 rounded-full bg-blue-400 inline-block"></span>
+                <span>Other</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Search bar & reset */}
+          <div className="flex items-center gap-2 w-full sm:w-auto">
+            <div className="relative flex-1 sm:w-64">
+              <Search className="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-1/2 -translate-y-1/2" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search company or ticker..."
+                className="w-full bg-slate-900 border border-slate-800 rounded-lg pl-8 pr-3 py-1 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-purple-500"
+              />
+              {searchQuery && (
+                <button
+                  type="button"
+                  onClick={() => setSearchQuery('')}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-slate-400 hover:text-white"
+                >
+                  ✕
+                </button>
+              )}
+            </div>
+
+            <button
+              type="button"
+              onClick={onResetFilters}
+              className="p-1.5 rounded-lg border border-slate-800 bg-slate-900 text-slate-400 hover:text-white hover:bg-slate-800 text-xs transition-colors"
+              title="Reset all filters to default McAfee 50-year baseline"
+            >
+              <RotateCcw className="w-3.5 h-3.5" />
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
