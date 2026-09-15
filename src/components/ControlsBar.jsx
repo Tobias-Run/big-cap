@@ -55,6 +55,18 @@ export const ControlsBar = ({
     { label: 'All Historical Ages', age: 150, all: true, note: 'No age cutoff' }
   ];
 
+  // Issue #5: 5 broad GICS-like sector categories (see companiesData.js
+  // `sector` field). Kept independent of the isTech flag that drives bubble
+  // fill color in the chart — some Healthcare/Consumer companies here are
+  // isTech:true and vice versa, and this filter isn't meant to change that.
+  const sectors = [
+    { key: 'Technology', label: 'Technology', dotClass: 'bg-emerald-400', textClass: 'text-emerald-400', hoverClass: 'hover:bg-emerald-950/40', activeClass: 'bg-emerald-600 text-white' },
+    { key: 'Consumer', label: 'Consumer', dotClass: 'bg-amber-400', textClass: 'text-amber-400', hoverClass: 'hover:bg-amber-950/40', activeClass: 'bg-amber-600 text-white' },
+    { key: 'Healthcare', label: 'Healthcare', dotClass: 'bg-rose-400', textClass: 'text-rose-400', hoverClass: 'hover:bg-rose-950/40', activeClass: 'bg-rose-600 text-white' },
+    { key: 'Financials', label: 'Financials', dotClass: 'bg-blue-400', textClass: 'text-blue-400', hoverClass: 'hover:bg-blue-950/40', activeClass: 'bg-blue-600 text-white' },
+    { key: 'Industrials & Energy', label: 'Industrials & Energy', dotClass: 'bg-orange-400', textClass: 'text-orange-400', hoverClass: 'hover:bg-orange-950/40', activeClass: 'bg-orange-600 text-white' }
+  ];
+
   return (
     <div className={`border-b transition-colors ${
       isCrazy 
@@ -268,8 +280,12 @@ export const ControlsBar = ({
               ))}
             </div>
 
-            {/* Sector classification filter & legend */}
-            <div className="flex items-center gap-1.5 bg-slate-900 border border-slate-800 rounded-lg px-2.5 py-1">
+            {/* Sector classification filter (issue #5: 5 broad GICS-like
+                categories, replacing the old binary High-Tech/Other filter.
+                Bubble color in the chart still comes from isTech directly
+                and is unaffected — this is an additive filter dimension,
+                not a recolor of the chart's existing legend). */}
+            <div className="flex items-center gap-1.5 bg-slate-900 border border-slate-800 rounded-lg px-2.5 py-1 flex-wrap">
               <span className="text-[11px] font-semibold text-slate-400 uppercase">Sector:</span>
               <button
                 type="button"
@@ -280,26 +296,19 @@ export const ControlsBar = ({
               >
                 All
               </button>
-              <button
-                type="button"
-                onClick={() => setSectorFilter('tech')}
-                className={`text-xs px-2 py-0.5 rounded flex items-center gap-1 transition-colors ${
-                  sectorFilter === 'tech' ? 'bg-emerald-600 text-white' : 'text-emerald-400 hover:bg-emerald-950/40'
-                }`}
-              >
-                <span className="w-2 h-2 rounded-full bg-emerald-400 inline-block"></span>
-                <span>High-Tech</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => setSectorFilter('non-tech')}
-                className={`text-xs px-2 py-0.5 rounded flex items-center gap-1 transition-colors ${
-                  sectorFilter === 'non-tech' ? 'bg-blue-600 text-white' : 'text-blue-400 hover:bg-blue-950/40'
-                }`}
-              >
-                <span className="w-2 h-2 rounded-full bg-blue-400 inline-block"></span>
-                <span>Other</span>
-              </button>
+              {sectors.map((s) => (
+                <button
+                  key={s.key}
+                  type="button"
+                  onClick={() => setSectorFilter(s.key)}
+                  className={`text-xs px-2 py-0.5 rounded flex items-center gap-1 transition-colors ${
+                    sectorFilter === s.key ? s.activeClass : `${s.textClass} ${s.hoverClass}`
+                  }`}
+                >
+                  <span className={`w-2 h-2 rounded-full inline-block ${s.dotClass}`}></span>
+                  <span>{s.label}</span>
+                </button>
+              ))}
             </div>
           </div>
 

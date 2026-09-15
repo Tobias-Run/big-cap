@@ -95,9 +95,10 @@ function App() {
       // 2. Minimum Market Cap
       if (company.marketCap < minMarketCap) return false;
 
-      // 3. Sector filter
-      if (sectorFilter === 'tech' && !company.isTech) return false;
-      if (sectorFilter === 'non-tech' && company.isTech) return false;
+      // 3. Sector filter (issue #5: 5 broad GICS-like categories, replacing
+      // the old binary High-Tech/Other filter — bubble color still uses
+      // isTech directly and is unaffected by this).
+      if (sectorFilter !== 'all' && company.sector !== sectorFilter) return false;
 
       // 4. Strict from-scratch filter
       if (strictFromScratch && !company.isFromScratch) return false;
