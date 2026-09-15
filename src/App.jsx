@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { Header } from './components/Header';
 import { ControlsBar } from './components/ControlsBar';
 import { BubbleClusterView } from './components/BubbleClusterView';
@@ -115,6 +115,24 @@ function App() {
     });
   }, [ageThreshold, allAges, minMarketCap, sectorFilter, strictFromScratch, includeNonEuEurope, selectedRegions]);
 
+  // Issue #6 (Supernova mode 2.0): a distinctive sound when the age slider's
+  // movement makes a company pop in or out of the filtered set. Deliberately
+  // keyed on [ageThreshold, allAges] only (not filteredCompanies itself,
+  // which also changes from region/sector/search filters — those already
+  // get their own dedicated sound, e.g. playRegionToggle in ControlsBar) so
+  // this doesn't double up with them. Reading filteredCompanies.length
+  // inside without listing it as a dependency is intentional here, same
+  // pattern as the searchQuery/simulation split in BubbleClusterView.
+  const prevAgeFilteredCountRef = useRef(null);
+  useEffect(() => {
+    const count = filteredCompanies.length;
+    if (prevAgeFilteredCountRef.current !== null && prevAgeFilteredCountRef.current !== count) {
+      audioSynth.playCompanyChange(count > prevAgeFilteredCountRef.current ? 'in' : 'out');
+    }
+    prevAgeFilteredCountRef.current = count;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ageThreshold, allAges]);
+
   const isCrazy = mode === 'crazy';
 
   return (
@@ -225,6 +243,23 @@ function App() {
           />
         )}
       </main>
+
+      {/* Static-data disclaimer (issue #2): make it explicit this isn't a
+          live feed before someone reads the age slider results as current
+          prices. */}
+      <footer className="border-t border-slate-800/80 bg-slate-950/60 px-4 sm:px-6 lg:px-8 py-3">
+        <p className="max-w-7xl mx-auto text-[11px] text-slate-500 text-center leading-relaxed">
+          Not a stock tracker: market caps are a static, curated snapshot (see{' '}
+          <button
+            type="button"
+            onClick={() => setIsLineageOpen(true)}
+            className="underline decoration-dotted underline-offset-2 hover:text-slate-300"
+          >
+            Data Lineage
+          </button>
+          {' '}for the reference date), not a live feed — day-to-day price moves aren't reflected here.
+        </p>
+      </footer>
 
       {/* Crazy Mode Dynamic Overlays */}
       <CrazyEffectsOverlay

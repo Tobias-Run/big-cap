@@ -54,7 +54,13 @@ export const TimelineView = ({
       id: 'legacy',
       title: 'Century-Old Heritage Champions',
       years: 'Pre-1968',
-      minYear: 1800,
+      // No lower bound (issue #3: "enhance timeline to infinite"). The old
+      // hardcoded `1800` was an invisible ceiling: a company founded before
+      // 1800 wouldn't match ANY era and would silently vanish from this
+      // view entirely, contradicting the "Pre-1968" label right above,
+      // which already promises no floor. -Infinity makes that promise true
+      // regardless of how old a future data entry is, with no code change.
+      minYear: -Infinity,
       maxYear: 1967,
       color: 'border-blue-500 bg-blue-950/20 text-blue-300',
       badge: 'Historical Masters',

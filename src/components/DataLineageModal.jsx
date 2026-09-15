@@ -60,6 +60,17 @@ export const DataLineageModal = ({ isOpen, onClose, mode }) => {
 
         {/* Scrollable Content */}
         <div className="p-6 space-y-6 overflow-y-auto text-sm text-slate-300 leading-relaxed">
+          {/* Snapshot disclaimer (issue #2): this app is not a live feed. */}
+          <div className="p-3.5 rounded-xl bg-amber-950/20 border border-amber-900/40 text-xs text-amber-200 flex items-start gap-2.5">
+            <AlertTriangle className="w-4 h-4 text-amber-400 flex-shrink-0 mt-0.5" />
+            <p>
+              <strong className="text-amber-100">Not a stock tracker.</strong> Market
+              capitalizations are a static snapshot curated around late-2024 valuations,
+              not a live feed — they do not update with daily price moves. Company ages
+              and the 50-year filter, by contrast, recalculate live against today's date.
+            </p>
+          </div>
+
           {/* Section 1: The Landmark Draghi Report */}
           <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-800 space-y-3">
             <div className="flex items-center gap-2">

@@ -1,5 +1,6 @@
 import React from 'react';
 import { CURRENT_YEAR } from '../utils/dateConstants';
+import { audioSynth } from '../utils/audioSynth';
 import {
   Sliders, 
   Globe2, 
@@ -120,8 +121,10 @@ export const ControlsBar = ({
               step="1"
               value={allAges ? 100 : ageThreshold}
               onChange={(e) => {
+                const newValue = Number(e.target.value);
+                audioSynth.playSliderMove(newValue > ageThreshold ? 'up' : 'down');
                 setAllAges(false);
-                setAgeThreshold(Number(e.target.value));
+                setAgeThreshold(newValue);
               }}
               className="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500/40"
             />
@@ -156,7 +159,19 @@ export const ControlsBar = ({
                   <button
                     key={m.key}
                     type="button"
-                    onClick={() => toggleRegion(m.key)}
+                    onClick={() => {
+                      // Mirrors App.jsx's toggleRegion "keep at least one
+                      // region" guard: a remove-click on the last selected
+                      // region is a no-op there, so skip the "removed"
+                      // sound rather than announce a change that didn't
+                      // happen.
+                      if (isSelected) {
+                        if (selectedRegions.length > 1) audioSynth.playRegionToggle(false);
+                      } else {
+                        audioSynth.playRegionToggle(true);
+                      }
+                      toggleRegion(m.key);
+                    }}
                     className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium border transition-all ${
                       isSelected
                         ? `bg-slate-800/90 ${m.color} shadow-sm border-current`

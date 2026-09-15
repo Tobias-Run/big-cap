@@ -96,6 +96,107 @@ class AudioSynth {
     }
   }
 
+  // Issue #6 (Supernova mode 2.0): short tick while dragging the age
+  // slider. Kept very short/quiet since a fast drag fires this on every
+  // step (range input onChange), so overlapping notes shouldn't clash.
+  playSliderMove(direction = 'up') {
+    if (this.isMuted) return;
+    this.init();
+    if (!this.ctx) return;
+
+    try {
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+
+      const baseFreq = 420;
+      const freq = direction === 'up' ? baseFreq * 1.15 : baseFreq * 0.87;
+
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+
+      gain.gain.setValueAtTime(0.03, this.ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + 0.06);
+
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
+
+      osc.start();
+      osc.stop(this.ctx.currentTime + 0.07);
+    } catch (e) {
+      // Ignore audio glitches safely
+    }
+  }
+
+  // Issue #6: distinctive sound when a company enters ('in') or drops out
+  // ('out') of the filtered set as the age slider crosses its founding year.
+  playCompanyChange(direction = 'in') {
+    if (this.isMuted) return;
+    this.init();
+    if (!this.ctx) return;
+
+    try {
+      // A little two-note "pop" — rising for a company appearing, falling
+      // for one dropping out — distinct from both the slider tick above
+      // and the hover ping (playHover) so the three don't get confused.
+      const notes = direction === 'in' ? [523.25, 783.99] : [523.25, 349.23];
+      notes.forEach((freq, idx) => {
+        setTimeout(() => {
+          if (!this.ctx) return;
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+
+          osc.type = 'square';
+          osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+
+          gain.gain.setValueAtTime(0.035, this.ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + 0.1);
+
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+
+          osc.start();
+          osc.stop(this.ctx.currentTime + 0.1);
+        }, idx * 55);
+      });
+    } catch (e) {
+      // Ignore audio glitches safely
+    }
+  }
+
+  // Issue #6: distinct sound for adding vs. removing a region chip.
+  playRegionToggle(added = true) {
+    if (this.isMuted) return;
+    this.init();
+    if (!this.ctx) return;
+
+    try {
+      // Adding a region: a short ascending "unlock" interval.
+      // Removing one: a single softer, lower note.
+      const notes = added ? [440, 659.25] : [349.23];
+      notes.forEach((freq, idx) => {
+        setTimeout(() => {
+          if (!this.ctx) return;
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+
+          gain.gain.setValueAtTime(added ? 0.05 : 0.04, this.ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + 0.18);
+
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+
+          osc.start();
+          osc.stop(this.ctx.currentTime + 0.19);
+        }, idx * 90);
+      });
+    } catch (e) {
+      // Ignore audio glitches safely
+    }
+  }
+
   playChime(freq = 440, duration = 0.2) {
     if (this.isMuted) return;
     this.init();
