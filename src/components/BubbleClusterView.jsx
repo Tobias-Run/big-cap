@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState, useMemo } from 'react';
 import * as d3 from 'd3';
 import { audioSynth } from '../utils/audioSynth';
 import { CURRENT_YEAR } from '../utils/dateConstants';
-import { Info, Sparkles, ZoomIn, ZoomOut, RotateCcw } from 'lucide-react';
+import { Sparkles, X, ArrowRight } from 'lucide-react';
 
 // Shared by the initial bubble render, the mouseleave restore handler, and
 // the dedicated search-highlight effect below, so all three agree on what a
@@ -37,6 +37,11 @@ export const BubbleClusterView = ({
   const svgRef = useRef(null);
   const [hoveredNode, setHoveredNode] = useState(null);
   const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
+  // Click opens a small, non-modal quick-view card anchored to the click
+  // position (see "Floating Quick-View Card" below). Its own "More Details"
+  // button is what opens the full CompanyDetailModal via onSelectCompany.
+  const [quickViewCompany, setQuickViewCompany] = useState(null);
+  const [quickViewPos, setQuickViewPos] = useState({ x: 0, y: 0 });
   const [dimensions, setDimensions] = useState({ width: 1200, height: 780 });
 
   // The mouseleave handler below is created once per simulation run (see the
@@ -48,6 +53,16 @@ export const BubbleClusterView = ({
   useEffect(() => {
     searchQueryRef.current = searchQuery;
   }, [searchQuery]);
+
+  // Close the quick-view card on Escape, same as the app's modals.
+  useEffect(() => {
+    if (!quickViewCompany) return;
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') setQuickViewCompany(null);
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [quickViewCompany]);
 
   // Update dimensions dynamically on window resize
   useEffect(() => {
@@ -227,7 +242,15 @@ export const BubbleClusterView = ({
           .attr('filter', resting.filter);
       })
       .on('click', (event, d) => {
-        onSelectCompany(d);
+        const bounds = containerRef.current?.getBoundingClientRect();
+        if (bounds) {
+          setQuickViewPos({
+            x: event.clientX - bounds.left,
+            y: event.clientY - bounds.top
+          });
+        }
+        setHoveredNode(null);
+        setQuickViewCompany(d);
       });
 
     // Drag behavior for interactive exploration
@@ -479,64 +502,123 @@ export const BubbleClusterView = ({
         </div>
       </div>
 
-      {/* Floating Interactive Tooltip */}
-      {hoveredNode && (
+      {/* Minimal Hover Tooltip: name, market cap, founding year only.
+          Suppressed while the click quick-view card (below) is open so the
+          two don't stack. Re-mounts (and therefore re-plays its fade-in)
+          on every new hover target because it's keyed on the company id. */}
+      {hoveredNode && !quickViewCompany && (
         <div
+          key={hoveredNode.id}
           style={{
-            left: `${Math.min(tooltipPos.x + 16, dimensions.width - 290)}px`,
-            top: `${Math.max(tooltipPos.y - 120, 20)}px`
+            left: `${Math.min(tooltipPos.x + 16, dimensions.width - 190)}px`,
+            top: `${Math.max(tooltipPos.y - 60, 20)}px`
           }}
-          className={`absolute z-30 w-72 p-3.5 rounded-xl border pointer-events-none shadow-2xl transition-all ${
-            isCrazy 
-              ? 'bg-slate-950/95 border-purple-500/60 shadow-purple-950/80 backdrop-blur-md' 
-              : 'bg-slate-900/95 border-slate-700 shadow-slate-950/90 backdrop-blur-sm'
+          className={`absolute z-30 w-44 px-3 py-2 rounded-lg border pointer-events-none shadow-xl animate-fade-in ${
+            isCrazy
+              ? 'bg-slate-950/90 border-purple-500/50 backdrop-blur-md'
+              : 'bg-slate-900/90 border-slate-700 backdrop-blur-sm'
           }`}
         >
-          <div className="flex items-start justify-between gap-2">
-            <div>
-              <div className="text-base font-bold text-white leading-tight">
-                {hoveredNode.name}
-              </div>
-              <div className="text-xs text-slate-400 font-mono">
-                {hoveredNode.ticker} • {hoveredNode.country}
-              </div>
-            </div>
-
-            <span className={`text-xs px-2 py-0.5 rounded font-bold ${
-              hoveredNode.isTech 
-                ? 'bg-emerald-950 text-emerald-300 border border-emerald-800' 
-                : 'bg-blue-950 text-blue-300 border border-blue-800'
-            }`}>
-              {hoveredNode.isTech ? 'High-Tech' : 'Other'}
+          <div className="text-sm font-bold text-white leading-tight truncate">
+            {hoveredNode.name}
+          </div>
+          <div className="flex items-baseline justify-between mt-1 text-xs">
+            <span className="font-mono font-bold text-amber-300">
+              ${hoveredNode.marketCap >= 1000 ? `${(hoveredNode.marketCap/1000).toFixed(2)}T` : `${hoveredNode.marketCap}B`}
+            </span>
+            <span className="text-slate-400">
+              Founded {hoveredNode.foundingYear}
             </span>
           </div>
-
-          <div className="grid grid-cols-2 gap-2 my-2.5 pt-2 border-t border-slate-800">
-            <div>
-              <span className="text-[10px] uppercase font-mono text-slate-500 block">Market Cap</span>
-              <span className="text-sm font-black text-amber-300">
-                ${hoveredNode.marketCap >= 1000 ? `${(hoveredNode.marketCap/1000).toFixed(2)}T` : `${hoveredNode.marketCap}B`}
-              </span>
-            </div>
-
-            <div>
-              <span className="text-[10px] uppercase font-mono text-slate-500 block">Founded / Age</span>
-              <span className="text-sm font-semibold text-slate-200">
-                {hoveredNode.foundingYear} ({CURRENT_YEAR - hoveredNode.foundingYear}y)
-              </span>
-            </div>
-          </div>
-
-          <div className="text-xs text-slate-300 border-t border-slate-800 pt-2 line-clamp-2">
-            <span className="text-slate-500 font-mono uppercase text-[10px] block">Lineage & Origin</span>
-            {hoveredNode.originDetails}
-          </div>
-
-          <div className="mt-2.5 text-[10px] text-purple-400 font-medium flex items-center gap-1">
-            <Sparkles className="w-3 h-3" />
-            <span>Click to inspect filing dossier & data citations</span>
-          </div>
         </div>
+      )}
+
+      {/* Click Quick-View Card: the richer summary that used to show on
+          hover. Stays open (unlike the tooltip above) until dismissed, and
+          its own "More Details" button is what opens the full company
+          dossier modal. A transparent backdrop lets an outside click close
+          it too. */}
+      {quickViewCompany && (
+        <>
+          <div
+            className="fixed inset-0 z-30"
+            onClick={() => setQuickViewCompany(null)}
+            aria-hidden="true"
+          />
+          <div
+            style={{
+              left: `${Math.min(Math.max(quickViewPos.x - 144, 8), dimensions.width - 296)}px`,
+              top: `${Math.max(quickViewPos.y - 120, 20)}px`
+            }}
+            className={`absolute z-40 w-72 p-3.5 rounded-xl border shadow-2xl animate-fade-in ${
+              isCrazy
+                ? 'bg-slate-950/95 border-purple-500/60 shadow-purple-950/80 backdrop-blur-md'
+                : 'bg-slate-900/95 border-slate-700 shadow-slate-950/90 backdrop-blur-sm'
+            }`}
+          >
+            <button
+              type="button"
+              onClick={() => setQuickViewCompany(null)}
+              className="absolute top-2.5 right-2.5 p-1 rounded-md text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+              aria-label="Close"
+            >
+              <X className="w-3.5 h-3.5" />
+            </button>
+
+            <div className="flex items-start justify-between gap-2 pr-5">
+              <div>
+                <div className="text-base font-bold text-white leading-tight">
+                  {quickViewCompany.name}
+                </div>
+                <div className="text-xs text-slate-400 font-mono">
+                  {quickViewCompany.ticker} • {quickViewCompany.country}
+                </div>
+              </div>
+
+              <span className={`text-xs px-2 py-0.5 rounded font-bold flex-shrink-0 ${
+                quickViewCompany.isTech
+                  ? 'bg-emerald-950 text-emerald-300 border border-emerald-800'
+                  : 'bg-blue-950 text-blue-300 border border-blue-800'
+              }`}>
+                {quickViewCompany.isTech ? 'High-Tech' : 'Other'}
+              </span>
+            </div>
+
+            <div className="grid grid-cols-2 gap-2 my-2.5 pt-2 border-t border-slate-800">
+              <div>
+                <span className="text-[10px] uppercase font-mono text-slate-500 block">Market Cap</span>
+                <span className="text-sm font-black text-amber-300">
+                  ${quickViewCompany.marketCap >= 1000 ? `${(quickViewCompany.marketCap/1000).toFixed(2)}T` : `${quickViewCompany.marketCap}B`}
+                </span>
+              </div>
+
+              <div>
+                <span className="text-[10px] uppercase font-mono text-slate-500 block">Founded / Age</span>
+                <span className="text-sm font-semibold text-slate-200">
+                  {quickViewCompany.foundingYear} ({CURRENT_YEAR - quickViewCompany.foundingYear}y)
+                </span>
+              </div>
+            </div>
+
+            <div className="text-xs text-slate-300 border-t border-slate-800 pt-2 line-clamp-2">
+              <span className="text-slate-500 font-mono uppercase text-[10px] block">Lineage & Origin</span>
+              {quickViewCompany.originDetails}
+            </div>
+
+            <button
+              type="button"
+              onClick={() => {
+                onSelectCompany(quickViewCompany);
+                setQuickViewCompany(null);
+              }}
+              className="mt-3 w-full flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg bg-purple-600 hover:bg-purple-500 text-white text-xs font-semibold transition-colors"
+            >
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>More Details</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </button>
+          </div>
+        </>
       )}
     </div>
   );
