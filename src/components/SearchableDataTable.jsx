@@ -104,20 +104,20 @@ export const SearchableDataTable = ({
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-4">
       {/* Top action bar */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-slate-900 border border-slate-800 p-3.5 rounded-xl">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-[var(--surf-1)] border border-[var(--border-1)] p-3.5 rounded-xl">
         <div className="relative flex-1 sm:max-w-sm">
-          <Search className="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-1/2 -translate-y-1/2" />
+          <Search className="w-3.5 h-3.5 text-[var(--text-3)] absolute left-2.5 top-1/2 -translate-y-1/2" />
           <input
             type="text"
             value={tableSearch}
             onChange={(e) => setTableSearch(e.target.value)}
             placeholder="Filter table rows..."
-            className="w-full bg-slate-950 border border-slate-800 rounded-lg pl-8 pr-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-purple-500"
+            className="w-full bg-[var(--surf-0)] border border-[var(--border-1)] rounded-lg pl-8 pr-3 py-1.5 text-xs text-[var(--text-0)] placeholder-[var(--text-4)] focus:outline-none focus:border-purple-500"
           />
         </div>
 
         <div className="flex items-center gap-3">
-          <span className="text-xs text-slate-400 font-mono">
+          <span className="text-xs text-[var(--text-3)] font-mono">
             Showing {processedData.length} of {filteredCompanies.length} companies
           </span>
 
@@ -135,38 +135,38 @@ export const SearchableDataTable = ({
       {/* Table container */}
       <div className={`rounded-xl border overflow-hidden transition-all ${
         isCrazy 
-          ? 'bg-slate-950 border-purple-900/60 shadow-xl shadow-purple-950/40' 
-          : 'bg-slate-900 border-slate-800'
+          ? 'bg-[var(--surf-0)] border-purple-900/60 shadow-xl shadow-purple-950/40' 
+          : 'bg-[var(--surf-1)] border-[var(--border-1)]'
       }`}>
         <div className="overflow-x-auto max-h-[600px]">
           <table className="w-full text-left border-collapse text-xs">
-            <thead className="bg-slate-950/90 sticky top-0 z-10 border-b border-slate-800 text-slate-400 uppercase font-mono">
+            <thead className="bg-[var(--surf-0)]/90 sticky top-0 z-10 border-b border-[var(--border-1)] text-[var(--text-3)] uppercase font-mono">
               <tr>
-                <th onClick={() => handleSort('name')} className="py-3 px-4 cursor-pointer hover:text-white">
+                <th onClick={() => handleSort('name')} className="py-3 px-4 cursor-pointer hover:text-[var(--text-0)]">
                   <div className="flex items-center gap-1">
                     <span>Company</span>
                     {getSortIcon('name')}
                   </div>
                 </th>
-                <th onClick={() => handleSort('marketCap')} className="py-3 px-3 cursor-pointer hover:text-white">
+                <th onClick={() => handleSort('marketCap')} className="py-3 px-3 cursor-pointer hover:text-[var(--text-0)]">
                   <div className="flex items-center gap-1">
                     <span>Market Cap</span>
                     {getSortIcon('marketCap')}
                   </div>
                 </th>
-                <th onClick={() => handleSort('foundingYear')} className="py-3 px-3 cursor-pointer hover:text-white">
+                <th onClick={() => handleSort('foundingYear')} className="py-3 px-3 cursor-pointer hover:text-[var(--text-0)]">
                   <div className="flex items-center gap-1">
                     <span>Founded</span>
                     {getSortIcon('foundingYear')}
                   </div>
                 </th>
-                <th onClick={() => handleSort('age')} className="py-3 px-3 cursor-pointer hover:text-white">
+                <th onClick={() => handleSort('age')} className="py-3 px-3 cursor-pointer hover:text-[var(--text-0)]">
                   <div className="flex items-center gap-1">
                     <span>Age</span>
                     {getSortIcon('age')}
                   </div>
                 </th>
-                <th onClick={() => handleSort('region')} className="py-3 px-3 cursor-pointer hover:text-white">
+                <th onClick={() => handleSort('region')} className="py-3 px-3 cursor-pointer hover:text-[var(--text-0)]">
                   <div className="flex items-center gap-1">
                     <span>Region</span>
                     {getSortIcon('region')}
@@ -177,37 +177,37 @@ export const SearchableDataTable = ({
                 <th className="py-3 px-4 text-right">Dossier</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-800/60 text-slate-300">
+            <tbody className="divide-y divide-[var(--border-1)]/60 text-[var(--text-2)]">
               {processedData.map((c) => {
                 const age = CURRENT_YEAR - c.foundingYear;
                 return (
                   <tr 
                     key={c.id} 
                     onClick={() => onSelectCompany(c)}
-                    className="hover:bg-slate-800/60 cursor-pointer transition-colors group"
+                    className="hover:bg-[var(--surf-2)]/60 cursor-pointer transition-colors group"
                   >
-                    <td className="py-2.5 px-4 font-semibold text-white">
+                    <td className="py-2.5 px-4 font-semibold text-[var(--text-0)]">
                       <div className="flex items-center gap-2">
                         <span className={`w-2 h-2 rounded-full flex-shrink-0 ${c.isTech ? 'bg-emerald-400' : 'bg-blue-400'}`}></span>
                         <span>{c.name}</span>
-                        <span className="text-[11px] text-slate-500 font-mono">({c.ticker})</span>
+                        <span className="text-[11px] text-[var(--text-4)] font-mono">({c.ticker})</span>
                       </div>
                     </td>
                     <td className="py-2.5 px-3 font-mono font-bold text-amber-300">
                       ${c.marketCap >= 1000 ? `${(c.marketCap / 1000).toFixed(2)}T` : `${c.marketCap}B`}
                     </td>
-                    <td className="py-2.5 px-3 font-mono text-slate-300">
+                    <td className="py-2.5 px-3 font-mono text-[var(--text-2)]">
                       {c.foundingYear}
                     </td>
                     <td className="py-2.5 px-3 font-mono text-purple-300 font-semibold">
                       {age}y
                     </td>
                     <td className="py-2.5 px-3 font-medium">
-                      <span className="px-2 py-0.5 rounded bg-slate-950 border border-slate-800 text-[11px]">
+                      <span className="px-2 py-0.5 rounded bg-[var(--surf-0)] border border-[var(--border-1)] text-[11px]">
                         {c.region === 'EU' ? '🇪🇺 EU' : c.region === 'US' ? '🇺🇸 US' : c.region === 'CHINA' ? '🇨🇳 China' : c.region === 'ASIA_EX_CHINA' ? '🌏 Asia' : c.region === 'EUROPE_NON_EU' ? '🇬🇧 Europe' : '🌐 ROW'}
                       </span>
                     </td>
-                    <td className="py-2.5 px-3 text-slate-400 truncate max-w-[180px]" title={c.industry}>
+                    <td className="py-2.5 px-3 text-[var(--text-3)] truncate max-w-[180px]" title={c.industry}>
                       {c.industry}
                     </td>
                     <td className="py-2.5 px-3">

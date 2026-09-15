@@ -29,8 +29,8 @@ export const Header = ({
   return (
     <header className={`border-b transition-colors duration-500 ${
       isCrazy 
-        ? 'bg-slate-950/80 border-purple-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(168,85,247,0.15)]' 
-        : 'bg-slate-900/90 border-slate-800 backdrop-blur-sm'
+        ? 'bg-[var(--surf-0)]/80 border-purple-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(168,85,247,0.15)]' 
+        : 'bg-[var(--surf-1)]/90 border-[var(--border-1)] backdrop-blur-sm'
     }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
         {/* Top bar with title and mode toggles */}
@@ -46,19 +46,19 @@ export const Header = ({
                 {isCrazy ? 'Supernova Cosmic View' : 'Institutional Macro Screen'}
               </span>
 
-              <span className="text-xs text-slate-400 font-mono">
+              <span className="text-xs text-[var(--text-3)] font-mono">
                 Andrew McAfee • MIT Sloan • Draghi Report 2024
               </span>
             </div>
 
-            <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-white mt-1.5 flex items-center gap-2">
+            <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-[var(--text-0)] mt-1.5 flex items-center gap-2">
               <span>Public From-Scratch Global Giants</span>
-              <span className="text-sm font-normal text-slate-400 hidden sm:inline">
+              <span className="text-sm font-normal text-[var(--text-3)] hidden sm:inline">
                 ($10B+ Market Cap Dynamics)
               </span>
             </h1>
 
-            <p className="text-xs sm:text-sm text-slate-400 mt-0.5">
+            <p className="text-xs sm:text-sm text-[var(--text-3)] mt-0.5">
               Adjust the age cutoff, spinoff/from-scratch rule, and region filters below to see which companies clear the $10B+ bar.
             </p>
           </div>
@@ -66,14 +66,14 @@ export const Header = ({
           {/* Right controls: Mode Switcher & Tools */}
           <div className="flex items-center gap-2.5 flex-wrap self-start md:self-center">
             {/* Mode Switcher Button */}
-            <div className="p-1 rounded-xl bg-slate-950 border border-slate-800 flex items-center shadow-inner">
+            <div className="p-1 rounded-xl bg-[var(--surf-0)] border border-[var(--border-1)] flex items-center shadow-inner">
               <button
                 type="button"
                 onClick={() => setMode('serious')}
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
                   !isCrazy 
-                    ? 'bg-slate-800 text-white shadow-sm border border-slate-700' 
-                    : 'text-slate-400 hover:text-white'
+                    ? 'bg-[var(--surf-2)] text-[var(--text-0)] shadow-sm border border-[var(--border-2)]' 
+                    : 'text-[var(--text-3)] hover:text-[var(--text-0)]'
                 }`}
               >
                 <span>🏛️</span>
@@ -114,7 +114,7 @@ export const Header = ({
               className={`p-2 rounded-lg border text-xs transition-colors ${
                 !isMuted 
                   ? 'bg-purple-950/60 border-purple-700/60 text-purple-300 shadow-sm shadow-purple-900/50' 
-                  : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-white'
+                  : 'bg-[var(--surf-1)] border-[var(--border-1)] text-[var(--text-3)] hover:text-[var(--text-0)]'
               }`}
               title={isMuted ? "Unmute cosmic synth audio feedback" : "Mute audio feedback"}
             >
@@ -125,7 +125,7 @@ export const Header = ({
             <button
               type="button"
               onClick={onOpenLineage}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-700 bg-slate-800/80 hover:bg-slate-700 text-slate-200 text-xs font-medium transition-colors"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[var(--border-2)] bg-[var(--surf-2)]/80 hover:bg-[var(--surf-3)] text-[var(--text-1)] text-xs font-medium transition-colors"
             >
               <FileText className="w-3.5 h-3.5 text-blue-400" />
               <span>Data Lineage</span>
@@ -135,7 +135,7 @@ export const Header = ({
             <button
               type="button"
               onClick={onOpenInspiration}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-800 bg-slate-900/60 hover:bg-slate-800 text-slate-400 hover:text-slate-200 text-xs transition-colors"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[var(--border-1)] bg-[var(--surf-1)]/60 hover:bg-[var(--surf-2)] text-[var(--text-3)] hover:text-[var(--text-1)] text-xs transition-colors"
               title="Inspect original tweet & graphic by Andrew McAfee & Delian"
             >
               <ExternalLink className="w-3.5 h-3.5" />
@@ -145,7 +145,7 @@ export const Header = ({
         </div>
 
         {/* View Navigation Tabs */}
-        <div className="flex items-center gap-2 mt-4 pt-3 border-t border-slate-800/80 overflow-x-auto no-scrollbar">
+        <div className="flex items-center gap-2 mt-4 pt-3 border-t border-[var(--border-1)]/80 overflow-x-auto no-scrollbar">
           <button
             type="button"
             onClick={() => setActiveTab('bubbles')}
@@ -153,8 +153,8 @@ export const Header = ({
               activeTab === 'bubbles'
                 ? isCrazy
                   ? 'bg-purple-600/30 text-purple-200 border border-purple-500/50 shadow-sm shadow-purple-500/20'
-                  : 'bg-slate-800 text-white border border-slate-700 shadow-sm'
-                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
+                  : 'bg-[var(--surf-2)] text-[var(--text-0)] border border-[var(--border-2)] shadow-sm'
+                : 'text-[var(--text-3)] hover:text-[var(--text-1)] hover:bg-[var(--surf-1)]'
             }`}
           >
             <CircleDot className="w-3.5 h-3.5 text-emerald-400" />
@@ -168,8 +168,8 @@ export const Header = ({
               activeTab === 'kpi'
                 ? isCrazy
                   ? 'bg-purple-600/30 text-purple-200 border border-purple-500/50 shadow-sm shadow-purple-500/20'
-                  : 'bg-slate-800 text-white border border-slate-700 shadow-sm'
-                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
+                  : 'bg-[var(--surf-2)] text-[var(--text-0)] border border-[var(--border-2)] shadow-sm'
+                : 'text-[var(--text-3)] hover:text-[var(--text-1)] hover:bg-[var(--surf-1)]'
             }`}
           >
             <BarChart3 className="w-3.5 h-3.5 text-blue-400" />
@@ -183,8 +183,8 @@ export const Header = ({
               activeTab === 'timeline'
                 ? isCrazy
                   ? 'bg-purple-600/30 text-purple-200 border border-purple-500/50 shadow-sm shadow-purple-500/20'
-                  : 'bg-slate-800 text-white border border-slate-700 shadow-sm'
-                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
+                  : 'bg-[var(--surf-2)] text-[var(--text-0)] border border-[var(--border-2)] shadow-sm'
+                : 'text-[var(--text-3)] hover:text-[var(--text-1)] hover:bg-[var(--surf-1)]'
             }`}
           >
             <Clock className="w-3.5 h-3.5 text-amber-400" />
@@ -198,8 +198,8 @@ export const Header = ({
               activeTab === 'table'
                 ? isCrazy
                   ? 'bg-purple-600/30 text-purple-200 border border-purple-500/50 shadow-sm shadow-purple-500/20'
-                  : 'bg-slate-800 text-white border border-slate-700 shadow-sm'
-                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
+                  : 'bg-[var(--surf-2)] text-[var(--text-0)] border border-[var(--border-2)] shadow-sm'
+                : 'text-[var(--text-3)] hover:text-[var(--text-1)] hover:bg-[var(--surf-1)]'
             }`}
           >
             <TableIcon className="w-3.5 h-3.5 text-pink-400" />

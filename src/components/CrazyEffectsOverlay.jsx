@@ -47,14 +47,14 @@ export const CrazyEffectsOverlay = ({
   return (
     <div className="pointer-events-none fixed bottom-0 left-0 right-0 z-30 p-2 sm:p-3 flex flex-col items-center">
       {/* Humorous / Insightful Debate Commentary Ticker */}
-      <div className="pointer-events-auto max-w-2xl w-full bg-slate-950/90 border border-purple-800/60 rounded-full px-4 py-1.5 shadow-lg shadow-purple-950/80 backdrop-blur-md flex items-center justify-between gap-3 text-xs">
+      <div className="pointer-events-auto max-w-2xl w-full bg-[var(--surf-0)]/90 border border-purple-800/60 rounded-full px-4 py-1.5 shadow-lg shadow-purple-950/80 backdrop-blur-md flex items-center justify-between gap-3 text-xs">
         <div className="flex items-center gap-2 overflow-hidden">
           <span className="flex-shrink-0 px-2 py-0.5 rounded-full bg-purple-900/60 text-purple-300 font-bold font-mono text-[10px] flex items-center gap-1">
             <Sparkles className="w-3 h-3 text-purple-400 animate-spin" />
             <span>DEBATE RADAR</span>
           </span>
 
-          <span className="text-slate-200 font-medium truncate transition-all duration-300">
+          <span className="text-[var(--text-1)] font-medium truncate transition-all duration-300">
             {WITTY_QUOTES[tickerIndex]}
           </span>
         </div>

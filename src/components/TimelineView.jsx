@@ -16,7 +16,7 @@ export const TimelineView = ({
       years: '2004 – Present',
       minYear: 2004,
       maxYear: CURRENT_YEAR,
-      color: 'border-pink-500 bg-pink-950/20 text-pink-300',
+      color: 'border-pink-500 bg-[var(--callout-pink-bg)] text-[var(--callout-pink-text)]',
       badge: 'Current Era',
       description: 'The era of hyperscale clouds, smartphones, electric autonomous vehicles, and generative AI platforms.'
     },
@@ -26,7 +26,7 @@ export const TimelineView = ({
       years: '1994 – 2003',
       minYear: 1994,
       maxYear: 2003,
-      color: 'border-purple-500 bg-purple-950/20 text-purple-300',
+      color: 'border-purple-500 bg-[var(--callout-purple-bg)] text-[var(--callout-purple-text)]',
       badge: 'Web 1.0 & 2.0',
       description: 'The emergence of the commercial World Wide Web, global e-commerce marketplaces, and modern search engines.'
     },
@@ -36,7 +36,7 @@ export const TimelineView = ({
       years: '1980 – 1993',
       minYear: 1980,
       maxYear: 1993,
-      color: 'border-emerald-500 bg-emerald-950/20 text-emerald-300',
+      color: 'border-emerald-500 bg-[var(--callout-emerald-bg)] text-[var(--callout-emerald-text)]',
       badge: 'Silicon Boom',
       description: 'The personal computing explosion, commercial software packaging, and the birth of dedicated semiconductor foundries (TSMC, ASML).'
     },
@@ -46,7 +46,7 @@ export const TimelineView = ({
       years: '1968 – 1979',
       minYear: 1968,
       maxYear: 1979,
-      color: 'border-amber-500 bg-amber-950/20 text-amber-300',
+      color: 'border-amber-500 bg-[var(--callout-amber-bg)] text-[var(--callout-amber-text)]',
       badge: '50-Year Horizon',
       description: 'The foundation of modern enterprise software and semiconductors. Features the 50-year cliff (SAP 1972, Microsoft 1975, Apple 1976).'
     },
@@ -62,7 +62,7 @@ export const TimelineView = ({
       // regardless of how old a future data entry is, with no code change.
       minYear: -Infinity,
       maxYear: 1967,
-      color: 'border-blue-500 bg-blue-950/20 text-blue-300',
+      color: 'border-blue-500 bg-[var(--callout-blue-bg)] text-[var(--callout-blue-text)]',
       badge: 'Historical Masters',
       description: 'Europe and the world\'s enduring legacy industrial, consumer, and pharmaceutical giants (Siemens 1847, L\'Oréal 1909, Novo Nordisk 1923).'
     }
@@ -88,12 +88,12 @@ export const TimelineView = ({
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
-      <div className="bg-slate-900 border border-slate-800 rounded-xl p-4">
+      <div className="bg-[var(--surf-1)] border border-[var(--border-1)] rounded-xl p-4">
         <div className="flex items-center gap-2 mb-1">
           <Clock className="w-4 h-4 text-purple-400" />
-          <h2 className="text-base font-bold text-white">Cohort Timeline & Epoch Breakdown</h2>
+          <h2 className="text-base font-bold text-[var(--text-0)]">Cohort Timeline & Epoch Breakdown</h2>
         </div>
-        <p className="text-xs text-slate-400">
+        <p className="text-xs text-[var(--text-3)]">
           Observe how each founding wave concentrated value. Notice how moving the age slider truncates older epochs from right to left.
         </p>
       </div>
@@ -105,8 +105,8 @@ export const TimelineView = ({
               key={era.id}
               className={`rounded-2xl border p-5 transition-all ${
                 isCrazy 
-                  ? 'bg-slate-950/80 border-slate-800 hover:border-purple-600/50 hover:shadow-lg hover:shadow-purple-950/40' 
-                  : 'bg-slate-900 border-slate-800'
+                  ? 'bg-[var(--surf-0)]/80 border-[var(--border-1)] hover:border-purple-600/50 hover:shadow-lg hover:shadow-purple-950/40' 
+                  : 'bg-[var(--surf-1)] border-[var(--border-1)]'
               }`}
             >
               {/* Era Header */}
@@ -115,13 +115,13 @@ export const TimelineView = ({
                   <span className={`text-xs px-2.5 py-1 rounded-full border font-bold ${era.color}`}>
                     {era.years}
                   </span>
-                  <h3 className="text-lg font-bold text-white">
+                  <h3 className="text-lg font-bold text-[var(--text-0)]">
                     {era.title}
                   </h3>
                 </div>
 
                 <div className="flex items-center gap-3">
-                  <span className="text-xs text-slate-400 font-mono">
+                  <span className="text-xs text-[var(--text-3)] font-mono">
                     {era.count} {era.count === 1 ? 'Company' : 'Companies'}
                   </span>
                   <span className="text-sm font-black text-amber-300 font-mono">
@@ -130,7 +130,7 @@ export const TimelineView = ({
                 </div>
               </div>
 
-              <p className="text-xs text-slate-400 mb-4">
+              <p className="text-xs text-[var(--text-3)] mb-4">
                 {era.description}
               </p>
 
@@ -148,20 +148,20 @@ export const TimelineView = ({
                         type="button"
                         onClick={() => onSelectCompany(c)}
                         className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-xs transition-all hover:scale-105 ${
-                          c.isTech 
-                            ? 'bg-emerald-950/40 border-emerald-800/80 text-emerald-200 hover:bg-emerald-900/60' 
-                            : 'bg-blue-950/40 border-blue-800/80 text-blue-200 hover:bg-blue-900/60'
+                          c.isTech
+                            ? 'bg-[var(--callout-emerald-bg)] border-[var(--callout-emerald-border)]/80 hover:brightness-95'
+                            : 'bg-[var(--callout-blue-bg)] border-[var(--callout-blue-border)]/80 hover:brightness-95'
                         }`}
                       >
-                        <span className="font-semibold text-white">{c.name}</span>
-                        <span className="text-[10px] text-slate-400 font-mono">({c.foundingYear})</span>
+                        <span className="font-semibold text-[var(--text-0)]">{c.name}</span>
+                        <span className="text-[10px] text-[var(--text-3)] font-mono">({c.foundingYear})</span>
                         <span className="text-amber-300 font-mono font-bold">{capLabel}</span>
                       </button>
                     );
                   })}
                 </div>
               ) : (
-                <div className="text-xs text-slate-500 italic">
+                <div className="text-xs text-[var(--text-4)] italic">
                   No qualifying companies active in this epoch under current filter parameters.
                 </div>
               )}

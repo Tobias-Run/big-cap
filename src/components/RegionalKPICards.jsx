@@ -50,7 +50,7 @@ export const RegionalKPICards = ({
 
     return {
       key: regionKey,
-      meta: regionNames[regionKey] || { label: regionKey, flag: '📍', color: 'from-slate-600 to-slate-700', text: 'text-slate-300' },
+      meta: regionNames[regionKey] || { label: regionKey, flag: '📍', color: 'from-slate-600 to-slate-700', text: 'text-[var(--text-2)]' },
       count: list.length,
       totalCap,
       techCount,
@@ -76,33 +76,33 @@ export const RegionalKPICards = ({
       <div className={`p-4 rounded-2xl border transition-all ${
         isCrazy 
           ? 'bg-gradient-to-r from-purple-950/70 via-slate-900 to-slate-950 border-purple-800/50 shadow-lg shadow-purple-950/40' 
-          : 'bg-slate-900 border-slate-800 shadow-sm'
+          : 'bg-[var(--surf-1)] border-[var(--border-1)] shadow-sm'
       }`}>
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
+            <span className="text-xs font-semibold text-[var(--text-3)] uppercase tracking-wider">
               Selected Cohort Overview
             </span>
             <div className="flex items-baseline gap-3 mt-0.5">
-              <span className="text-2xl sm:text-3xl font-extrabold text-white">
+              <span className="text-2xl sm:text-3xl font-extrabold text-[var(--text-0)]">
                 ${(totalSelectedCap / 1000).toFixed(2)} Trillion
               </span>
-              <span className="text-sm text-slate-400">
+              <span className="text-sm text-[var(--text-3)]">
                 ({filteredCompanies.length} qualifying public companies)
               </span>
             </div>
           </div>
 
           {usToEuRatio && (
-            <div className="flex items-center gap-4 bg-slate-950/80 border border-slate-800 px-4 py-2 rounded-xl">
+            <div className="flex items-center gap-4 bg-[var(--surf-0)]/80 border border-[var(--border-1)] px-4 py-2 rounded-xl">
               <div className="text-center">
-                <span className="text-[10px] uppercase font-mono text-slate-400">US : EU Market Cap Ratio</span>
+                <span className="text-[10px] uppercase font-mono text-[var(--text-3)]">US : EU Market Cap Ratio</span>
                 <div className="text-xl font-bold text-amber-400">
                   {usToEuRatio}x
                 </div>
               </div>
-              <div className="h-8 w-px bg-slate-800 hidden sm:block"></div>
-              <div className="text-xs text-slate-300 max-w-xs leading-relaxed hidden sm:block">
+              <div className="h-8 w-px bg-[var(--surf-2)] hidden sm:block"></div>
+              <div className="text-xs text-[var(--text-2)] max-w-xs leading-relaxed hidden sm:block">
                 US arriviste cohort market cap is <strong className="text-amber-300">{usToEuRatio} times</strong> larger than the EU's under currently applied criteria.
               </div>
             </div>
@@ -110,13 +110,13 @@ export const RegionalKPICards = ({
         </div>
 
         {/* Global Regional Share Stacked Progress Bar */}
-        <div className="mt-4 pt-3 border-t border-slate-800/80">
-          <div className="flex items-center justify-between text-xs text-slate-400 mb-1.5 font-mono">
+        <div className="mt-4 pt-3 border-t border-[var(--border-1)]/80">
+          <div className="flex items-center justify-between text-xs text-[var(--text-3)] mb-1.5 font-mono">
             <span>Regional Value Share:</span>
             <span>100% Normalized</span>
           </div>
 
-          <div className="h-3 w-full bg-slate-800 rounded-full overflow-hidden flex shadow-inner">
+          <div className="h-3 w-full bg-[var(--surf-2)] rounded-full overflow-hidden flex shadow-inner">
             {regionStats.map(r => {
               const pct = totalSelectedCap > 0 ? (r.totalCap / totalSelectedCap) * 100 : 0;
               if (pct === 0) return null;
@@ -131,14 +131,14 @@ export const RegionalKPICards = ({
             })}
           </div>
 
-          <div className="flex items-center gap-4 mt-2 flex-wrap text-xs text-slate-400">
+          <div className="flex items-center gap-4 mt-2 flex-wrap text-xs text-[var(--text-3)]">
             {regionStats.map(r => {
               const pct = totalSelectedCap > 0 ? (r.totalCap / totalSelectedCap) * 100 : 0;
               return (
                 <div key={r.key} className="flex items-center gap-1.5">
                   <span className="text-sm">{r.meta.flag}</span>
-                  <span className="font-medium text-slate-200">{r.meta.label}:</span>
-                  <span className="font-mono text-slate-400">{pct.toFixed(1)}%</span>
+                  <span className="font-medium text-[var(--text-1)]">{r.meta.label}:</span>
+                  <span className="font-mono text-[var(--text-3)]">{pct.toFixed(1)}%</span>
                 </div>
               );
             })}
@@ -158,8 +158,8 @@ export const RegionalKPICards = ({
               key={r.key}
               className={`rounded-2xl border p-5 flex flex-col justify-between transition-all duration-300 ${
                 isCrazy 
-                  ? 'bg-slate-900/80 border-slate-800 hover:border-purple-500/50 hover:shadow-lg hover:shadow-purple-950/50' 
-                  : 'bg-slate-900 border-slate-800 hover:border-slate-700'
+                  ? 'bg-[var(--surf-1)]/80 border-[var(--border-1)] hover:border-purple-500/50 hover:shadow-lg hover:shadow-purple-950/50' 
+                  : 'bg-[var(--surf-1)] border-[var(--border-1)] hover:border-[var(--border-2)]'
               }`}
             >
               <div>
@@ -168,16 +168,16 @@ export const RegionalKPICards = ({
                   <div className="flex items-center gap-2">
                     <span className="text-2xl">{r.meta.flag}</span>
                     <div>
-                      <h3 className="text-base font-bold text-white leading-tight">
+                      <h3 className="text-base font-bold text-[var(--text-0)] leading-tight">
                         {r.meta.label}
                       </h3>
-                      <span className="text-xs text-slate-400 font-mono">
+                      <span className="text-xs text-[var(--text-3)] font-mono">
                         {r.count} {r.count === 1 ? 'Company' : 'Companies'}
                       </span>
                     </div>
                   </div>
 
-                  <span className={`text-xs px-2.5 py-1 rounded-full font-bold bg-slate-950 border border-slate-800 ${r.meta.text}`}>
+                  <span className={`text-xs px-2.5 py-1 rounded-full font-bold bg-[var(--surf-0)] border border-[var(--border-1)] ${r.meta.text}`}>
                     {r.avgAge > 0 ? `Avg Age: ${r.avgAge}y` : 'No data'}
                   </span>
                 </div>
@@ -185,17 +185,17 @@ export const RegionalKPICards = ({
                 {/* Total Cap & Tech split */}
                 <div className="space-y-3 my-4">
                   <div>
-                    <span className="text-xs text-slate-400 uppercase font-mono tracking-wider">
+                    <span className="text-xs text-[var(--text-3)] uppercase font-mono tracking-wider">
                       Total Market Cap
                     </span>
-                    <div className="text-2xl font-black text-white">
+                    <div className="text-2xl font-black text-[var(--text-0)]">
                       {capDisplay}
                     </div>
                   </div>
 
                   {/* Tech % Progress Bar */}
                   <div>
-                    <div className="flex items-center justify-between text-xs text-slate-400 mb-1">
+                    <div className="flex items-center justify-between text-xs text-[var(--text-3)] mb-1">
                       <span className="flex items-center gap-1">
                         <Cpu className="w-3 h-3 text-emerald-400" />
                         <span>High-Tech Share</span>
@@ -204,13 +204,13 @@ export const RegionalKPICards = ({
                         {r.techSharePct}%
                       </span>
                     </div>
-                    <div className="h-2 w-full bg-slate-800 rounded-full overflow-hidden flex">
+                    <div className="h-2 w-full bg-[var(--surf-2)] rounded-full overflow-hidden flex">
                       <div 
                         style={{ width: `${r.techSharePct}%` }} 
                         className="bg-emerald-500 rounded-full transition-all duration-500" 
                       />
                     </div>
-                    <div className="flex justify-between text-[10px] text-slate-500 mt-1 font-mono">
+                    <div className="flex justify-between text-[10px] text-[var(--text-4)] mt-1 font-mono">
                       <span>Tech: {r.techCount}</span>
                       <span>Other: {r.count - r.techCount}</span>
                     </div>
@@ -222,21 +222,21 @@ export const RegionalKPICards = ({
               {r.largest ? (
                 <div 
                   onClick={() => onSelectCompany(r.largest)}
-                  className="mt-2 pt-3 border-t border-slate-800/80 cursor-pointer group flex items-center justify-between text-xs text-slate-300 hover:text-white"
+                  className="mt-2 pt-3 border-t border-[var(--border-1)]/80 cursor-pointer group flex items-center justify-between text-xs text-[var(--text-2)] hover:text-[var(--text-0)]"
                 >
                   <div>
-                    <span className="text-[10px] text-slate-500 uppercase font-mono block">Top Champion</span>
-                    <span className="font-semibold text-white group-hover:text-purple-300 transition-colors">
+                    <span className="text-[10px] text-[var(--text-4)] uppercase font-mono block">Top Champion</span>
+                    <span className="font-semibold text-[var(--text-0)] group-hover:text-purple-300 transition-colors">
                       {r.largest.name}
                     </span>
-                    <span className="text-slate-400 font-mono ml-1.5">
+                    <span className="text-[var(--text-3)] font-mono ml-1.5">
                       (${r.largest.marketCap >= 1000 ? `${(r.largest.marketCap/1000).toFixed(1)}T` : `${r.largest.marketCap}B`})
                     </span>
                   </div>
-                  <ArrowRight className="w-3.5 h-3.5 text-slate-500 group-hover:text-purple-400 group-hover:translate-x-0.5 transition-all" />
+                  <ArrowRight className="w-3.5 h-3.5 text-[var(--text-4)] group-hover:text-purple-400 group-hover:translate-x-0.5 transition-all" />
                 </div>
               ) : (
-                <div className="mt-2 pt-3 border-t border-slate-800/80 text-xs text-slate-500 italic">
+                <div className="mt-2 pt-3 border-t border-[var(--border-1)]/80 text-xs text-[var(--text-4)] italic">
                   No qualifying companies at this threshold.
                 </div>
               )}

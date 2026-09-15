@@ -137,11 +137,18 @@ function App() {
   const isCrazy = mode === 'crazy';
 
   return (
-    <div className={`min-h-screen flex flex-col font-sans transition-colors duration-500 ${
-      isCrazy 
-        ? 'bg-slate-950 text-slate-100 selection:bg-purple-500 selection:text-white' 
-        : 'bg-slate-950 text-slate-100 selection:bg-blue-500 selection:text-white'
-    }`}>
+    <div
+      // Issue #7: Supernova always forces the dark palette; Institutional
+      // follows the OS preference via the plain :root CSS rules in
+      // index.css (no attribute needed for that case).
+      data-theme={isCrazy ? 'dark' : undefined}
+      className={`min-h-screen flex flex-col font-sans transition-colors duration-500 bg-[var(--surf-0)] text-[var(--text-0)] ${
+        isCrazy
+          ? 'selection:bg-purple-500 selection:text-white'
+          : 'selection:bg-blue-500 selection:text-white'
+      }`}
+    >
+
       {/* Header */}
       <Header
         mode={mode}
@@ -183,15 +190,15 @@ function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 w-full">
           <div className={`p-3 rounded-xl border flex items-start gap-2.5 text-xs transition-colors ${
             ageThreshold === 50 && strictFromScratch && !includeNonEuEurope && selectedRegions.includes('EU')
-              ? 'bg-amber-950/30 border-amber-800/50 text-amber-300'
-              : 'bg-slate-900/60 border-slate-800 text-slate-400'
+              ? 'bg-[var(--callout-amber-bg)] border-[var(--callout-amber-border)] text-[var(--callout-amber-text)]'
+              : 'bg-[var(--surf-1)]/60 border-[var(--border-1)] text-[var(--text-3)]'
           }`}>
             <Info className="w-4 h-4 flex-shrink-0 mt-0.5 text-amber-400" />
             <div className="leading-relaxed">
-              <strong className="text-white">Active Screen Insight: </strong>
+              <strong className="text-[var(--text-0)]">Active Screen Insight: </strong>
               {ageThreshold <= 50 && strictFromScratch ? (
                 <span>
-                  Under Andrew McAfee's strict 50-year from-scratch filter, Europe's <span className="text-white font-semibold">ASML ($295B)</span> is excluded (Philips 1984 JV) and <span className="text-white font-semibold">SAP ($250B)</span> is excluded (founded 1972 = 52 years old). Try dragging the slider to <strong>52 years</strong> or toggling <strong>"Include Spinoffs & JVs"</strong> to test how Europe's presence transforms!
+                  Under Andrew McAfee's strict 50-year from-scratch filter, Europe's <span className="text-[var(--text-0)] font-semibold">ASML ($295B)</span> is excluded (Philips 1984 JV) and <span className="text-[var(--text-0)] font-semibold">SAP ($250B)</span> is excluded (founded 1972 = 52 years old). Try dragging the slider to <strong>52 years</strong> or toggling <strong>"Include Spinoffs & JVs"</strong> to test how Europe's presence transforms!
                 </span>
               ) : (
                 <span>
@@ -248,13 +255,13 @@ function App() {
       {/* Static-data disclaimer (issue #2): make it explicit this isn't a
           live feed before someone reads the age slider results as current
           prices. */}
-      <footer className="border-t border-slate-800/80 bg-slate-950/60 px-4 sm:px-6 lg:px-8 py-3">
-        <p className="max-w-7xl mx-auto text-[11px] text-slate-500 text-center leading-relaxed">
+      <footer className="border-t border-[var(--border-1)]/80 bg-[var(--surf-0)]/60 px-4 sm:px-6 lg:px-8 py-3">
+        <p className="max-w-7xl mx-auto text-[11px] text-[var(--text-4)] text-center leading-relaxed">
           Not a stock tracker: market caps are a static, curated snapshot (see{' '}
           <button
             type="button"
             onClick={() => setIsLineageOpen(true)}
-            className="underline decoration-dotted underline-offset-2 hover:text-slate-300"
+            className="underline decoration-dotted underline-offset-2 hover:text-[var(--text-2)]"
           >
             Data Lineage
           </button>

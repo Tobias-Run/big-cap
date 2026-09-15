@@ -461,7 +461,7 @@ export const BubbleClusterView = ({
       <div className={`absolute inset-0 pointer-events-none transition-opacity duration-700 ${
         isCrazy 
           ? 'bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-purple-950/40 via-slate-950 to-slate-950' 
-          : 'bg-slate-950'
+          : 'bg-[var(--surf-0)]'
       }`}>
         {/* Subtle grid pattern */}
         <div className="absolute inset-0 bg-grid-pattern opacity-40" />
@@ -508,7 +508,7 @@ export const BubbleClusterView = ({
                   className={`font-black tracking-wider transition-colors ${
                     isCrazy 
                       ? 'text-purple-300 drop-shadow-[0_0_12px_rgba(168,85,247,0.8)]' 
-                      : 'text-slate-200'
+                      : 'text-[var(--text-1)]'
                   }`}
                   fontSize={isCrazy ? '26px' : '22px'}
                   fill="currentColor"
@@ -527,8 +527,8 @@ export const BubbleClusterView = ({
       {/* Bottom Right Scale & Legend (Direct recreation of Andrew McAfee's chart legend!) */}
       <div className={`absolute bottom-4 right-4 z-20 p-3.5 rounded-xl border backdrop-blur-md shadow-lg transition-all ${
         isCrazy 
-          ? 'bg-slate-950/80 border-purple-900/60 shadow-purple-950/50' 
-          : 'bg-slate-900/90 border-slate-800 shadow-slate-950/80'
+          ? 'bg-[var(--surf-0)]/80 border-purple-900/60 shadow-purple-950/50' 
+          : 'bg-[var(--surf-1)]/90 border-[var(--border-1)] shadow-slate-950/80'
       }`}>
         <div className="flex flex-col gap-2.5">
           {/* Color legend */}
@@ -543,27 +543,27 @@ export const BubbleClusterView = ({
             </div>
           </div>
 
-          <div className="h-px bg-slate-800 my-0.5"></div>
+          <div className="h-px bg-[var(--surf-2)] my-0.5"></div>
 
           {/* Reference size circles */}
           <div className="flex items-end justify-between gap-3 text-center">
             <div className="flex flex-col items-center gap-1">
-              <div className="w-9 h-9 rounded-full border border-slate-600 bg-slate-800/40 flex items-center justify-center"></div>
-              <span className="text-[10px] font-mono text-slate-400">$1T</span>
+              <div className="w-9 h-9 rounded-full border border-[var(--border-3)] bg-[var(--surf-2)]/40 flex items-center justify-center"></div>
+              <span className="text-[10px] font-mono text-[var(--text-3)]">$1T</span>
             </div>
 
             <div className="flex flex-col items-center gap-1">
-              <div className="w-5 h-5 rounded-full border border-slate-600 bg-slate-800/40"></div>
-              <span className="text-[10px] font-mono text-slate-400">$100B</span>
+              <div className="w-5 h-5 rounded-full border border-[var(--border-3)] bg-[var(--surf-2)]/40"></div>
+              <span className="text-[10px] font-mono text-[var(--text-3)]">$100B</span>
             </div>
 
             <div className="flex flex-col items-center gap-1">
-              <div className="w-2.5 h-2.5 rounded-full border border-slate-600 bg-slate-800/40"></div>
-              <span className="text-[10px] font-mono text-slate-400">$10B</span>
+              <div className="w-2.5 h-2.5 rounded-full border border-[var(--border-3)] bg-[var(--surf-2)]/40"></div>
+              <span className="text-[10px] font-mono text-[var(--text-3)]">$10B</span>
             </div>
           </div>
 
-          <span className="text-[9px] text-slate-500 font-mono text-center">
+          <span className="text-[9px] text-[var(--text-4)] font-mono text-center">
             Bubble area ∝ Market Cap
           </span>
         </div>
@@ -582,18 +582,18 @@ export const BubbleClusterView = ({
           }}
           className={`absolute z-30 w-44 px-3 py-2 rounded-lg border pointer-events-none shadow-xl animate-fade-in ${
             isCrazy
-              ? 'bg-slate-950/90 border-purple-500/50 backdrop-blur-md'
-              : 'bg-slate-900/90 border-slate-700 backdrop-blur-sm'
+              ? 'bg-[var(--surf-0)]/90 border-purple-500/50 backdrop-blur-md'
+              : 'bg-[var(--surf-1)]/90 border-[var(--border-2)] backdrop-blur-sm'
           }`}
         >
-          <div className="text-sm font-bold text-white leading-tight truncate">
+          <div className="text-sm font-bold text-[var(--text-0)] leading-tight truncate">
             {hoveredNode.name}
           </div>
           <div className="flex items-baseline justify-between mt-1 text-xs">
             <span className="font-mono font-bold text-amber-300">
               ${hoveredNode.marketCap >= 1000 ? `${(hoveredNode.marketCap/1000).toFixed(2)}T` : `${hoveredNode.marketCap}B`}
             </span>
-            <span className="text-slate-400">
+            <span className="text-[var(--text-3)]">
               Founded {hoveredNode.foundingYear}
             </span>
           </div>
@@ -619,14 +619,14 @@ export const BubbleClusterView = ({
             }}
             className={`absolute z-40 w-72 p-3.5 rounded-xl border shadow-2xl animate-fade-in ${
               isCrazy
-                ? 'bg-slate-950/95 border-purple-500/60 shadow-purple-950/80 backdrop-blur-md'
-                : 'bg-slate-900/95 border-slate-700 shadow-slate-950/90 backdrop-blur-sm'
+                ? 'bg-[var(--surf-0)]/95 border-purple-500/60 shadow-purple-950/80 backdrop-blur-md'
+                : 'bg-[var(--surf-1)]/95 border-[var(--border-2)] shadow-slate-950/90 backdrop-blur-sm'
             }`}
           >
             <button
               type="button"
               onClick={() => setQuickViewCompany(null)}
-              className="absolute top-2.5 right-2.5 p-1 rounded-md text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+              className="absolute top-2.5 right-2.5 p-1 rounded-md text-[var(--text-3)] hover:text-[var(--text-0)] hover:bg-[var(--surf-2)] transition-colors"
               aria-label="Close"
             >
               <X className="w-3.5 h-3.5" />
@@ -634,10 +634,10 @@ export const BubbleClusterView = ({
 
             <div className="flex items-start justify-between gap-2 pr-5">
               <div>
-                <div className="text-base font-bold text-white leading-tight">
+                <div className="text-base font-bold text-[var(--text-0)] leading-tight">
                   {quickViewCompany.name}
                 </div>
-                <div className="text-xs text-slate-400 font-mono">
+                <div className="text-xs text-[var(--text-3)] font-mono">
                   {quickViewCompany.ticker} • {quickViewCompany.country}
                 </div>
               </div>
@@ -651,24 +651,24 @@ export const BubbleClusterView = ({
               </span>
             </div>
 
-            <div className="grid grid-cols-2 gap-2 my-2.5 pt-2 border-t border-slate-800">
+            <div className="grid grid-cols-2 gap-2 my-2.5 pt-2 border-t border-[var(--border-1)]">
               <div>
-                <span className="text-[10px] uppercase font-mono text-slate-500 block">Market Cap</span>
+                <span className="text-[10px] uppercase font-mono text-[var(--text-4)] block">Market Cap</span>
                 <span className="text-sm font-black text-amber-300">
                   ${quickViewCompany.marketCap >= 1000 ? `${(quickViewCompany.marketCap/1000).toFixed(2)}T` : `${quickViewCompany.marketCap}B`}
                 </span>
               </div>
 
               <div>
-                <span className="text-[10px] uppercase font-mono text-slate-500 block">Founded / Age</span>
-                <span className="text-sm font-semibold text-slate-200">
+                <span className="text-[10px] uppercase font-mono text-[var(--text-4)] block">Founded / Age</span>
+                <span className="text-sm font-semibold text-[var(--text-1)]">
                   {quickViewCompany.foundingYear} ({CURRENT_YEAR - quickViewCompany.foundingYear}y)
                 </span>
               </div>
             </div>
 
-            <div className="text-xs text-slate-300 border-t border-slate-800 pt-2 line-clamp-2">
-              <span className="text-slate-500 font-mono uppercase text-[10px] block">Lineage & Origin</span>
+            <div className="text-xs text-[var(--text-2)] border-t border-[var(--border-1)] pt-2 line-clamp-2">
+              <span className="text-[var(--text-4)] font-mono uppercase text-[10px] block">Lineage & Origin</span>
               {quickViewCompany.originDetails}
             </div>
 

@@ -1,9 +1,133 @@
 @import "tailwindcss";
 
+/**
+ * Issue #7: theme tokens.
+ * Institutional mode follows the OS color-scheme preference (pure CSS,
+ * `prefers-color-scheme` — no JS listener needed, it reacts live if the OS
+ * theme changes). Supernova mode always forces the dark palette regardless
+ * of OS preference, via the `data-theme="dark"` attribute App.jsx puts on
+ * the app root when active — see the plain attribute selector below
+ * (deliberately not `:root[data-theme]`, since the attribute lives on a
+ * <div>, not <html>; custom properties still cascade to every descendant
+ * from there, fixed-position modals included).
+ *
+ * Dark values are the exact hex codes Tailwind's slate-* scale already
+ * used everywhere in this app, so Supernova / OS-dark-preference mode
+ * renders pixel-identical to before this change. Light values are new.
+ */
+:root {
+  --surf-0: #ffffff;   /* bg-slate-950 equivalent: page bg, deepest panels */
+  --surf-1: #f8fafc;   /* bg-slate-900 equivalent: cards/panels */
+  --surf-2: #f1f5f9;   /* bg-slate-800 equivalent: chips/inputs */
+  --surf-3: #e2e8f0;   /* bg-slate-700 equivalent: hover/active fill */
+  --border-1: #e2e8f0; /* border-slate-800 equivalent */
+  --border-2: #cbd5e1; /* border-slate-700 equivalent */
+  --border-3: #94a3b8; /* border-slate-600 equivalent */
+  --text-0: #0f172a;   /* text-slate-100/white equivalent: headings */
+  --text-1: #1e293b;   /* text-slate-200 equivalent */
+  --text-2: #334155;   /* text-slate-300 equivalent: body */
+  --text-3: #64748b;   /* text-slate-400 equivalent: muted */
+  --text-4: #94a3b8;   /* text-slate-500 equivalent: faint/labels */
+
+  /* App.jsx's "Active Screen Insight" banner: the app's own accent-badge
+     convention elsewhere (dark-tinted bg + light accent text, e.g.
+     bg-amber-950/30 text-amber-300) assumes a dark page and reads as
+     washed-out low-contrast text on a light one. This is the one
+     always-visible instance of that pattern worth giving its own light
+     variant; deeper/less-visible badges (inside modals) keep the original
+     treatment for now. */
+  --callout-amber-bg: #fef3c7;
+  --callout-amber-border: #fbbf24;
+  --callout-amber-text: #78350f;
+  --callout-blue-bg: #dbeafe;
+  --callout-blue-border: #60a5fa;
+  --callout-blue-text: #1e3a8a;
+  --callout-emerald-bg: #d1fae5;
+  --callout-emerald-border: #34d399;
+  --callout-emerald-text: #065f46;
+  --callout-purple-bg: #f3e8ff;
+  --callout-purple-border: #c084fc;
+  --callout-purple-text: #581c87;
+  --callout-rose-bg: #ffe4e6;
+  --callout-rose-border: #fb7185;
+  --callout-rose-text: #9f1239;
+  --callout-pink-bg: #fce7f3;
+  --callout-pink-border: #f472b6;
+  --callout-pink-text: #831843;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --surf-0: #020617;
+    --surf-1: #0f172a;
+    --surf-2: #1e293b;
+    --surf-3: #334155;
+    --border-1: #1e293b;
+    --border-2: #334155;
+    --border-3: #475569;
+    --text-0: #f8fafc;
+    --text-1: #f1f5f9;
+    --text-2: #cbd5e1;
+    --text-3: #94a3b8;
+    --text-4: #64748b;
+    --callout-amber-bg: rgba(69, 26, 3, 0.3);
+    --callout-amber-border: rgba(146, 64, 14, 0.5);
+    --callout-amber-text: #fcd34d;
+    --callout-blue-bg: rgba(23, 37, 84, 0.3);
+    --callout-blue-border: rgba(30, 64, 175, 0.5);
+    --callout-blue-text: #93c5fd;
+    --callout-emerald-bg: rgba(2, 44, 34, 0.3);
+    --callout-emerald-border: rgba(4, 120, 87, 0.5);
+    --callout-emerald-text: #6ee7b7;
+    --callout-purple-bg: rgba(59, 7, 100, 0.3);
+    --callout-purple-border: rgba(107, 33, 168, 0.5);
+    --callout-purple-text: #d8b4fe;
+    --callout-rose-bg: rgba(76, 5, 25, 0.3);
+    --callout-rose-border: rgba(159, 18, 57, 0.5);
+    --callout-rose-text: #fda4af;
+    --callout-pink-bg: rgba(80, 7, 36, 0.3);
+    --callout-pink-border: rgba(157, 23, 77, 0.5);
+    --callout-pink-text: #f9a8d4;
+  }
+}
+
+[data-theme="dark"] {
+  --surf-0: #020617;
+  --surf-1: #0f172a;
+  --surf-2: #1e293b;
+  --surf-3: #334155;
+  --border-1: #1e293b;
+  --border-2: #334155;
+  --border-3: #475569;
+  --text-0: #f8fafc;
+  --text-1: #f1f5f9;
+  --text-2: #cbd5e1;
+  --text-3: #94a3b8;
+  --text-4: #64748b;
+  --callout-amber-bg: rgba(69, 26, 3, 0.3);
+  --callout-amber-border: rgba(146, 64, 14, 0.5);
+  --callout-amber-text: #fcd34d;
+  --callout-blue-bg: rgba(23, 37, 84, 0.3);
+  --callout-blue-border: rgba(30, 64, 175, 0.5);
+  --callout-blue-text: #93c5fd;
+  --callout-emerald-bg: rgba(2, 44, 34, 0.3);
+  --callout-emerald-border: rgba(4, 120, 87, 0.5);
+  --callout-emerald-text: #6ee7b7;
+  --callout-purple-bg: rgba(59, 7, 100, 0.3);
+  --callout-purple-border: rgba(107, 33, 168, 0.5);
+  --callout-purple-text: #d8b4fe;
+  --callout-rose-bg: rgba(76, 5, 25, 0.3);
+  --callout-rose-border: rgba(159, 18, 57, 0.5);
+  --callout-rose-text: #fda4af;
+  --callout-pink-bg: rgba(80, 7, 36, 0.3);
+  --callout-pink-border: rgba(157, 23, 77, 0.5);
+  --callout-pink-text: #f9a8d4;
+}
+
 @layer base {
   body {
-    background-color: #020617;
-    color: #f8fafc;
+    background-color: var(--surf-0);
+    color: var(--text-0);
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     margin: 0;
     padding: 0;
