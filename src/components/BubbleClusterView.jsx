@@ -201,6 +201,49 @@ export const BubbleClusterView = ({
         .style('filter', 'drop-shadow(0 0 6px #c084fc)');
     }
 
+    // Issue #4: shade + "lasso" outline around the non-EU-Europe companies
+    // (ARM, AstraZeneca, Linde, Wise) that sit inside the EU cluster when
+    // "Broad Europe" is on, so their non-EU status reads at a glance instead
+    // of requiring a click on each bubble. Created once here and its `d`
+    // attribute is recomputed every simulation tick below, same pattern as
+    // the constellation lines above (never re-appended, just re-positioned).
+    const nonEuLassoGroup = svg.select('.non-eu-lasso-layer');
+    nonEuLassoGroup.selectAll('*').remove();
+    const nonEuLassoPath = nonEuLassoGroup.append('path')
+      .attr('fill', isCrazy ? 'rgba(168,85,247,0.12)' : 'rgba(251,191,36,0.09)')
+      .attr('stroke', isCrazy ? '#c084fc' : '#fbbf24')
+      .attr('stroke-width', 1.5)
+      .attr('stroke-dasharray', '5 5')
+      .attr('stroke-opacity', 0.75)
+      .style('display', 'none')
+      .style('pointer-events', 'none');
+    const nonEuLassoLabel = nonEuLassoGroup.append('text')
+      .attr('text-anchor', 'middle')
+      .attr('font-size', '10px')
+      .attr('font-weight', '700')
+      .attr('letter-spacing', '0.04em')
+      .attr('fill', isCrazy ? '#e9d5ff' : '#fde68a')
+      .style('text-transform', 'uppercase')
+      .style('display', 'none')
+      .style('pointer-events', 'none');
+    const nonEuHullLine = d3.line().curve(d3.curveCatmullRomClosed.alpha(0.6));
+    // Generates points around a node's circle (not just its center) so the
+    // resulting hull hugs the bubbles' edges with a bit of breathing room,
+    // instead of a hull through bare center-points that would cut corners
+    // off the outermost circles.
+    function nonEuHullBoundaryPoints(euNonEuNodes) {
+      const pad = 12;
+      const segments = 10;
+      const pts = [];
+      euNonEuNodes.forEach(n => {
+        for (let i = 0; i < segments; i++) {
+          const angle = (i / segments) * 2 * Math.PI;
+          pts.push([n.x + Math.cos(angle) * (n.r + pad), n.y + Math.sin(angle) * (n.r + pad)]);
+        }
+      });
+      return pts;
+    }
+
     // Append company bubble groups
     const bubbles = nodeGroup.selectAll('.bubble')
       .data(nodes, d => d.id)
@@ -331,6 +374,26 @@ export const BubbleClusterView = ({
           .attr('x2', ([, id2]) => nodeMap.get(id2)?.x || 0)
           .attr('y2', ([, id2]) => nodeMap.get(id2)?.y || 0);
       }
+
+      // Issue #4: non-EU-Europe lasso, recomputed every tick since the
+      // force simulation keeps moving these nodes.
+      const nonEuNodes = nodes.filter(n => n.region === 'EUROPE_NON_EU');
+      const hullPoints = nonEuNodes.length > 0
+        ? d3.polygonHull(nonEuHullBoundaryPoints(nonEuNodes))
+        : null;
+      if (hullPoints) {
+        nonEuLassoPath.attr('d', nonEuHullLine(hullPoints)).style('display', null);
+        const topY = Math.min(...nonEuNodes.map(n => n.y - n.r));
+        const centerX = nonEuNodes.reduce((sum, n) => sum + n.x, 0) / nonEuNodes.length;
+        nonEuLassoLabel
+          .attr('x', centerX)
+          .attr('y', topY - 22)
+          .text('Non-EU Europe')
+          .style('display', null);
+      } else {
+        nonEuLassoPath.style('display', 'none');
+        nonEuLassoLabel.style('display', 'none');
+      }
     });
 
     // Cleanup
@@ -426,6 +489,10 @@ export const BubbleClusterView = ({
 
         {/* Layer 1: Constellation supply-chain connections */}
         <g className="constellation-layer" />
+
+        {/* Layer 1.5: Non-EU Europe shade/lasso (issue #4) — sits behind
+            the bubbles and their labels, ahead of nothing but the grid. */}
+        <g className="non-eu-lasso-layer pointer-events-none" />
 
         {/* Layer 2: Regional Island Labels */}
         <g className="labels-layer pointer-events-none">
