@@ -678,7 +678,7 @@ export const BubbleClusterView = ({
                 onSelectCompany(quickViewCompany);
                 setQuickViewCompany(null);
               }}
-              className="mt-3 w-full flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg bg-purple-600 hover:bg-purple-500 text-white text-xs font-semibold transition-colors"
+              className="mt-3 w-full flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--accent-600)] hover:bg-[var(--accent-500)] text-white text-xs font-semibold transition-colors"
             >
               <Sparkles className="w-3.5 h-3.5" />
               <span>More Details</span>

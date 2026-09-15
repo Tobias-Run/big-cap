@@ -38,12 +38,15 @@ export const ControlsBar = ({
   const currentYear = CURRENT_YEAR;
   const cutOffYear = currentYear - ageThreshold;
 
+  // One consistent chip style for every selected region (previously each
+  // region had its own border/text hue — a rainbow that didn't encode any
+  // real information the flag emoji wasn't already giving).
   const markets = [
-    { key: 'US', label: 'United States', flag: '🇺🇸', color: 'border-blue-500 text-blue-300' },
-    { key: 'EU', label: 'European Union', flag: '🇪🇺', color: 'border-yellow-500 text-yellow-300' },
-    { key: 'CHINA', label: 'China', flag: '🇨🇳', color: 'border-red-500 text-red-300' },
-    { key: 'ASIA_EX_CHINA', label: 'Asia ex-China', flag: '🌏', color: 'border-emerald-500 text-emerald-300' },
-    { key: 'ROW', label: 'Rest of World', flag: '🌐', color: 'border-purple-500 text-purple-300' }
+    { key: 'US', label: 'United States', flag: '🇺🇸' },
+    { key: 'EU', label: 'European Union', flag: '🇪🇺' },
+    { key: 'CHINA', label: 'China', flag: '🇨🇳' },
+    { key: 'ASIA_EX_CHINA', label: 'Asia ex-China', flag: '🌏' },
+    { key: 'ROW', label: 'Rest of World', flag: '🌐' }
   ];
 
   const presets = [
@@ -59,12 +62,14 @@ export const ControlsBar = ({
   // `sector` field). Kept independent of the isTech flag that drives bubble
   // fill color in the chart — some Healthcare/Consumer companies here are
   // isTech:true and vice versa, and this filter isn't meant to change that.
+  // One shared active/inactive style for all 5 (previously each had its own
+  // dot + text hue — a rainbow the label text already made redundant).
   const sectors = [
-    { key: 'Technology', label: 'Technology', dotClass: 'bg-emerald-400', textClass: 'text-emerald-400', hoverClass: 'hover:bg-emerald-950/40', activeClass: 'bg-emerald-600 text-white' },
-    { key: 'Consumer', label: 'Consumer', dotClass: 'bg-amber-400', textClass: 'text-amber-400', hoverClass: 'hover:bg-amber-950/40', activeClass: 'bg-amber-600 text-white' },
-    { key: 'Healthcare', label: 'Healthcare', dotClass: 'bg-rose-400', textClass: 'text-rose-400', hoverClass: 'hover:bg-rose-950/40', activeClass: 'bg-rose-600 text-white' },
-    { key: 'Financials', label: 'Financials', dotClass: 'bg-blue-400', textClass: 'text-blue-400', hoverClass: 'hover:bg-blue-950/40', activeClass: 'bg-blue-600 text-white' },
-    { key: 'Industrials & Energy', label: 'Industrials & Energy', dotClass: 'bg-orange-400', textClass: 'text-orange-400', hoverClass: 'hover:bg-orange-950/40', activeClass: 'bg-orange-600 text-white' }
+    { key: 'Technology', label: 'Technology' },
+    { key: 'Consumer', label: 'Consumer' },
+    { key: 'Healthcare', label: 'Healthcare' },
+    { key: 'Financials', label: 'Financials' },
+    { key: 'Industrials & Energy', label: 'Industrials & Energy' }
   ];
 
   return (
@@ -78,7 +83,7 @@ export const ControlsBar = ({
         <div className="bg-[var(--surf-1)]/90 border border-[var(--border-1)] rounded-xl p-3.5 shadow-sm">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2.5">
             <div className="flex items-center gap-2">
-              <Sliders className="w-4 h-4 text-purple-400" />
+              <Sliders className="w-4 h-4 text-[var(--accent-400)]" />
               <label htmlFor="age-slider" className="text-xs font-semibold uppercase tracking-wider text-[var(--text-2)]">
                 Company Age Threshold:
               </label>
@@ -111,7 +116,7 @@ export const ControlsBar = ({
                     }}
                     className={`text-[11px] px-2 py-1 rounded-md transition-all font-medium ${
                       isActive 
-                        ? 'bg-purple-600 text-white shadow-sm shadow-purple-500/30' 
+                        ? 'bg-[var(--accent-600)] text-white shadow-sm shadow-[var(--accent-500)]/30' 
                         : 'bg-[var(--surf-2)]/90 hover:bg-[var(--surf-3)] text-[var(--text-2)]'
                     }`}
                     title={p.note}
@@ -138,13 +143,13 @@ export const ControlsBar = ({
                 setAllAges(false);
                 setAgeThreshold(newValue);
               }}
-              className="w-full h-2 bg-[var(--surf-2)] rounded-lg appearance-none cursor-pointer accent-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500/40"
+              className="w-full h-2 bg-[var(--surf-2)] rounded-lg appearance-none cursor-pointer accent-[var(--accent-500)] focus:outline-none focus:ring-2 focus:ring-[var(--accent-500)]/40"
             />
 
             <div className="flex justify-between text-[10px] text-[var(--text-4)] font-mono">
               <span>5 yrs (2019)</span>
               <span>15 yrs (2009 Uber/Sea)</span>
-              <span className="text-purple-400 font-semibold">50 yrs (1974 McAfee frontier)</span>
+              <span className="text-[var(--accent-400)] font-semibold">50 yrs (1974 McAfee frontier)</span>
               <span className="text-amber-400 font-semibold">52 yrs (1972 SAP)</span>
               <span>75 yrs (1949)</span>
               <span>100+ yrs (1924)</span>
@@ -158,7 +163,7 @@ export const ControlsBar = ({
           <div className="lg:col-span-7 bg-[var(--surf-1)]/90 border border-[var(--border-1)] rounded-xl p-3 flex flex-col justify-between">
             <div className="flex items-center justify-between mb-2">
               <span className="text-xs font-semibold text-[var(--text-2)] uppercase tracking-wider flex items-center gap-1.5">
-                <Globe2 className="w-3.5 h-3.5 text-blue-400" />
+                <Globe2 className="w-3.5 h-3.5 text-[var(--accent-400)]" />
                 <span>Markets Included ({selectedRegions.length}):</span>
               </span>
               <span className="text-[11px] text-[var(--text-3)]">Click to toggle regional clusters</span>
@@ -186,7 +191,7 @@ export const ControlsBar = ({
                     }}
                     className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium border transition-all ${
                       isSelected
-                        ? `bg-[var(--surf-2)]/90 ${m.color} shadow-sm border-current`
+                        ? 'bg-[var(--accent-600)]/10 border-[var(--accent-500)] text-[var(--accent-400)] shadow-sm'
                         : 'bg-[var(--surf-0)]/60 border-[var(--border-1)]/90 text-[var(--text-4)] hover:text-[var(--text-2)]'
                     }`}
                   >
@@ -270,7 +275,7 @@ export const ControlsBar = ({
                   onClick={() => setMinMarketCap(cap)}
                   className={`text-xs px-2 py-0.5 rounded font-mono font-medium transition-colors ${
                     minMarketCap === cap 
-                      ? 'bg-purple-600 text-white' 
+                      ? 'bg-[var(--accent-600)] text-white' 
                       : 'text-[var(--text-3)] hover:text-[var(--text-1)]'
                   }`}
                   title={cap === 10 ? "McAfee $10B baseline" : cap === 100 ? "Draghi €100B milestone" : cap === 1000 ? "$1 Trillion Club" : ""}
@@ -291,7 +296,7 @@ export const ControlsBar = ({
                 type="button"
                 onClick={() => setSectorFilter('all')}
                 className={`text-xs px-2 py-0.5 rounded transition-colors ${
-                  sectorFilter === 'all' ? 'bg-[var(--surf-3)] text-[var(--text-0)]' : 'text-[var(--text-3)] hover:text-[var(--text-1)]'
+                  sectorFilter === 'all' ? 'bg-[var(--accent-600)] text-white' : 'text-[var(--text-3)] hover:text-[var(--text-1)]'
                 }`}
               >
                 All
@@ -301,12 +306,11 @@ export const ControlsBar = ({
                   key={s.key}
                   type="button"
                   onClick={() => setSectorFilter(s.key)}
-                  className={`text-xs px-2 py-0.5 rounded flex items-center gap-1 transition-colors ${
-                    sectorFilter === s.key ? s.activeClass : `${s.textClass} ${s.hoverClass}`
+                  className={`text-xs px-2 py-0.5 rounded transition-colors ${
+                    sectorFilter === s.key ? 'bg-[var(--accent-600)] text-white' : 'text-[var(--text-3)] hover:text-[var(--text-1)]'
                   }`}
                 >
-                  <span className={`w-2 h-2 rounded-full inline-block ${s.dotClass}`}></span>
-                  <span>{s.label}</span>
+                  {s.label}
                 </button>
               ))}
             </div>
@@ -321,7 +325,7 @@ export const ControlsBar = ({
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search company or ticker..."
-                className="w-full bg-[var(--surf-1)] border border-[var(--border-1)] rounded-lg pl-8 pr-3 py-1 text-xs text-[var(--text-0)] placeholder-[var(--text-4)] focus:outline-none focus:border-purple-500"
+                className="w-full bg-[var(--surf-1)] border border-[var(--border-1)] rounded-lg pl-8 pr-3 py-1 text-xs text-[var(--text-0)] placeholder-[var(--text-4)] focus:outline-none focus:border-[var(--accent-500)]"
               />
               {searchQuery && (
                 <button

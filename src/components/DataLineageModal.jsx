@@ -40,7 +40,7 @@ export const DataLineageModal = ({ isOpen, onClose, mode }) => {
         {/* Header */}
         <div className="px-6 py-4 border-b border-[var(--border-1)] bg-[var(--surf-0)] flex items-center justify-between flex-shrink-0">
           <div className="flex items-center gap-2.5">
-            <BookOpen className="w-5 h-5 text-blue-400" />
+            <BookOpen className="w-5 h-5 text-[var(--accent-400)]" />
             <div>
               <h2 className="text-lg font-bold text-[var(--text-0)]">Data Lineage & Methodology Dossier</h2>
               <span className="text-xs text-[var(--text-3)] font-mono">
@@ -80,7 +80,7 @@ export const DataLineageModal = ({ isOpen, onClose, mode }) => {
               </h3>
             </div>
 
-            <blockquote className="border-l-4 border-amber-500 pl-4 py-1 italic text-[var(--callout-amber-text)] bg-[var(--callout-amber-bg)] rounded-r-lg font-serif">
+            <blockquote className="border-l-4 border-amber-500 pl-4 py-1 italic text-[var(--callout-amber-text)] bg-[var(--callout-amber-bg)] rounded-r-lg">
               "{sourcesMetadata.landmarkReport.keyQuote}"
             </blockquote>
 
@@ -104,7 +104,7 @@ export const DataLineageModal = ({ isOpen, onClose, mode }) => {
           {/* Section 2: Andrew McAfee's MIT Sloan Research */}
           <div className="p-4 rounded-xl bg-[var(--surf-0)]/80 border border-[var(--border-1)] space-y-3">
             <div className="flex items-center gap-2">
-              <Scale className="w-4 h-4 text-purple-400" />
+              <Scale className="w-4 h-4 text-[var(--accent-400)]" />
               <h3 className="text-base font-bold text-[var(--text-0)]">
                 Andrew McAfee's 'Arriviste' & 'From-Scratch' Criteria
               </h3>
@@ -171,7 +171,7 @@ export const DataLineageModal = ({ isOpen, onClose, mode }) => {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {sourcesMetadata.methodologyLineage.pipelineSteps.map((step) => (
                 <div key={step.step} className="p-3 rounded-xl bg-[var(--surf-0)]/60 border border-[var(--border-1)] text-xs">
-                  <span className="font-mono text-purple-400 font-bold block mb-1">
+                  <span className="font-mono text-[var(--accent-400)] font-bold block mb-1">
                     Stage {step.step}: {step.name}
                   </span>
                   <span className="text-[var(--text-3)]">

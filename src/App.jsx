@@ -142,6 +142,7 @@ function App() {
       // follows the OS preference via the plain :root CSS rules in
       // index.css (no attribute needed for that case).
       data-theme={isCrazy ? 'dark' : undefined}
+      data-mode={isCrazy ? 'crazy' : 'institutional'}
       className={`min-h-screen flex flex-col font-sans transition-colors duration-500 bg-[var(--surf-0)] text-[var(--text-0)] ${
         isCrazy
           ? 'selection:bg-purple-500 selection:text-white'

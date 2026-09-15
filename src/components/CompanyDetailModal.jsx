@@ -92,7 +92,7 @@ export const CompanyDetailModal = ({ company, onClose, mode }) => {
 
             <div>
               <span className="text-[10px] text-[var(--text-4)] uppercase font-mono block">Company Age</span>
-              <span className="text-lg font-bold text-purple-300">
+              <span className="text-lg font-bold text-[var(--accent-300)]">
                 {age} Years
               </span>
             </div>
@@ -135,7 +135,7 @@ export const CompanyDetailModal = ({ company, onClose, mode }) => {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
             <div className="p-3 rounded-xl bg-[var(--surf-0)]/60 border border-[var(--border-1)]">
               <span className="text-[10px] text-[var(--text-4)] uppercase font-mono flex items-center gap-1 mb-1">
-                <Users className="w-3 h-3 text-blue-400" />
+                <Users className="w-3 h-3 text-[var(--accent-400)]" />
                 <span>Founders / Architects</span>
               </span>
               <span className="font-semibold text-[var(--text-1)]">
@@ -145,7 +145,7 @@ export const CompanyDetailModal = ({ company, onClose, mode }) => {
 
             <div className="p-3 rounded-xl bg-[var(--surf-0)]/60 border border-[var(--border-1)]">
               <span className="text-[10px] text-[var(--text-4)] uppercase font-mono flex items-center gap-1 mb-1">
-                <MapPin className="w-3 h-3 text-red-400" />
+                <MapPin className="w-3 h-3 text-[var(--accent-400)]" />
                 <span>Headquarters / Country</span>
               </span>
               <span className="font-semibold text-[var(--text-1)]">

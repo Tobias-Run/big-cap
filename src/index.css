@@ -54,6 +54,29 @@
   --callout-pink-bg: #fce7f3;
   --callout-pink-border: #f472b6;
   --callout-pink-text: #831843;
+
+  /* Institutional mode's single interactive accent (buttons, slider,
+     focus rings, decorative icons). Deliberately restrained blue instead
+     of Supernova's purple — Institutional mode should read as one
+     professional screen, not a rainbow. Supernova mode keeps its
+     existing purple identity via [data-mode="crazy"] below; App.jsx sets
+     data-mode from `isCrazy`, independent of the light/dark data-theme
+     attribute above. Occurrences that were already conditioned on
+     isCrazy in JSX (most of Supernova's own gradients/glows) are left as
+     literal Tailwind purple/pink/amber classes — this variable set only
+     replaces the purple that used to leak into Institutional mode
+     unconditionally. */
+  --accent-600: #2563eb;
+  --accent-500: #3b82f6;
+  --accent-400: #60a5fa;
+  --accent-300: #93c5fd;
+}
+
+[data-mode="crazy"] {
+  --accent-600: #9333ea;
+  --accent-500: #a855f7;
+  --accent-400: #c084fc;
+  --accent-300: #d8b4fe;
 }
 
 @media (prefers-color-scheme: dark) {

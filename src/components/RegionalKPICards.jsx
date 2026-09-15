@@ -18,12 +18,17 @@ export const RegionalKPICards = ({
 }) => {
   const isCrazy = mode === 'crazy';
 
+  // The stacked "Regional Value Share" bar genuinely needs some visual
+  // differentiation between segments — but 5 unrelated saturated hues
+  // (blue/amber/red/emerald/purple) reads as a rainbow, not a serious
+  // chart. Institutional mode uses one alternating blue/neutral tonal
+  // ramp instead; Supernova keeps the original per-region gradients.
   const regionNames = {
-    US: { label: 'United States', flag: '🇺🇸', color: 'from-blue-600 to-indigo-600', text: 'text-blue-400' },
-    EU: { label: 'European Union', flag: '🇪🇺', color: 'from-amber-500 to-yellow-600', text: 'text-yellow-400' },
-    CHINA: { label: 'China', flag: '🇨🇳', color: 'from-red-600 to-rose-600', text: 'text-red-400' },
-    ASIA_EX_CHINA: { label: 'Asia ex-China', flag: '🌏', color: 'from-emerald-600 to-teal-600', text: 'text-emerald-400' },
-    ROW: { label: 'Rest of World', flag: '🌐', color: 'from-purple-600 to-pink-600', text: 'text-purple-400' }
+    US: { label: 'United States', flag: '🇺🇸', colorCrazy: 'from-blue-600 to-indigo-600', colorInstitutional: 'bg-[var(--accent-600)]' },
+    EU: { label: 'European Union', flag: '🇪🇺', colorCrazy: 'from-amber-500 to-yellow-600', colorInstitutional: 'bg-[var(--border-3)]' },
+    CHINA: { label: 'China', flag: '🇨🇳', colorCrazy: 'from-red-600 to-rose-600', colorInstitutional: 'bg-[var(--accent-400)]' },
+    ASIA_EX_CHINA: { label: 'Asia ex-China', flag: '🌏', colorCrazy: 'from-emerald-600 to-teal-600', colorInstitutional: 'bg-[var(--text-4)]' },
+    ROW: { label: 'Rest of World', flag: '🌐', colorCrazy: 'from-purple-600 to-pink-600', colorInstitutional: 'bg-[var(--accent-300)]' }
   };
 
   // Group companies by region
@@ -50,7 +55,7 @@ export const RegionalKPICards = ({
 
     return {
       key: regionKey,
-      meta: regionNames[regionKey] || { label: regionKey, flag: '📍', color: 'from-slate-600 to-slate-700', text: 'text-[var(--text-2)]' },
+      meta: regionNames[regionKey] || { label: regionKey, flag: '📍', colorCrazy: 'from-slate-600 to-slate-700', colorInstitutional: 'bg-[var(--border-3)]' },
       count: list.length,
       totalCap,
       techCount,
@@ -124,7 +129,9 @@ export const RegionalKPICards = ({
                 <div
                   key={r.key}
                   style={{ width: `${pct}%` }}
-                  className={`h-full bg-gradient-to-r ${r.meta.color} transition-all duration-500 hover:brightness-125`}
+                  className={`h-full transition-all duration-500 hover:brightness-125 ${
+                    isCrazy ? `bg-gradient-to-r ${r.meta.colorCrazy}` : r.meta.colorInstitutional
+                  }`}
                   title={`${r.meta.label}: ${pct.toFixed(1)}% ($${(r.totalCap/1000).toFixed(2)}T)`}
                 />
               );
@@ -177,7 +184,7 @@ export const RegionalKPICards = ({
                     </div>
                   </div>
 
-                  <span className={`text-xs px-2.5 py-1 rounded-full font-bold bg-[var(--surf-0)] border border-[var(--border-1)] ${r.meta.text}`}>
+                  <span className="text-xs px-2.5 py-1 rounded-full font-bold bg-[var(--surf-0)] border border-[var(--border-1)] text-[var(--text-2)]">
                     {r.avgAge > 0 ? `Avg Age: ${r.avgAge}y` : 'No data'}
                   </span>
                 </div>
@@ -226,14 +233,14 @@ export const RegionalKPICards = ({
                 >
                   <div>
                     <span className="text-[10px] text-[var(--text-4)] uppercase font-mono block">Top Champion</span>
-                    <span className="font-semibold text-[var(--text-0)] group-hover:text-purple-300 transition-colors">
+                    <span className="font-semibold text-[var(--text-0)] group-hover:text-[var(--accent-300)] transition-colors">
                       {r.largest.name}
                     </span>
                     <span className="text-[var(--text-3)] font-mono ml-1.5">
                       (${r.largest.marketCap >= 1000 ? `${(r.largest.marketCap/1000).toFixed(1)}T` : `${r.largest.marketCap}B`})
                     </span>
                   </div>
-                  <ArrowRight className="w-3.5 h-3.5 text-[var(--text-4)] group-hover:text-purple-400 group-hover:translate-x-0.5 transition-all" />
+                  <ArrowRight className="w-3.5 h-3.5 text-[var(--text-4)] group-hover:text-[var(--accent-400)] group-hover:translate-x-0.5 transition-all" />
                 </div>
               ) : (
                 <div className="mt-2 pt-3 border-t border-[var(--border-1)]/80 text-xs text-[var(--text-4)] italic">

@@ -40,7 +40,7 @@ export const Header = ({
               <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold tracking-wide uppercase ${
                 isCrazy 
                   ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-sm shadow-purple-500/50 animate-pulse' 
-                  : 'bg-emerald-900/40 text-emerald-300 border border-emerald-700/50'
+                  : 'bg-[var(--surf-2)] text-[var(--text-2)] border border-[var(--border-2)]'
               }`}>
                 {isCrazy ? <Sparkles className="w-3.5 h-3.5" /> : <Building2 className="w-3.5 h-3.5" />}
                 {isCrazy ? 'Supernova Cosmic View' : 'Institutional Macro Screen'}
@@ -84,9 +84,9 @@ export const Header = ({
                 type="button"
                 onClick={() => setMode('crazy')}
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-                  isCrazy 
-                    ? 'bg-gradient-to-r from-purple-600 via-pink-600 to-amber-500 text-white shadow-md shadow-purple-500/40 border border-purple-400/30' 
-                    : 'text-purple-300 hover:text-purple-100 hover:bg-purple-950/30'
+                  isCrazy
+                    ? 'bg-gradient-to-r from-purple-600 via-pink-600 to-amber-500 text-white shadow-md shadow-purple-500/40 border border-purple-400/30'
+                    : 'text-[var(--text-3)] hover:text-purple-300 hover:bg-purple-950/10'
                 }`}
               >
                 <span>🚀</span>
@@ -112,8 +112,8 @@ export const Header = ({
               type="button"
               onClick={onToggleMute}
               className={`p-2 rounded-lg border text-xs transition-colors ${
-                !isMuted 
-                  ? 'bg-purple-950/60 border-purple-700/60 text-purple-300 shadow-sm shadow-purple-900/50' 
+                !isMuted
+                  ? 'bg-[var(--accent-600)]/15 border-[var(--accent-500)]/40 text-[var(--accent-400)]'
                   : 'bg-[var(--surf-1)] border-[var(--border-1)] text-[var(--text-3)] hover:text-[var(--text-0)]'
               }`}
               title={isMuted ? "Unmute cosmic synth audio feedback" : "Mute audio feedback"}
@@ -127,7 +127,7 @@ export const Header = ({
               onClick={onOpenLineage}
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[var(--border-2)] bg-[var(--surf-2)]/80 hover:bg-[var(--surf-3)] text-[var(--text-1)] text-xs font-medium transition-colors"
             >
-              <FileText className="w-3.5 h-3.5 text-blue-400" />
+              <FileText className="w-3.5 h-3.5 text-[var(--accent-400)]" />
               <span>Data Lineage</span>
             </button>
 
@@ -157,7 +157,7 @@ export const Header = ({
                 : 'text-[var(--text-3)] hover:text-[var(--text-1)] hover:bg-[var(--surf-1)]'
             }`}
           >
-            <CircleDot className="w-3.5 h-3.5 text-emerald-400" />
+            <CircleDot className={`w-3.5 h-3.5 ${isCrazy ? 'text-emerald-400' : 'text-[var(--text-3)]'}`} />
             <span>Interactive Bubble Clusters</span>
           </button>
 
@@ -172,7 +172,7 @@ export const Header = ({
                 : 'text-[var(--text-3)] hover:text-[var(--text-1)] hover:bg-[var(--surf-1)]'
             }`}
           >
-            <BarChart3 className="w-3.5 h-3.5 text-blue-400" />
+            <BarChart3 className={`w-3.5 h-3.5 ${isCrazy ? 'text-blue-400' : 'text-[var(--text-3)]'}`} />
             <span>Regional KPIs & Ratios</span>
           </button>
 
@@ -187,7 +187,7 @@ export const Header = ({
                 : 'text-[var(--text-3)] hover:text-[var(--text-1)] hover:bg-[var(--surf-1)]'
             }`}
           >
-            <Clock className="w-3.5 h-3.5 text-amber-400" />
+            <Clock className={`w-3.5 h-3.5 ${isCrazy ? 'text-amber-400' : 'text-[var(--text-3)]'}`} />
             <span>Cohort Timeline</span>
           </button>
 
@@ -202,7 +202,7 @@ export const Header = ({
                 : 'text-[var(--text-3)] hover:text-[var(--text-1)] hover:bg-[var(--surf-1)]'
             }`}
           >
-            <TableIcon className="w-3.5 h-3.5 text-pink-400" />
+            <TableIcon className={`w-3.5 h-3.5 ${isCrazy ? 'text-pink-400' : 'text-[var(--text-3)]'}`} />
             <span>Inspectable Data Table & CSV</span>
           </button>
         </div>

@@ -28,7 +28,7 @@ export const InspirationPicModal = ({ isOpen, onClose, mode }) => {
         {/* Header */}
         <div className="px-6 py-4 border-b border-[var(--border-1)] bg-[var(--surf-0)] flex items-center justify-between flex-shrink-0">
           <div className="flex items-center gap-2">
-            <Quote className="w-5 h-5 text-purple-400" />
+            <Quote className="w-5 h-5 text-[var(--accent-400)]" />
             <h2 className="text-base font-bold text-[var(--text-0)]">Original Inspiration & Viral Context</h2>
           </div>
 
@@ -92,7 +92,7 @@ export const InspirationPicModal = ({ isOpen, onClose, mode }) => {
                 <strong className="text-[var(--text-1)]">The "From-Scratch" Constraint:</strong> Europe's semiconductor equipment titan <span className="text-emerald-300">ASML ($295B)</span> was founded in 1984, but began as a 50/50 joint venture between Philips and ASM International. Toggling "Include Spinoffs & JVs" completely reshapes Europe's presence.
               </li>
               <li>
-                <strong className="text-[var(--text-1)]">The Global Dimension:</strong> Innovation is not a bilateral US vs EU game. Including <span className="text-red-300">China</span>, <span className="text-emerald-300">Asia ex-China (TSMC)</span>, and <span className="text-purple-300">Rest of World (Shopify, Nubank)</span> gives a true 360° perspective of global capitalism.
+                <strong className="text-[var(--text-1)]">The Global Dimension:</strong> Innovation is not a bilateral US vs EU game. Including <span className="text-[var(--text-1)] font-semibold">China</span>, <span className="text-[var(--text-1)] font-semibold">Asia ex-China (TSMC)</span>, and <span className="text-[var(--text-1)] font-semibold">Rest of World (Shopify, Nubank)</span> gives a true 360° perspective of global capitalism.
               </li>
             </ul>
           </div>

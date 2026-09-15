@@ -98,7 +98,7 @@ export const SearchableDataTable = ({
     if (sortField !== field) {
       return <ArrowUpDown className="w-3 h-3 opacity-40" />;
     }
-    return sortDirection === 'asc' ? <ArrowUp className="w-3 h-3 text-purple-400" /> : <ArrowDown className="w-3 h-3 text-purple-400" />;
+    return sortDirection === 'asc' ? <ArrowUp className="w-3 h-3 text-[var(--accent-400)]" /> : <ArrowDown className="w-3 h-3 text-[var(--accent-400)]" />;
   };
 
   return (
@@ -112,7 +112,7 @@ export const SearchableDataTable = ({
             value={tableSearch}
             onChange={(e) => setTableSearch(e.target.value)}
             placeholder="Filter table rows..."
-            className="w-full bg-[var(--surf-0)] border border-[var(--border-1)] rounded-lg pl-8 pr-3 py-1.5 text-xs text-[var(--text-0)] placeholder-[var(--text-4)] focus:outline-none focus:border-purple-500"
+            className="w-full bg-[var(--surf-0)] border border-[var(--border-1)] rounded-lg pl-8 pr-3 py-1.5 text-xs text-[var(--text-0)] placeholder-[var(--text-4)] focus:outline-none focus:border-[var(--accent-500)]"
           />
         </div>
 
@@ -199,7 +199,7 @@ export const SearchableDataTable = ({
                     <td className="py-2.5 px-3 font-mono text-[var(--text-2)]">
                       {c.foundingYear}
                     </td>
-                    <td className="py-2.5 px-3 font-mono text-purple-300 font-semibold">
+                    <td className="py-2.5 px-3 font-mono text-[var(--accent-300)] font-semibold">
                       {age}y
                     </td>
                     <td className="py-2.5 px-3 font-medium">
@@ -220,7 +220,7 @@ export const SearchableDataTable = ({
                       </span>
                     </td>
                     <td className="py-2.5 px-4 text-right">
-                      <span className="text-purple-400 group-hover:underline text-[11px] font-medium">
+                      <span className="text-[var(--accent-400)] group-hover:underline text-[11px] font-medium">
                         View →
                       </span>
                     </td>
