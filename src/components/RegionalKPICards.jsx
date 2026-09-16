@@ -1,14 +1,6 @@
 import React from 'react';
 import { CURRENT_YEAR } from '../utils/dateConstants';
-import {
-  TrendingUp, 
-  Cpu, 
-  Building, 
-  Award, 
-  ArrowRight,
-  PieChart as PieIcon,
-  Percent
-} from 'lucide-react';
+import { Cpu, ArrowRight } from 'lucide-react';
 
 export const RegionalKPICards = ({ 
   filteredCompanies, 

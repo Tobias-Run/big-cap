@@ -11,7 +11,7 @@ import { InspirationPicModal } from './components/InspirationPicModal';
 import { CrazyEffectsOverlay } from './components/CrazyEffectsOverlay';
 import { companiesData } from './data/companiesData';
 import { audioSynth } from './utils/audioSynth';
-import { Info, AlertCircle, Sparkles } from 'lucide-react';
+import { Info } from 'lucide-react';
 import { CURRENT_YEAR } from './utils/dateConstants';
 
 function App() {

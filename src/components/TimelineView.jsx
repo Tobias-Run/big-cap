@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Clock, Calendar, TrendingUp, Sparkles, Building, ArrowRight } from 'lucide-react';
+import { Clock } from 'lucide-react';
 import { CURRENT_YEAR } from '../utils/dateConstants';
 
 export const TimelineView = ({ 

@@ -1,18 +1,7 @@
 import React from 'react';
 import { CURRENT_YEAR } from '../utils/dateConstants';
 import { audioSynth } from '../utils/audioSynth';
-import {
-  Sliders, 
-  Globe2, 
-  Check, 
-  Search, 
-  Layers, 
-  HelpCircle, 
-  RotateCcw,
-  Sparkles,
-  Zap,
-  Info
-} from 'lucide-react';
+import { Sliders, Globe2, Check, Search, Layers, RotateCcw } from 'lucide-react';
 
 export const ControlsBar = ({
   ageThreshold,

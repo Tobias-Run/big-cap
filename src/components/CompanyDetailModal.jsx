@@ -1,18 +1,7 @@
 import React from 'react';
 import { CURRENT_YEAR } from '../utils/dateConstants';
 import { useModalA11y } from '../utils/useModalA11y';
-import {
-  X, 
-  ExternalLink, 
-  Building2, 
-  Calendar, 
-  MapPin, 
-  Award, 
-  FileCheck, 
-  Users, 
-  Layers,
-  Cpu
-} from 'lucide-react';
+import { X, ExternalLink, MapPin, FileCheck, Users, Layers } from 'lucide-react';
 
 export const CompanyDetailModal = ({ company, onClose, mode }) => {
   // Escape, focus trap, focus restore and body scroll lock. Must run before

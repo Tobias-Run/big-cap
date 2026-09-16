@@ -1,15 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { CURRENT_YEAR } from '../utils/dateConstants';
-import {
-  Download, 
-  ArrowUpDown, 
-  ArrowUp, 
-  ArrowDown, 
-  ExternalLink,
-  Search,
-  CheckCircle2,
-  FileSpreadsheet
-} from 'lucide-react';
+import { Download, ArrowUpDown, ArrowUp, ArrowDown, Search } from 'lucide-react';
 
 export const SearchableDataTable = ({ 
   filteredCompanies, 
@@ -64,26 +55,43 @@ export const SearchableDataTable = ({
     return result;
   }, [filteredCompanies, tableSearch, sortField, sortDirection]);
 
-  // Export CSV functionality
+  // Export CSV functionality.
+  // Quoting is done centrally here rather than per field: the previous
+  // version wrapped some values in quotes by hand and left embedded quotes
+  // unescaped, which produces a broken row for any value containing one.
+  const csvCell = (value) => {
+    const s = value === null || value === undefined ? '' : String(value);
+    // Spreadsheets treat a leading =, +, - or @ as a formula. Prefixing a
+    // single quote keeps the cell as literal text.
+    const safe = /^[=+\-@]/.test(s) ? `'${s}` : s;
+    return `"${safe.replace(/"/g, '""')}"`;
+  };
+
   const handleExportCSV = () => {
-    const headers = ['Company Name', 'Ticker', 'Market Cap ($B USD)', 'Founding Year', 'Age', 'Sector', 'Industry', 'Country', 'Region', 'Origin Type', 'Is From-Scratch', 'Founders', 'Citation'];
+    // "Sector" previously exported the High-Tech/Other flag despite its
+    // name; both classifications exist in the app and mean different
+    // things, so both are exported now rather than one shadowing the other.
+    const headers = ['Company Name', 'Ticker', 'Market Cap ($B USD)', 'Founding Year', 'Age', 'Sector', 'High-Tech', 'Industry', 'Country', 'Region', 'Origin Type', 'Is From-Scratch', 'Founders', 'Citation'];
     const rows = processedData.map(c => [
-      `"${c.name}"`,
-      `"${c.ticker}"`,
+      c.name,
+      c.ticker,
       c.marketCap,
       c.foundingYear,
       CURRENT_YEAR - c.foundingYear,
+      c.sector,
       c.isTech ? 'High-Tech' : 'Other',
-      `"${c.industry}"`,
-      `"${c.country}"`,
-      `"${c.region}"`,
-      `"${c.originType}"`,
+      c.industry,
+      c.country,
+      c.region,
+      c.originType,
       c.isFromScratch ? 'Yes' : 'No',
-      `"${c.founders || ''}"`,
-      `"${c.citation || ''}"`
-    ]);
+      c.founders || '',
+      c.citation || ''
+    ].map(csvCell));
 
-    const csvContent = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+    // ﻿: a UTF-8 BOM, without which Excel mangles the non-ASCII names
+    // in this dataset (L'Oréal, Dassault Systèmes, São Paulo founders …).
+    const csvContent = '﻿' + [headers.map(csvCell).join(','), ...rows.map(r => r.join(','))].join('\r\n');
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
@@ -92,6 +100,8 @@ export const SearchableDataTable = ({
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+    // Without this the blob is held for the lifetime of the document.
+    URL.revokeObjectURL(url);
   };
 
   const getSortIcon = (field) => {

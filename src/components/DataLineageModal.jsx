@@ -1,17 +1,6 @@
 import React from 'react';
 import { useModalA11y } from '../utils/useModalA11y';
-import { 
-  X, 
-  BookOpen, 
-  FileText, 
-  Scale, 
-  CheckCircle2, 
-  AlertTriangle, 
-  ExternalLink,
-  ShieldCheck,
-  Award,
-  Sparkles
-} from 'lucide-react';
+import { X, BookOpen, Scale, AlertTriangle, ExternalLink, ShieldCheck, Award } from 'lucide-react';
 import { sourcesMetadata } from '../data/sourcesMetadata';
 
 export const DataLineageModal = ({ isOpen, onClose, mode }) => {

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Flame, Sparkles, MessageSquare, Zap } from 'lucide-react';
+import { Flame, Sparkles } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 const WITTY_QUOTES = [

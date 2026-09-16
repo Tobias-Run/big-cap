@@ -1,6 +1,6 @@
 import React from 'react';
 import { useModalA11y } from '../utils/useModalA11y';
-import { X, ExternalLink, Quote, Sparkles, HelpCircle } from 'lucide-react';
+import { X, Quote } from 'lucide-react';
 
 export const InspirationPicModal = ({ isOpen, onClose, mode }) => {
   // Escape, focus trap, focus restore and body scroll lock. Must run before

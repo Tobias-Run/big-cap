@@ -1,13 +1,13 @@
 import React from 'react';
-import { 
-  Building2, 
-  Sparkles, 
-  FileText, 
-  Volume2, 
-  VolumeX, 
-  BarChart3, 
-  Table as TableIcon, 
-  Clock, 
+import {
+  Building2,
+  Sparkles,
+  FileText,
+  Volume2,
+  VolumeX,
+  BarChart3,
+  Table as TableIcon,
+  Clock,
   CircleDot,
   ExternalLink,
   Flame
