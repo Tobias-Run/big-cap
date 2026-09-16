@@ -136,6 +136,23 @@ function App() {
 
   const isCrazy = mode === 'crazy';
 
+  // "Active Screen Insight" banner. The McAfee-baseline variant may only
+  // claim ASML/SAP are excluded while that is actually true on screen:
+  // `allAges` has to be off (the preset leaves ageThreshold at 50, so
+  // checking the threshold alone used to keep the claim up while both
+  // companies sat visible in the table), the strict from-scratch rule has
+  // to be on, and the EU has to be among the selected regions at all.
+  const showsMcAfeeBaseline =
+    !allAges && ageThreshold <= 50 && strictFromScratch && selectedRegions.includes('EU');
+
+  // Figures quoted in that banner come from the dataset rather than prose,
+  // so they can't drift out of date the way the previously hardcoded
+  // "1972 = 52 years old" did once ages started tracking the real year.
+  const asml = companiesData.find(c => c.id === 'asml');
+  const sap = companiesData.find(c => c.id === 'sap');
+  const sapAge = CURRENT_YEAR - sap.foundingYear;
+  const formatCap = (cap) => (cap >= 1000 ? `$${(cap / 1000).toFixed(2)}T` : `$${cap}B`);
+
   return (
     <div
       // Issue #7: Supernova always forces the dark palette; Institutional
@@ -190,16 +207,22 @@ function App() {
         {/* Contextual Nuance Banner */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 w-full">
           <div className={`p-3 rounded-xl border flex items-start gap-2.5 text-xs transition-colors ${
-            ageThreshold === 50 && strictFromScratch && !includeNonEuEurope && selectedRegions.includes('EU')
+            showsMcAfeeBaseline
               ? 'bg-[var(--callout-amber-bg)] border-[var(--callout-amber-border)] text-[var(--callout-amber-text)]'
               : 'bg-[var(--surf-1)]/60 border-[var(--border-1)] text-[var(--text-3)]'
           }`}>
             <Info className="w-4 h-4 flex-shrink-0 mt-0.5 text-amber-400" />
             <div className="leading-relaxed">
               <strong className="text-[var(--text-0)]">Active Screen Insight: </strong>
-              {ageThreshold <= 50 && strictFromScratch ? (
+              {showsMcAfeeBaseline ? (
                 <span>
-                  Under Andrew McAfee's strict 50-year from-scratch filter, Europe's <span className="text-[var(--text-0)] font-semibold">ASML ($295B)</span> is excluded (Philips 1984 JV) and <span className="text-[var(--text-0)] font-semibold">SAP ($250B)</span> is excluded (founded 1972 = 52 years old). Try dragging the slider to <strong>52 years</strong> or toggling <strong>"Include Spinoffs & JVs"</strong> to test how Europe's presence transforms!
+                  Under Andrew McAfee's strict {ageThreshold}-year from-scratch filter, Europe's{' '}
+                  <span className="text-[var(--text-0)] font-semibold">{asml.name} ({formatCap(asml.marketCap)})</span>{' '}
+                  is excluded ({asml.originType === 'joint_venture' ? 'Philips' : 'lineage'} {asml.foundingYear} JV) and{' '}
+                  <span className="text-[var(--text-0)] font-semibold">{sap.name} ({formatCap(sap.marketCap)})</span>{' '}
+                  is excluded (founded {sap.foundingYear} = {sapAge} years old). Try dragging the slider to{' '}
+                  <strong>{sapAge} years</strong> or toggling <strong>"Include Spinoffs &amp; JVs"</strong> to
+                  test how Europe's presence transforms.
                 </span>
               ) : (
                 <span>
