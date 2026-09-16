@@ -94,13 +94,13 @@ export const RegionalKPICards = ({
             <div className="flex items-center gap-4 bg-[var(--surf-0)]/80 border border-[var(--border-1)] px-4 py-2 rounded-xl">
               <div className="text-center">
                 <span className="text-[10px] uppercase font-mono text-[var(--text-3)]">US : EU Market Cap Ratio</span>
-                <div className="text-xl font-bold text-amber-400">
+                <div className="text-xl font-bold text-[var(--figure)]">
                   {usToEuRatio}x
                 </div>
               </div>
               <div className="h-8 w-px bg-[var(--surf-2)] hidden sm:block"></div>
               <div className="text-xs text-[var(--text-2)] max-w-xs leading-relaxed hidden sm:block">
-                US arriviste cohort market cap is <strong className="text-amber-300">{usToEuRatio} times</strong> larger than the EU's under currently applied criteria.
+                US arriviste cohort market cap is <strong className="text-[var(--figure)]">{usToEuRatio} times</strong> larger than the EU's under currently applied criteria.
               </div>
             </div>
           )}

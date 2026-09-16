@@ -632,17 +632,21 @@ export const BubbleClusterView = ({
             left: `${Math.min(tooltipPos.x + 16, dimensions.width - 190)}px`,
             top: `${Math.max(tooltipPos.y - 60, 20)}px`
           }}
+          /* Opaque, not translucent: at 90% the saturated bubble underneath
+             bled through and tinted the card, which cost the market-cap
+             figure the contrast it needs. A tooltip has nothing to gain
+             from being see-through. */
           className={`absolute z-30 w-44 px-3 py-2 rounded-lg border pointer-events-none shadow-xl animate-fade-in ${
             isCrazy
-              ? 'bg-[var(--surf-0)]/90 border-purple-500/50 backdrop-blur-md'
-              : 'bg-[var(--surf-1)]/90 border-[var(--border-2)] backdrop-blur-sm'
+              ? 'bg-[var(--surf-0)] border-purple-500/50'
+              : 'bg-[var(--surf-1)] border-[var(--border-2)]'
           }`}
         >
           <div className="text-sm font-bold text-[var(--text-0)] leading-tight truncate">
             {hoveredNode.name}
           </div>
           <div className="flex items-baseline justify-between mt-1 text-xs">
-            <span className="font-mono font-bold text-amber-300">
+            <span className="font-mono font-bold text-[var(--figure)]">
               ${hoveredNode.marketCap >= 1000 ? `${(hoveredNode.marketCap/1000).toFixed(2)}T` : `${hoveredNode.marketCap}B`}
             </span>
             <span className="text-[var(--text-3)]">
@@ -710,7 +714,7 @@ export const BubbleClusterView = ({
             <div className="grid grid-cols-2 gap-2 my-2.5 pt-2 border-t border-[var(--border-1)]">
               <div>
                 <span className="text-[10px] uppercase font-mono text-[var(--text-4)] block">Market Cap</span>
-                <span className="text-sm font-black text-amber-300">
+                <span className="text-sm font-black text-[var(--figure)]">
                   ${quickViewCompany.marketCap >= 1000 ? `${(quickViewCompany.marketCap/1000).toFixed(2)}T` : `${quickViewCompany.marketCap}B`}
                 </span>
               </div>

@@ -57,7 +57,7 @@ export const DataLineageModal = ({ isOpen, onClose, mode }) => {
         <div className="p-6 space-y-6 overflow-y-auto text-sm text-[var(--text-2)] leading-relaxed">
           {/* Snapshot disclaimer (issue #2): this app is not a live feed. */}
           <div className="p-3.5 rounded-xl bg-[var(--callout-amber-bg)] border border-[var(--callout-amber-border)]/40 text-xs text-[var(--callout-amber-text)] flex items-start gap-2.5">
-            <AlertTriangle className="w-4 h-4 text-amber-400 flex-shrink-0 mt-0.5" />
+            <AlertTriangle className="w-4 h-4 text-[var(--figure)] flex-shrink-0 mt-0.5" />
             <p>
               <strong className="text-[var(--callout-amber-text)]">Not a stock tracker.</strong> Market
               capitalizations are a static snapshot curated around late-2024 valuations,
@@ -69,7 +69,7 @@ export const DataLineageModal = ({ isOpen, onClose, mode }) => {
           {/* Section 1: The Landmark Draghi Report */}
           <div className="p-4 rounded-xl bg-[var(--surf-0)]/80 border border-[var(--border-1)] space-y-3">
             <div className="flex items-center gap-2">
-              <Award className="w-4 h-4 text-amber-400" />
+              <Award className="w-4 h-4 text-[var(--figure)]" />
               <h3 className="text-base font-bold text-[var(--text-0)]">
                 The Mario Draghi European Competitiveness Report (September 2024)
               </h3>
@@ -135,7 +135,7 @@ export const DataLineageModal = ({ isOpen, onClose, mode }) => {
           {/* Section 3: Contested Classifications Breakdown */}
           <div className="space-y-3">
             <h3 className="text-base font-bold text-[var(--text-0)] flex items-center gap-2">
-              <AlertTriangle className="w-4 h-4 text-amber-400" />
+              <AlertTriangle className="w-4 h-4 text-[var(--figure)]" />
               <span>Contested Classifications & Caveats</span>
             </h3>
 

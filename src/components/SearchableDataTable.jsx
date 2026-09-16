@@ -203,7 +203,7 @@ export const SearchableDataTable = ({
                         <span className="text-[11px] text-[var(--text-4)] font-mono">({c.ticker})</span>
                       </div>
                     </td>
-                    <td className="py-2.5 px-3 font-mono font-bold text-amber-300">
+                    <td className="py-2.5 px-3 font-mono font-bold text-[var(--figure)]">
                       ${c.marketCap >= 1000 ? `${(c.marketCap / 1000).toFixed(2)}T` : `${c.marketCap}B`}
                     </td>
                     <td className="py-2.5 px-3 font-mono text-[var(--text-2)]">

@@ -92,7 +92,7 @@ export const InspirationPicModal = ({ isOpen, onClose, mode }) => {
 
             <ul className="list-disc list-inside space-y-1.5 text-[var(--text-3)]">
               <li>
-                <strong className="text-[var(--text-1)]">The 50-Year Cliff:</strong> Germany's software crown jewel <span className="text-amber-300">SAP</span> was founded in 1972 — 52 years old when the Draghi report landed, and a year older every year since. Widening the age slider past its current age instantly restores Europe's largest tech giant.
+                <strong className="text-[var(--text-1)]">The 50-Year Cliff:</strong> Germany's software crown jewel <span className="text-[var(--figure)]">SAP</span> was founded in 1972 — 52 years old when the Draghi report landed, and a year older every year since. Widening the age slider past its current age instantly restores Europe's largest tech giant.
               </li>
               <li>
                 <strong className="text-[var(--text-1)]">The "From-Scratch" Constraint:</strong> Europe's semiconductor equipment titan <span className="text-emerald-300">ASML ($295B)</span> was founded in 1984, but began as a 50/50 joint venture between Philips and ASM International. Toggling "Include Spinoffs & JVs" completely reshapes Europe's presence.

@@ -211,7 +211,7 @@ function App() {
               ? 'bg-[var(--callout-amber-bg)] border-[var(--callout-amber-border)] text-[var(--callout-amber-text)]'
               : 'bg-[var(--surf-1)]/60 border-[var(--border-1)] text-[var(--text-3)]'
           }`}>
-            <Info className="w-4 h-4 flex-shrink-0 mt-0.5 text-amber-400" />
+            <Info className="w-4 h-4 flex-shrink-0 mt-0.5 text-[var(--figure)]" />
             <div className="leading-relaxed">
               <strong className="text-[var(--text-0)]">Active Screen Insight: </strong>
               {showsMcAfeeBaseline ? (

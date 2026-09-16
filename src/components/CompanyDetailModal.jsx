@@ -74,7 +74,7 @@ export const CompanyDetailModal = ({ company, onClose, mode }) => {
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-[var(--surf-0)]/60 p-3.5 rounded-xl border border-[var(--border-1)]">
             <div>
               <span className="text-[10px] text-[var(--text-4)] uppercase font-mono block">Market Cap</span>
-              <span className="text-lg font-black text-amber-300">
+              <span className="text-lg font-black text-[var(--figure)]">
                 ${company.marketCap >= 1000 ? `${(company.marketCap / 1000).toFixed(2)}T` : `${company.marketCap}B`}
               </span>
             </div>
@@ -104,7 +104,7 @@ export const CompanyDetailModal = ({ company, onClose, mode }) => {
           {/* Lineage & Origin dossier */}
           <div className="space-y-1.5">
             <span className="text-xs font-semibold text-[var(--text-3)] uppercase tracking-wider flex items-center gap-1.5">
-              <Layers className="w-3.5 h-3.5 text-amber-400" />
+              <Layers className="w-3.5 h-3.5 text-[var(--figure)]" />
               <span>Entity Origin & Corporate Lineage:</span>
             </span>
 

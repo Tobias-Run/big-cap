@@ -124,7 +124,7 @@ export const TimelineView = ({
                   <span className="text-xs text-[var(--text-3)] font-mono">
                     {era.count} {era.count === 1 ? 'Company' : 'Companies'}
                   </span>
-                  <span className="text-sm font-black text-amber-300 font-mono">
+                  <span className="text-sm font-black text-[var(--figure)] font-mono">
                     ${(era.totalCap / 1000).toFixed(2)}T Total
                   </span>
                 </div>
@@ -155,7 +155,7 @@ export const TimelineView = ({
                       >
                         <span className="font-semibold text-[var(--text-0)]">{c.name}</span>
                         <span className="text-[10px] text-[var(--text-3)] font-mono">({c.foundingYear})</span>
-                        <span className="text-amber-300 font-mono font-bold">{capLabel}</span>
+                        <span className="text-[var(--figure)] font-mono font-bold">{capLabel}</span>
                       </button>
                     );
                   })}

@@ -139,7 +139,7 @@ export const ControlsBar = ({
               <span>5 yrs (2019)</span>
               <span>15 yrs (2009 Uber/Sea)</span>
               <span className="text-[var(--accent-400)] font-semibold">50 yrs (1974 McAfee frontier)</span>
-              <span className="text-amber-400 font-semibold">52 yrs (1972 SAP)</span>
+              <span className="text-[var(--figure)] font-semibold">52 yrs (1972 SAP)</span>
               <span>75 yrs (1949)</span>
               <span>100+ yrs (1924)</span>
             </div>
@@ -197,7 +197,7 @@ export const ControlsBar = ({
           <div className="lg:col-span-5 bg-[var(--surf-1)]/90 border border-[var(--border-1)] rounded-xl p-3 flex flex-col justify-between">
             <div className="flex items-center justify-between mb-2">
               <span className="text-xs font-semibold text-[var(--text-2)] uppercase tracking-wider flex items-center gap-1.5">
-                <Layers className="w-3.5 h-3.5 text-amber-400" />
+                <Layers className="w-3.5 h-3.5 text-[var(--figure)]" />
                 <span>Methodology Nuances:</span>
               </span>
               <span className="text-[11px] text-[var(--text-3)]">ASML / Spinoff & UK effects</span>
