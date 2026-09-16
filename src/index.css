@@ -232,3 +232,15 @@
   background: radial-gradient(circle at 50% 30%, rgba(30, 41, 59, 0.5) 0%, rgba(2, 6, 23, 0.95) 80%);
 }
 
+
+/* Keyboard focus for the chart bubbles. They are SVG <g> elements made
+   focusable in BubbleClusterView; without this there is no visible focus
+   indicator at all when tabbing through the chart. */
+.bubble:focus {
+  outline: none;
+}
+.bubble:focus-visible circle {
+  stroke: var(--accent-400);
+  stroke-width: 4;
+  paint-order: stroke;
+}

@@ -54,11 +54,24 @@ export const BubbleClusterView = ({
     searchQueryRef.current = searchQuery;
   }, [searchQuery]);
 
-  // Close the quick-view card on Escape, same as the app's modals.
+  // Close the quick-view card on Escape, same as the app's modals, and move
+  // focus into it when it opens so a keyboard user lands on its controls
+  // instead of being left on the bubble behind it. It's a popover rather
+  // than a modal, so focus is not trapped — tabbing out is allowed.
+  const quickViewRef = useRef(null);
+  const quickViewOpenerRef = useRef(null);
   useEffect(() => {
     if (!quickViewCompany) return;
+    quickViewOpenerRef.current = document.activeElement;
+    quickViewRef.current?.focus();
     const handleKeyDown = (e) => {
-      if (e.key === 'Escape') setQuickViewCompany(null);
+      if (e.key === 'Escape') {
+        setQuickViewCompany(null);
+        // Hand focus back to the bubble that opened it.
+        if (quickViewOpenerRef.current instanceof HTMLElement || quickViewOpenerRef.current instanceof SVGElement) {
+          quickViewOpenerRef.current.focus?.();
+        }
+      }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
@@ -244,12 +257,51 @@ export const BubbleClusterView = ({
       return pts;
     }
 
-    // Append company bubble groups
+    // Append company bubble groups. They carry button semantics and a
+    // tabindex so the chart is reachable without a mouse — previously the
+    // bubbles were click-only, which made the app's primary view unusable
+    // by keyboard and opaque to screen readers.
     const bubbles = nodeGroup.selectAll('.bubble')
       .data(nodes, d => d.id)
       .enter()
       .append('g')
       .attr('class', 'bubble cursor-pointer')
+      .attr('tabindex', 0)
+      .attr('role', 'button')
+      .attr('aria-label', d =>
+        `${d.name}, ${d.country}, market cap ${
+          d.marketCap >= 1000 ? `${(d.marketCap / 1000).toFixed(2)} trillion` : `${d.marketCap} billion`
+        } dollars, founded ${d.foundingYear}. Activate for details.`)
+      .on('keydown', (event, d) => {
+        if (event.key !== 'Enter' && event.key !== ' ') return;
+        event.preventDefault(); // Space would otherwise scroll the page.
+        const bounds = containerRef.current?.getBoundingClientRect();
+        const rect = event.currentTarget.getBoundingClientRect();
+        if (bounds) {
+          // Anchor the quick-view to the focused bubble rather than to a
+          // mouse position that doesn't exist during keyboard use.
+          setQuickViewPos({
+            x: rect.left + rect.width / 2 - bounds.left,
+            y: rect.top + rect.height / 2 - bounds.top
+          });
+        }
+        setHoveredNode(null);
+        setQuickViewCompany(d);
+      })
+      .on('focus', (event, d) => {
+        // Keyboard focus shows the same hover tooltip, but anchored to the
+        // bubble — tooltipPos otherwise still holds a stale mouse position.
+        const bounds = containerRef.current?.getBoundingClientRect();
+        const rect = event.currentTarget.getBoundingClientRect();
+        if (bounds) {
+          setTooltipPos({
+            x: rect.left + rect.width / 2 - bounds.left,
+            y: rect.top + rect.height / 2 - bounds.top
+          });
+        }
+        setHoveredNode(d);
+      })
+      .on('blur', () => setHoveredNode(null))
       .on('mouseenter', (event, d) => {
         setHoveredNode(d);
         audioSynth.playHover(d.marketCap);
@@ -613,11 +665,15 @@ export const BubbleClusterView = ({
             aria-hidden="true"
           />
           <div
+            ref={quickViewRef}
+            role="dialog"
+            aria-label={`${quickViewCompany.name} summary`}
+            tabIndex={-1}
             style={{
               left: `${Math.min(Math.max(quickViewPos.x - 144, 8), dimensions.width - 296)}px`,
               top: `${Math.max(quickViewPos.y - 120, 20)}px`
             }}
-            className={`absolute z-40 w-72 p-3.5 rounded-xl border shadow-2xl animate-fade-in ${
+            className={`absolute z-40 w-72 p-3.5 rounded-xl border shadow-2xl animate-fade-in outline-none ${
               isCrazy
                 ? 'bg-[var(--surf-0)]/95 border-purple-500/60 shadow-purple-950/80 backdrop-blur-md'
                 : 'bg-[var(--surf-1)]/95 border-[var(--border-2)] shadow-slate-950/90 backdrop-blur-sm'

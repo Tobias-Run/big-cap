@@ -1,25 +1,30 @@
-import React, { useEffect } from 'react';
+import React from 'react';
+import { useModalA11y } from '../utils/useModalA11y';
 import { X, ExternalLink, Quote, Sparkles, HelpCircle } from 'lucide-react';
 
 export const InspirationPicModal = ({ isOpen, onClose, mode }) => {
-  // Must run before the `!isOpen` early return below: React requires the
-  // same hooks to run on every render of this component.
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.key === 'Escape') onClose();
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [onClose]);
+  // Escape, focus trap, focus restore and body scroll lock. Must run before
+  // the `!isOpen` early return below: React requires the same hooks to run on
+  // every render of this component.
+  const dialogRef = useModalA11y(isOpen, onClose);
 
   if (!isOpen) return null;
 
   const isCrazy = mode === 'crazy';
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/85 backdrop-blur-md animate-fade-in">
-      <div 
-        className={`w-full max-w-2xl max-h-[90vh] rounded-2xl border shadow-2xl overflow-hidden flex flex-col transition-all ${
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/85 backdrop-blur-md animate-fade-in"
+      onClick={onClose}
+    >
+      <div
+        ref={dialogRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="inspiration-dialog-title"
+        tabIndex={-1}
+        onClick={(e) => e.stopPropagation()}
+        className={`w-full max-w-2xl max-h-[90vh] rounded-2xl border shadow-2xl overflow-hidden flex flex-col transition-all outline-none ${
           isCrazy 
             ? 'bg-[var(--surf-0)] border-purple-800/60 shadow-[0_0_50px_rgba(168,85,247,0.3)]' 
             : 'bg-[var(--surf-1)] border-[var(--border-2)] shadow-slate-950/90'
@@ -29,12 +34,13 @@ export const InspirationPicModal = ({ isOpen, onClose, mode }) => {
         <div className="px-6 py-4 border-b border-[var(--border-1)] bg-[var(--surf-0)] flex items-center justify-between flex-shrink-0">
           <div className="flex items-center gap-2">
             <Quote className="w-5 h-5 text-[var(--accent-400)]" />
-            <h2 className="text-base font-bold text-[var(--text-0)]">Original Inspiration & Viral Context</h2>
+            <h2 id="inspiration-dialog-title" className="text-base font-bold text-[var(--text-0)]">Original Inspiration & Viral Context</h2>
           </div>
 
           <button
             type="button"
             onClick={onClose}
+            aria-label="Close inspiration panel"
             className="p-1.5 rounded-lg text-[var(--text-3)] hover:text-[var(--text-0)] hover:bg-[var(--surf-2)] transition-colors"
           >
             <X className="w-5 h-5" />
@@ -86,7 +92,7 @@ export const InspirationPicModal = ({ isOpen, onClose, mode }) => {
 
             <ul className="list-disc list-inside space-y-1.5 text-[var(--text-3)]">
               <li>
-                <strong className="text-[var(--text-1)]">The 50-Year Cliff:</strong> In 2024, Germany's software crown jewel <span className="text-amber-300">SAP</span> was 52 years old (founded 1972). Moving our slider from 50 to 52 years instantly restores Europe's largest tech giant.
+                <strong className="text-[var(--text-1)]">The 50-Year Cliff:</strong> Germany's software crown jewel <span className="text-amber-300">SAP</span> was founded in 1972 — 52 years old when the Draghi report landed, and a year older every year since. Widening the age slider past its current age instantly restores Europe's largest tech giant.
               </li>
               <li>
                 <strong className="text-[var(--text-1)]">The "From-Scratch" Constraint:</strong> Europe's semiconductor equipment titan <span className="text-emerald-300">ASML ($295B)</span> was founded in 1984, but began as a 50/50 joint venture between Philips and ASM International. Toggling "Include Spinoffs & JVs" completely reshapes Europe's presence.

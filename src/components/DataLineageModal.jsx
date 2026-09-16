@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+import React from 'react';
+import { useModalA11y } from '../utils/useModalA11y';
 import { 
   X, 
   BookOpen, 
@@ -14,24 +15,28 @@ import {
 import { sourcesMetadata } from '../data/sourcesMetadata';
 
 export const DataLineageModal = ({ isOpen, onClose, mode }) => {
-  // Must run before the `!isOpen` early return below: React requires the
-  // same hooks to run on every render of this component.
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.key === 'Escape') onClose();
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [onClose]);
+  // Escape, focus trap, focus restore and body scroll lock. Must run before
+  // the `!isOpen` early return below: React requires the same hooks to run on
+  // every render of this component.
+  const dialogRef = useModalA11y(isOpen, onClose);
 
   if (!isOpen) return null;
 
   const isCrazy = mode === 'crazy';
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-md animate-fade-in">
-      <div 
-        className={`w-full max-w-4xl max-h-[90vh] rounded-2xl border shadow-2xl overflow-hidden flex flex-col transition-all ${
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-md animate-fade-in"
+      onClick={onClose}
+    >
+      <div
+        ref={dialogRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="lineage-dialog-title"
+        tabIndex={-1}
+        onClick={(e) => e.stopPropagation()}
+        className={`w-full max-w-4xl max-h-[90vh] rounded-2xl border shadow-2xl overflow-hidden flex flex-col transition-all outline-none ${
           isCrazy 
             ? 'bg-[var(--surf-0)] border-purple-800/60 shadow-[0_0_60px_rgba(168,85,247,0.3)]' 
             : 'bg-[var(--surf-1)] border-[var(--border-2)] shadow-slate-950/90'
@@ -42,7 +47,7 @@ export const DataLineageModal = ({ isOpen, onClose, mode }) => {
           <div className="flex items-center gap-2.5">
             <BookOpen className="w-5 h-5 text-[var(--accent-400)]" />
             <div>
-              <h2 className="text-lg font-bold text-[var(--text-0)]">Data Lineage & Methodology Dossier</h2>
+              <h2 id="lineage-dialog-title" className="text-lg font-bold text-[var(--text-0)]">Data Lineage & Methodology Dossier</h2>
               <span className="text-xs text-[var(--text-3)] font-mono">
                 Provenance, Historical Criteria & Contested Classifications
               </span>
@@ -52,6 +57,7 @@ export const DataLineageModal = ({ isOpen, onClose, mode }) => {
           <button
             type="button"
             onClick={onClose}
+            aria-label="Close data lineage dossier"
             className="p-1.5 rounded-lg text-[var(--text-3)] hover:text-[var(--text-0)] hover:bg-[var(--surf-2)] transition-colors"
           >
             <X className="w-5 h-5" />

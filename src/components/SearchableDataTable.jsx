@@ -220,9 +220,18 @@ export const SearchableDataTable = ({
                       </span>
                     </td>
                     <td className="py-2.5 px-4 text-right">
-                      <span className="text-[var(--accent-400)] group-hover:underline text-[11px] font-medium">
+                      {/* A real button, so the table is operable by keyboard.
+                          The row-level onClick above stays for mouse users;
+                          this stops the click bubbling to it so the dossier
+                          doesn't open twice. */}
+                      <button
+                        type="button"
+                        onClick={(e) => { e.stopPropagation(); onSelectCompany(c); }}
+                        aria-label={`Open dossier for ${c.name}`}
+                        className="text-[var(--accent-400)] group-hover:underline text-[11px] font-medium rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-500)] focus-visible:ring-offset-1 focus-visible:ring-offset-[var(--surf-1)]"
+                      >
                         View →
-                      </span>
+                      </button>
                     </td>
                   </tr>
                 );

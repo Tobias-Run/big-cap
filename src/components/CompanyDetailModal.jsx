@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { CURRENT_YEAR } from '../utils/dateConstants';
+import { useModalA11y } from '../utils/useModalA11y';
 import {
   X, 
   ExternalLink, 
@@ -14,15 +15,10 @@ import {
 } from 'lucide-react';
 
 export const CompanyDetailModal = ({ company, onClose, mode }) => {
-  // Close on Escape key. Must run before the `!company` early return below:
-  // React requires the same hooks to run on every render of this component.
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.key === 'Escape') onClose();
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [onClose]);
+  // Escape, focus trap, focus restore and body scroll lock. Must run before
+  // the `!company` early return below: React requires the same hooks to run
+  // on every render of this component.
+  const dialogRef = useModalA11y(Boolean(company), onClose);
 
   if (!company) return null;
 
@@ -30,11 +26,21 @@ export const CompanyDetailModal = ({ company, onClose, mode }) => {
   const age = CURRENT_YEAR - company.foundingYear;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/75 backdrop-blur-sm animate-fade-in">
-      <div 
-        className={`w-full max-w-xl rounded-2xl border shadow-2xl overflow-hidden transition-all ${
-          isCrazy 
-            ? 'bg-[var(--surf-0)] border-purple-800/60 shadow-[0_0_50px_rgba(168,85,247,0.3)]' 
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/75 backdrop-blur-sm animate-fade-in"
+      onClick={onClose}
+    >
+      <div
+        ref={dialogRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="company-dialog-title"
+        tabIndex={-1}
+        // Clicks inside must not reach the backdrop handler above.
+        onClick={(e) => e.stopPropagation()}
+        className={`w-full max-w-xl rounded-2xl border shadow-2xl overflow-hidden transition-all outline-none ${
+          isCrazy
+            ? 'bg-[var(--surf-0)] border-purple-800/60 shadow-[0_0_50px_rgba(168,85,247,0.3)]'
             : 'bg-[var(--surf-1)] border-[var(--border-2)] shadow-slate-950/80'
         }`}
       >
@@ -48,7 +54,7 @@ export const CompanyDetailModal = ({ company, onClose, mode }) => {
             <span className="text-3xl">{company.countryCode === 'US' ? '🇺🇸' : company.countryCode === 'DE' ? '🇩🇪' : company.countryCode === 'NL' ? '🇳🇱' : company.countryCode === 'CN' ? '🇨🇳' : company.countryCode === 'TW' ? '🇹🇼' : '🌐'}</span>
             <div>
               <div className="flex items-center gap-2">
-                <h2 className="text-xl font-bold text-[var(--text-0)]">{company.name}</h2>
+                <h2 id="company-dialog-title" className="text-xl font-bold text-[var(--text-0)]">{company.name}</h2>
                 <span className={`text-xs px-2 py-0.5 rounded font-bold ${
                   company.isTech
                     ? 'bg-[var(--callout-emerald-bg)] text-[var(--callout-emerald-text)] border border-[var(--callout-emerald-border)]/40'
@@ -66,6 +72,7 @@ export const CompanyDetailModal = ({ company, onClose, mode }) => {
           <button
             type="button"
             onClick={onClose}
+            aria-label="Close company dossier"
             className="p-1.5 rounded-lg text-[var(--text-3)] hover:text-[var(--text-0)] hover:bg-[var(--surf-2)] transition-colors"
           >
             <X className="w-5 h-5" />
