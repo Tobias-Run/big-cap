@@ -11,7 +11,7 @@ export const sourcesMetadata = {
   primaryInspiration: {
     author: "Andrew McAfee",
     affiliation: "Principal Research Scientist at the MIT Sloan School of Management; Co-founder, MIT Initiative on the Digital Economy",
-    publication: "The Geek Way (Substack & Book), December 2024",
+    publication: "The Geek Way (book, Little, Brown, 2023) and the author's Substack",
     tweetReference: "Delian Asparouhov (@zebulgar), Founders Fund Partner: 'Crazy how the EU is just a rounding error when it comes to large companies that were founded in the last 50 years. It\\'s a museum as a continent and a museum as a stock market...'",
     originalCriteria: {
       marketCapFloor: "$10B+ USD (assessed at late 2024 valuations)",
@@ -33,7 +33,7 @@ export const sourcesMetadata = {
       "The Innovation Gap: European venture capital remains fragmented, underfunded, and unable to finance companies through late-stage growth rounds.",
       "The Grandfather Economy: European stock indices are dominated by corporate entities founded in the 19th or early 20th centuries.",
       "Regulatory Friction: Complex cross-border regulatory compliance across 27 member states creates scaling friction that US and Chinese firms do not encounter.",
-      "The 'From-Scratch' Nuance: While Europe created champions like ASML ($290B), it began as a joint venture with Philips (1891), and SAP ($250B) was founded in 1972 (52 years old in 2024)."
+      "The 'From-Scratch' Nuance: While Europe created champions like ASML ($295B), it began in 1984 as a joint venture with Philips, and SAP ($250B) was founded in 1972 — just outside a 50-year window measured from the report's 2024 publication."
     ]
   },
 
@@ -47,7 +47,7 @@ export const sourcesMetadata = {
       {
         step: 2,
         name: "Corporate Entity Lineage Resolution",
-        description: "Verified incorporation dates against original regulatory filings (SEC Form S-1 / 10-K, EU Prospectuses, Company House filings). Classified each entity into 'from-scratch' (greenfield startups) vs 'spinoff' (carved out from an existing parent) vs 'joint venture' vs 'merger'."
+        description: "Verified incorporation dates against original regulatory filings (SEC Form S-1 / 10-K, EU Prospectuses, Company House filings). Classified each entity into 'from-scratch' (greenfield startups) vs 'spinoff' (carved out from an existing parent) vs 'joint venture' vs 'merger'. For merged entities the founding year is the earliest constituent business, not the merger date, so that comparable companies are aged by the same clock; entries carry a foundingYearBasis field recording which rule applied."
       },
       {
         step: 3,
@@ -70,7 +70,7 @@ export const sourcesMetadata = {
       {
         company: "SAP SE",
         verdict: "From-Scratch, but >50 years old",
-        explanation: "Founded in April 1972 in Weinheim, Germany by five former IBM engineers. In 2024, SAP reached 52 years of age. A strict 50-year filter eliminates Europe's largest enterprise software company, while an age slider set to 52+ immediately recovers it."
+        explanation: "Founded in April 1972 in Weinheim, Germany by five former IBM engineers — 52 years old at the time of the Draghi report, and older every year since. A strict 50-year filter eliminates Europe's largest enterprise software company; widening the age slider past its current age immediately recovers it."
       },
       {
         company: "TSMC",
@@ -86,6 +86,26 @@ export const sourcesMetadata = {
         company: "AbbVie",
         verdict: "Spinoff",
         explanation: "Carved out from Abbott Laboratories (founded 1888) in 2013. Despite huge market valuation ($320B+), it inherits a century-old pharmaceutical research pipeline."
+      },
+      {
+        company: "Saudi Aramco",
+        verdict: "Reclassified: joint venture, not from-scratch",
+        explanation: "Previously counted as from-scratch, which contradicted its own lineage note. Founded 1933 as California Arabian Standard Oil under a concession between the Saudi state and Standard Oil of California, then nationalised over 1973-1980 — created by a pre-existing corporate parent, so not greenfield under the definition used here. At $1.82T this single reclassification materially changes the Rest of World totals under the strict screen."
+      },
+      {
+        company: "Linde plc",
+        verdict: "Non-EU under this app's rule, EU-domiciled by incorporation",
+        explanation: "Counted here as non-EU Europe because the geography rule is HQ-based and its operational headquarters is in the UK. The counter-argument is real: Linde plc is Irish-incorporated and moved its tax residency from the UK to Ireland in 2023, which by a domicile test would place $225B on the EU-27 side of the central comparison. Flagged rather than silently switched, since the two tests genuinely disagree."
+      },
+      {
+        company: "Merged entities (LVMH, AstraZeneca, Novo Nordisk, Linde, Broadcom)",
+        verdict: "Founding year = earliest predecessor",
+        explanation: "These had no consistent rule: LVMH and AstraZeneca used the merger year while Novo Nordisk and Linde used a predecessor year, so comparable companies were aged by different clocks — and the age filter is the app's core control. All now use the earliest constituent business (LVMH 1743 via Moet & Chandon, AstraZeneca 1913 via Astra AB), recorded in a `foundingYearBasis` field. Broadcom keeps 1991 and is marked contested: its lineage forks between the 1991 Broadcom Corp and Avago's older Hewlett-Packard semiconductor roots, with no clean earliest-predecessor answer."
+      },
+      {
+        company: "Fintech (Adyen, Wise, Nu Holdings, SoftBank Group)",
+        verdict: "Counted as high-tech — contested",
+        explanation: "The high-tech taxonomy lists Software as green but Finance as blue, and these sit on both sides: software companies by construction, financial services by market. They stay green here, but the call is arguable either way. Companies whose sector the taxonomy names unambiguously as 'other' were corrected instead — Intuitive Surgical (healthcare), Siemens and Keyence (industrials), CATL (energy) previously counted as high-tech and no longer do."
       }
     ]
   },
