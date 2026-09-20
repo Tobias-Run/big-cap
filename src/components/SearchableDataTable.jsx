@@ -89,9 +89,9 @@ export const SearchableDataTable = ({
       c.citation || ''
     ].map(csvCell));
 
-    // ﻿: a UTF-8 BOM, without which Excel mangles the non-ASCII names
-    // in this dataset (L'Oréal, Dassault Systèmes, São Paulo founders …).
-    const csvContent = '﻿' + [headers.map(csvCell).join(','), ...rows.map(r => r.join(','))].join('\r\n');
+    // Leading U+FEFF (byte-order mark), without which Excel mangles the
+    // non-ASCII names in this dataset (L'Oréal, Dassault Systèmes, …).
+    const csvContent = '\ufeff' + [headers.map(csvCell).join(','), ...rows.map(r => r.join(','))].join('\r\n');
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');

@@ -1,7 +1,7 @@
 {
   "name": "big-cap",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "homepage": "https://Tobias-Run.github.io/big-cap",
   "type": "module",
   "scripts": {
@@ -13,23 +13,19 @@
   },
   "dependencies": {
     "canvas-confetti": "^1.9.4",
-    "clsx": "^2.1.1",
     "d3": "^7.9.0",
     "lucide-react": "^1.46.0",
     "react": "^19.2.8",
-    "react-dom": "^19.2.8",
-    "tailwind-merge": "^3.7.0"
+    "react-dom": "^19.2.8"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.3.3",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.7",
     "@vitejs/plugin-react": "^6.1.1",
-    "autoprefixer": "^10.6.0",
+    "gh-pages": "^6.1.1",
     "oxlint": "^1.81.0",
-    "postcss": "^8.5.28",
     "tailwindcss": "^4.3.3",
-    "vite": "^8.3.0",
-    "gh-pages": "^6.1.1"
+    "vite": "^8.3.0"
   }
 }

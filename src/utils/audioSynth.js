@@ -59,7 +59,7 @@ class AudioSynth {
 
       osc.start();
       osc.stop(this.ctx.currentTime + 0.13);
-    } catch (e) {
+    } catch {
       // Ignore audio glitches safely
     }
   }
@@ -92,7 +92,7 @@ class AudioSynth {
           osc.stop(this.ctx.currentTime + 0.65);
         }, idx * 60);
       });
-    } catch (e) {
+    } catch {
       // Ignore audio glitches safely
     }
   }
@@ -138,7 +138,7 @@ class AudioSynth {
 
       osc.start();
       osc.stop(now + 0.12);
-    } catch (e) {
+    } catch {
       // Ignore audio glitches safely
     }
   }
@@ -174,7 +174,7 @@ class AudioSynth {
           osc.stop(this.ctx.currentTime + 0.1);
         }, idx * 55);
       });
-    } catch (e) {
+    } catch {
       // Ignore audio glitches safely
     }
   }
@@ -208,7 +208,7 @@ class AudioSynth {
           osc.stop(this.ctx.currentTime + 0.19);
         }, idx * 90);
       });
-    } catch (e) {
+    } catch {
       // Ignore audio glitches safely
     }
   }
@@ -233,7 +233,7 @@ class AudioSynth {
 
       osc.start();
       osc.stop(this.ctx.currentTime + duration);
-    } catch (e) {
+    } catch {
       // Ignore audio glitches safely
     }
   }

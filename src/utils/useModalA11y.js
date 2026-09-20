@@ -90,7 +90,7 @@ export function useModalA11y(isOpen, onClose) {
       // Only restore focus if it's still somewhere inside the closing dialog;
       // if the user has already clicked elsewhere, don't yank it back.
       if (!container || container.contains(document.activeElement) || document.activeElement === document.body) {
-        previouslyFocused instanceof HTMLElement && previouslyFocused.focus();
+        if (previouslyFocused instanceof HTMLElement) previouslyFocused.focus();
       }
     };
   }, [isOpen]);

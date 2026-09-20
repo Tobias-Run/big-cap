@@ -47,7 +47,7 @@ export const sourcesMetadata = {
       {
         step: 2,
         name: "Corporate Entity Lineage Resolution",
-        description: "Verified incorporation dates against original regulatory filings (SEC Form S-1 / 10-K, EU Prospectuses, Company House filings). Classified each entity into 'from-scratch' (greenfield startups) vs 'spinoff' (carved out from an existing parent) vs 'joint venture' vs 'merger'. For merged entities the founding year is the earliest constituent business, not the merger date, so that comparable companies are aged by the same clock; entries carry a foundingYearBasis field recording which rule applied."
+        description: "Verified incorporation dates against original regulatory filings (SEC Form S-1 / 10-K, EU Prospectuses, Company House filings). Classified each entity into 'from-scratch' (greenfield startups) vs 'spinoff' (carved out from an existing parent) vs 'joint venture' vs 'merger'. For merged entities the founding year is the earliest constituent business, not the merger date, so that comparable companies are aged by the same clock; merged entries carry a foundingYearBasis field recording which rule applied."
       },
       {
         step: 3,

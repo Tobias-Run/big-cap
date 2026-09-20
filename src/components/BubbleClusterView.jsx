@@ -8,7 +8,11 @@ import { Sparkles, X, ArrowRight } from 'lucide-react';
 // the dedicated search-highlight effect below, so all three agree on what a
 // bubble's "resting" (non-hovered) stroke should look like.
 function restingBubbleStroke(d, isCrazy, searchQuery) {
-  const isMatch = searchQuery && d.name.toLowerCase().includes(searchQuery.toLowerCase());
+  // Ticker as well as name: the search box promises "company or ticker",
+  // and matching only the name meant a ticker query silently highlighted
+  // nothing.
+  const q = searchQuery && searchQuery.toLowerCase();
+  const isMatch = !!q && (d.name.toLowerCase().includes(q) || (d.ticker || '').toLowerCase().includes(q));
   if (isMatch) {
     return { stroke: '#fbbf24', strokeWidth: 4, filter: 'drop-shadow(0 0 14px #fbbf24)' };
   }
@@ -146,9 +150,11 @@ export const BubbleClusterView = ({
     const svg = d3.select(svgRef.current);
     const { width, height } = dimensions;
 
-    // Radius scale: area is proportional to marketCap
-    // Maximum cap (Apple/Nvidia) is ~3400, minimum cap is ~10
-    const maxCap = d3.max(filteredCompanies, d => d.marketCap) || 3000;
+    // Radius scale: area is proportional to marketCap. The domain is fixed
+    // rather than taken from the current selection so a bubble keeps the
+    // same size as filters change - otherwise the largest company in view
+    // would always render at max radius and the chart would silently
+    // rescale under the user.
     const rScale = d3.scaleSqrt()
       .domain([0, 3500])
       .range([3, isCrazy ? 82 : 78]);

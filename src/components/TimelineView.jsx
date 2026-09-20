@@ -2,6 +2,68 @@ import React, { useMemo } from 'react';
 import { Clock } from 'lucide-react';
 import { CURRENT_YEAR } from '../utils/dateConstants';
 
+// Hoisted out of the component: the era table depends only on CURRENT_YEAR,
+// so rebuilding it on every render gave the useMemo below a dependency it
+// could never satisfy (a fresh array identity each time).
+const ERAS = [
+  {
+    id: 'ai_mobile',
+    title: 'Mobile, Cloud & AI Era',
+    years: '2004 – Present',
+    minYear: 2004,
+    maxYear: CURRENT_YEAR,
+    colorCrazy: 'border-pink-500 bg-pink-950/20 text-pink-300',
+    badge: 'Current Era',
+    description: 'The era of hyperscale clouds, smartphones, electric autonomous vehicles, and generative AI platforms.'
+  },
+  {
+    id: 'dotcom',
+    title: 'Dot-Com & Web Infrastructure',
+    years: '1994 – 2003',
+    minYear: 1994,
+    maxYear: 2003,
+    colorCrazy: 'border-purple-500 bg-purple-950/20 text-purple-300',
+    badge: 'Web 1.0 & 2.0',
+    description: 'The emergence of the commercial World Wide Web, global e-commerce marketplaces, and modern search engines.'
+  },
+  {
+    id: 'pc_silicon',
+    title: 'PC & Microprocessor Revolution',
+    years: '1980 – 1993',
+    minYear: 1980,
+    maxYear: 1993,
+    colorCrazy: 'border-emerald-500 bg-emerald-950/20 text-emerald-300',
+    badge: 'Silicon Boom',
+    description: 'The personal computing explosion, commercial software packaging, and the birth of dedicated semiconductor foundries (TSMC, ASML).'
+  },
+  {
+    id: 'early_tech',
+    title: 'Dawn of Silicon Valley & ERP',
+    years: '1968 – 1979',
+    minYear: 1968,
+    maxYear: 1979,
+    colorCrazy: 'border-amber-500 bg-amber-950/20 text-amber-300',
+    badge: '50-Year Horizon',
+    description: 'The foundation of modern enterprise software and semiconductors. Features the 50-year cliff (SAP 1972, Microsoft 1975, Apple 1976).'
+  },
+  {
+    id: 'legacy',
+    title: 'Century-Old Heritage Champions',
+    years: 'Pre-1968',
+    // No lower bound (issue #3: "enhance timeline to infinite"). The old
+    // hardcoded `1800` was an invisible ceiling: a company founded before
+    // 1800 wouldn't match ANY era and would silently vanish from this
+    // view entirely, contradicting the "Pre-1968" label right above,
+    // which already promises no floor. -Infinity makes that promise true
+    // regardless of how old a future data entry is, with no code change.
+    minYear: -Infinity,
+    maxYear: 1967,
+    colorCrazy: 'border-blue-500 bg-blue-950/20 text-blue-300',
+    badge: 'Historical Masters',
+    description: 'Europe and the world\'s enduring legacy industrial, consumer, and pharmaceutical giants (Siemens 1847, L\'Oréal 1909, Novo Nordisk 1923).'
+  }
+];
+
 export const TimelineView = ({ 
   filteredCompanies, 
   onSelectCompany, 
@@ -9,67 +71,9 @@ export const TimelineView = ({
 }) => {
   const isCrazy = mode === 'crazy';
 
-  const eras = [
-    {
-      id: 'ai_mobile',
-      title: 'Mobile, Cloud & AI Era',
-      years: '2004 – Present',
-      minYear: 2004,
-      maxYear: CURRENT_YEAR,
-      colorCrazy: 'border-pink-500 bg-pink-950/20 text-pink-300',
-      badge: 'Current Era',
-      description: 'The era of hyperscale clouds, smartphones, electric autonomous vehicles, and generative AI platforms.'
-    },
-    {
-      id: 'dotcom',
-      title: 'Dot-Com & Web Infrastructure',
-      years: '1994 – 2003',
-      minYear: 1994,
-      maxYear: 2003,
-      colorCrazy: 'border-purple-500 bg-purple-950/20 text-purple-300',
-      badge: 'Web 1.0 & 2.0',
-      description: 'The emergence of the commercial World Wide Web, global e-commerce marketplaces, and modern search engines.'
-    },
-    {
-      id: 'pc_silicon',
-      title: 'PC & Microprocessor Revolution',
-      years: '1980 – 1993',
-      minYear: 1980,
-      maxYear: 1993,
-      colorCrazy: 'border-emerald-500 bg-emerald-950/20 text-emerald-300',
-      badge: 'Silicon Boom',
-      description: 'The personal computing explosion, commercial software packaging, and the birth of dedicated semiconductor foundries (TSMC, ASML).'
-    },
-    {
-      id: 'early_tech',
-      title: 'Dawn of Silicon Valley & ERP',
-      years: '1968 – 1979',
-      minYear: 1968,
-      maxYear: 1979,
-      colorCrazy: 'border-amber-500 bg-amber-950/20 text-amber-300',
-      badge: '50-Year Horizon',
-      description: 'The foundation of modern enterprise software and semiconductors. Features the 50-year cliff (SAP 1972, Microsoft 1975, Apple 1976).'
-    },
-    {
-      id: 'legacy',
-      title: 'Century-Old Heritage Champions',
-      years: 'Pre-1968',
-      // No lower bound (issue #3: "enhance timeline to infinite"). The old
-      // hardcoded `1800` was an invisible ceiling: a company founded before
-      // 1800 wouldn't match ANY era and would silently vanish from this
-      // view entirely, contradicting the "Pre-1968" label right above,
-      // which already promises no floor. -Infinity makes that promise true
-      // regardless of how old a future data entry is, with no code change.
-      minYear: -Infinity,
-      maxYear: 1967,
-      colorCrazy: 'border-blue-500 bg-blue-950/20 text-blue-300',
-      badge: 'Historical Masters',
-      description: 'Europe and the world\'s enduring legacy industrial, consumer, and pharmaceutical giants (Siemens 1847, L\'Oréal 1909, Novo Nordisk 1923).'
-    }
-  ];
 
   const eraData = useMemo(() => {
-    return eras.map(era => {
+    return ERAS.map(era => {
       const companiesInEra = filteredCompanies.filter(
         c => c.foundingYear >= era.minYear && c.foundingYear <= era.maxYear
       );

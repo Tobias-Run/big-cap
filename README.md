@@ -56,6 +56,9 @@ npm run preview  # serve the built output
 npm run deploy   # build and publish to gh-pages
 ```
 
+Publishing goes through `npm run deploy` only. There is no deploy
+workflow, so merging to `master` does not update the live site.
+
 Stack: React 19, Vite 8, Tailwind 4, d3 (force simulation for the bubble
 layout), oxlint. No test suite yet — the filter pipeline in `App.jsx` is
 the part most worth covering first.
@@ -73,10 +76,17 @@ src/
   utils/audioSynth.js     Web Audio synthesis for Supernova mode
 ```
 
-Theming runs on CSS custom properties in `index.css`: `--surf-*`,
-`--text-*`, `--border-*` flip with light/dark, `--accent-*` flips with the
-Institutional/Supernova mode via a `data-mode` attribute on the app root.
-Prefer those over hardcoded Tailwind color classes when adding UI.
+Theming runs on CSS custom properties in `index.css`, on two independent
+axes. `--surf-*`, `--text-*`, `--border-*`, `--figure` and `--callout-*`
+flip with light/dark (OS preference, or a `data-theme="dark"` override).
+`--accent-*` flips with the Institutional/Supernova mode via a `data-mode`
+attribute. Both attributes live on the app root.
+
+Prefer those over hardcoded Tailwind color classes when adding UI. A
+literal like `text-amber-300` is a dark-mode value and will be unreadable
+on the light surfaces — `--figure` is the token for numeric emphasis
+(market caps, totals, ratios). The exception is an element sitting on an
+explicitly dark background in both themes, where the literal is correct.
 
 ## Credits
 
