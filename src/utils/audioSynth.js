@@ -8,6 +8,7 @@ class AudioSynth {
   constructor() {
     this.ctx = null;
     this.isMuted = true; // Off by default so it is never irritating
+    this.lastSliderTick = -1; // ctx time of the last slider tick; see playSliderMove
   }
 
   init() {
@@ -96,32 +97,47 @@ class AudioSynth {
     }
   }
 
-  // Issue #6 (Supernova mode 2.0): short tick while dragging the age
-  // slider. Kept very short/quiet since a fast drag fires this on every
-  // step (range input onChange), so overlapping notes shouldn't clash.
+  // Issue #6 (Supernova mode 2.0): short tick while dragging the age slider.
   playSliderMove(direction = 'up') {
     if (this.isMuted) return;
     this.init();
     if (!this.ctx) return;
 
+    // Every slider step that changes the filtered set also fires
+    // playCompanyChange, whose two square-wave notes are longer and louder
+    // than this tick. At the original 420 Hz / 0.03 / 70 ms the tick sat
+    // right under those notes in both pitch and level and was effectively
+    // inaudible. Dropping it an octave puts it below their 523/784 Hz band
+    // so the two read as separate events rather than one smear.
+    const now = this.ctx.currentTime;
+
+    // A fast drag fires onChange on every step. Without this the louder
+    // tick would stack into a buzz; one tick per 45 ms still feels
+    // continuous while dragging.
+    if (now - this.lastSliderTick < 0.045) return;
+    this.lastSliderTick = now;
+
     try {
       const osc = this.ctx.createOscillator();
       const gain = this.ctx.createGain();
 
-      const baseFreq = 420;
+      const baseFreq = 210;
       const freq = direction === 'up' ? baseFreq * 1.15 : baseFreq * 0.87;
 
       osc.type = 'triangle';
-      osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+      osc.frequency.setValueAtTime(freq, now);
 
-      gain.gain.setValueAtTime(0.03, this.ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + 0.06);
+      // Short attack rather than starting at full level: a hard start on a
+      // triangle this low produces an audible click.
+      gain.gain.setValueAtTime(0.0001, now);
+      gain.gain.exponentialRampToValueAtTime(0.055, now + 0.008);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.11);
 
       osc.connect(gain);
       gain.connect(this.ctx.destination);
 
       osc.start();
-      osc.stop(this.ctx.currentTime + 0.07);
+      osc.stop(now + 0.12);
     } catch (e) {
       // Ignore audio glitches safely
     }

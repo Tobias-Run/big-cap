@@ -2,6 +2,7 @@ import React from 'react';
 import { useModalA11y } from '../utils/useModalA11y';
 import { X, BookOpen, Scale, AlertTriangle, ExternalLink, ShieldCheck, Award } from 'lucide-react';
 import { sourcesMetadata } from '../data/sourcesMetadata';
+import { CURRENT_YEAR } from '../utils/dateConstants';
 
 export const DataLineageModal = ({ isOpen, onClose, mode }) => {
   // Escape, focus trap, focus restore and body scroll lock. Must run before
@@ -117,7 +118,7 @@ export const DataLineageModal = ({ isOpen, onClose, mode }) => {
 
               <div className="bg-[var(--surf-1)]/90 p-3 rounded-lg border border-[var(--border-1)]">
                 <span className="font-semibold text-[var(--text-0)] block mb-1">2. 50-Year Horizon Cutoff</span>
-                <span>Evaluated at 2024, restricting qualifying cohorts to entities founded in 1974 or later (leaving SAP at 1972 just outside the line).</span>
+                <span>Evaluated against the current year rather than the chart's original 2024: at the 50-year setting a company must have been founded in {CURRENT_YEAR - 50} or later. The frontier therefore moves every year — McAfee's 2024 chart left SAP (1972) two years outside the line, today it is {CURRENT_YEAR - 1972 - 50} years outside.</span>
               </div>
 
               <div className="bg-[var(--surf-1)]/90 p-3 rounded-lg border border-[var(--border-1)]">

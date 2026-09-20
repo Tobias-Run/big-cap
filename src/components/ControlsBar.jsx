@@ -38,11 +38,17 @@ export const ControlsBar = ({
     { key: 'ROW', label: 'Rest of World', flag: '🌐' }
   ];
 
+  // The SAP preset exists to demonstrate the one threshold at which
+  // Europe's largest software company re-enters the screen, so its age has
+  // to track SAP's actual age. Hardcoded at 52 it stopped doing its job in
+  // 2025: at a 52-year cutoff SAP (1972) still measures older than the
+  // cutoff allows, and the preset recovered nothing.
+  const sapAge = currentYear - 1972;
   const presets = [
-    { label: 'McAfee 50-Yr Cutoff', age: 50, all: false, note: 'Viral baseline (1974-2024)' },
-    { label: 'SAP Re-entry (52-Yr)', age: 52, all: false, note: 'Recovers SAP (1972)' },
-    { label: 'Cloud & Social Era (20-Yr)', age: 20, all: false, note: 'Post-2004 winners' },
-    { label: 'Mobile & AI Era (15-Yr)', age: 15, all: false, note: 'Post-2009 surge' },
+    { label: 'McAfee 50-Yr Cutoff', age: 50, all: false, note: `Viral baseline, rolling (${currentYear - 50}-${currentYear})` },
+    { label: `SAP Re-entry (${sapAge}-Yr)`, age: sapAge, all: false, note: 'Recovers SAP (1972)' },
+    { label: 'Cloud & Social Era (20-Yr)', age: 20, all: false, note: `Post-${currentYear - 20} winners` },
+    { label: 'Mobile & AI Era (15-Yr)', age: 15, all: false, note: `Post-${currentYear - 15} surge` },
     { label: 'Century Heritage (100-Yr)', age: 100, all: false, note: 'European legacy masters' },
     { label: 'All Historical Ages', age: 150, all: true, note: 'No age cutoff' }
   ];
@@ -135,13 +141,21 @@ export const ControlsBar = ({
               className="w-full h-2 bg-[var(--surf-2)] rounded-lg appearance-none cursor-pointer accent-[var(--accent-500)] focus:outline-none focus:ring-2 focus:ring-[var(--accent-500)]/40"
             />
 
+            {/* Every label is derived from CURRENT_YEAR rather than written
+                out, because both halves of a label move. A fixed-age tick
+                ("5 yrs") names a founding year that advances each year; a
+                company-anchored tick (SAP 1972) keeps its year and its age
+                advances instead. The McAfee frontier is the rolling
+                50-year rule the rest of the app applies, not the fixed
+                1974 of the original chart, so it moves with the fixed-age
+                ticks. */}
             <div className="flex justify-between text-[10px] text-[var(--text-4)] font-mono">
-              <span>5 yrs (2019)</span>
-              <span>15 yrs (2009 Uber/Sea)</span>
-              <span className="text-[var(--accent-400)] font-semibold">50 yrs (1974 McAfee frontier)</span>
-              <span className="text-[var(--figure)] font-semibold">52 yrs (1972 SAP)</span>
-              <span>75 yrs (1949)</span>
-              <span>100+ yrs (1924)</span>
+              <span>5 yrs ({currentYear - 5})</span>
+              <span>{currentYear - 2009} yrs (2009 Uber/Sea)</span>
+              <span className="text-[var(--accent-400)] font-semibold">50 yrs ({currentYear - 50} McAfee frontier)</span>
+              <span className="text-[var(--figure)] font-semibold">{currentYear - 1972} yrs (1972 SAP)</span>
+              <span>75 yrs ({currentYear - 75})</span>
+              <span>100+ yrs ({currentYear - 100})</span>
             </div>
           </div>
         </div>
