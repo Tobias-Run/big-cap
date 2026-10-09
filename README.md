@@ -18,6 +18,12 @@ So all three are controls, not assumptions.
   to market cap, grouped by region. Green is high-tech, blue everything
   else, following the taxonomy of the original chart. A dashed lasso marks
   non-EU European companies when "Broad Europe" is on.
+  Region headings follow the geographic switch: Strict EU groups non-EU
+  European companies with Rest of World (incl. UK); Broad Europe groups them
+  with Europe. The legend explains the non-EU outline and Supernova links.
+  Hovering or focusing a bubble shows the listing information already recorded
+  in its ticker (including multiple exchanges where available). These are
+  curated snapshot listings, not a live or exhaustive listing feed.
 - **Regional KPIs & Ratios** — totals, high-tech share and the US:EU ratio
   under the currently active filters.
 - **Cohort Timeline** — the same set grouped by founding era.
