@@ -1,3 +1,4 @@
+import { displayRegion, regionLabel } from '../utils/regions';
 import React, { useEffect, useRef, useState, useMemo } from 'react';
 import * as d3 from 'd3';
 import { audioSynth } from '../utils/audioSynth';
@@ -31,6 +32,7 @@ function restingBubbleStroke(d, isCrazy, searchQuery) {
 export const BubbleClusterView = ({
   filteredCompanies,
   selectedRegions,
+  includeNonEuEurope,
   mode,
   searchQuery,
   onSelectCompany,
@@ -161,7 +163,7 @@ export const BubbleClusterView = ({
 
     // Prepare node objects for simulation
     const nodes = filteredCompanies.map(c => {
-      const regionTarget = c.region === 'EUROPE_NON_EU' ? 'EU' : c.region;
+      const regionTarget = displayRegion(c.region, includeNonEuEurope);
       const targetCenter = clusterCenters[regionTarget] || { x: width / 2, y: height / 2 };
       
       return {
@@ -241,7 +243,7 @@ export const BubbleClusterView = ({
       .attr('font-size', '10px')
       .attr('font-weight', '700')
       .attr('letter-spacing', '0.04em')
-      .attr('fill', isCrazy ? '#e9d5ff' : '#fde68a')
+      .attr('fill', 'var(--text-1)')
       .style('text-transform', 'uppercase')
       .style('display', 'none')
       .style('pointer-events', 'none');
@@ -435,7 +437,7 @@ export const BubbleClusterView = ({
 
       // Issue #4: non-EU-Europe lasso, recomputed every tick since the
       // force simulation keeps moving these nodes.
-      const nonEuNodes = nodes.filter(n => n.region === 'EUROPE_NON_EU');
+      const nonEuNodes = nodes.filter(n => includeNonEuEurope && n.region === 'EUROPE_NON_EU');
       const hullPoints = nonEuNodes.length > 0
         ? d3.polygonHull(nonEuHullBoundaryPoints(nonEuNodes))
         : null;
@@ -462,7 +464,7 @@ export const BubbleClusterView = ({
     // restart the force simulation (which reseeds every bubble's position
     // with a fresh random jitter, see `x`/`y` above and makes the whole
     // cluster jump on every keystroke). See the dedicated effect below.
-  }, [filteredCompanies, dimensions, clusterCenters, isCrazy]);
+  }, [filteredCompanies, dimensions, clusterCenters, isCrazy, includeNonEuEurope]);
 
   // Re-applies the search-match highlight to already-rendered bubbles
   // in-place, without touching the simulation or node positions above.
@@ -507,10 +509,10 @@ export const BubbleClusterView = ({
 
   const regionNames = {
     US: { label: 'US', flag: '🇺🇸' },
-    EU: { label: 'EU', flag: '🇪🇺' },
+    EU: { label: regionLabel('EU', includeNonEuEurope, true), flag: '🇪🇺' },
     CHINA: { label: 'China', flag: '🇨🇳' },
     ASIA_EX_CHINA: { label: 'Asia ex-China', flag: '🌏' },
-    ROW: { label: 'Rest of World', flag: '🌐' }
+    ROW: { label: regionLabel('ROW', includeNonEuEurope), flag: '🌐' }
   };
 
   return (
@@ -601,6 +603,19 @@ export const BubbleClusterView = ({
             </div>
           </div>
 
+          {includeNonEuEurope && filteredCompanies.some(c => c.region === 'EUROPE_NON_EU') && (
+            <p className="max-w-56 text-xs text-[var(--text-2)]">
+              <span className="inline-block w-6 border-t-2 border-dashed border-[var(--figure)] mr-2" />
+              Dashed outline: non-EU European companies (including the UK), counted in Europe.
+            </p>
+          )}
+          {isCrazy && (
+            <p className="max-w-56 text-xs text-[var(--text-2)]">
+              <span className="inline-block w-6 border-t-2 border-dashed border-purple-400 mr-2" />
+              Purple dashed links: illustrative company connections, not ownership or measured trade flows.
+            </p>
+          )}
+
           <div className="h-px bg-[var(--surf-2)] my-0.5"></div>
 
           {/* Reference size circles */}
@@ -635,14 +650,14 @@ export const BubbleClusterView = ({
         <div
           key={hoveredNode.id}
           style={{
-            left: `${Math.min(tooltipPos.x + 16, dimensions.width - 190)}px`,
+            left: `${Math.min(tooltipPos.x + 16, dimensions.width - 240)}px`,
             top: `${Math.max(tooltipPos.y - 60, 20)}px`
           }}
           /* Opaque, not translucent: at 90% the saturated bubble underneath
              bled through and tinted the card, which cost the market-cap
              figure the contrast it needs. A tooltip has nothing to gain
              from being see-through. */
-          className={`absolute z-30 w-44 px-3 py-2 rounded-lg border pointer-events-none shadow-xl animate-fade-in ${
+          className={`absolute z-30 w-56 px-3 py-2 rounded-lg border pointer-events-none shadow-xl animate-fade-in ${
             isCrazy
               ? 'bg-[var(--surf-0)] border-purple-500/50'
               : 'bg-[var(--surf-1)] border-[var(--border-2)]'
@@ -650,6 +665,9 @@ export const BubbleClusterView = ({
         >
           <div className="text-sm font-bold text-[var(--text-0)] leading-tight truncate">
             {hoveredNode.name}
+          </div>
+          <div className="mt-1 text-xs text-[var(--text-2)] break-words">
+            Listing: {hoveredNode.ticker}
           </div>
           <div className="flex items-baseline justify-between mt-1 text-xs">
             <span className="font-mono font-bold text-[var(--figure)]">

@@ -1,10 +1,12 @@
+import { displayRegion, regionLabel } from '../utils/regions';
 import React from 'react';
 import { CURRENT_YEAR } from '../utils/dateConstants';
 import { Cpu, ArrowRight } from 'lucide-react';
 
 export const RegionalKPICards = ({ 
   filteredCompanies, 
-  selectedRegions, 
+  selectedRegions,
+  includeNonEuEurope,
   mode,
   onSelectCompany
 }) => {
@@ -17,20 +19,15 @@ export const RegionalKPICards = ({
   // ramp instead; Supernova keeps the original per-region gradients.
   const regionNames = {
     US: { label: 'United States', flag: '🇺🇸', colorCrazy: 'from-blue-600 to-indigo-600', colorInstitutional: 'bg-[var(--accent-600)]' },
-    EU: { label: 'European Union', flag: '🇪🇺', colorCrazy: 'from-amber-500 to-yellow-600', colorInstitutional: 'bg-[var(--border-3)]' },
+    EU: { label: regionLabel('EU', includeNonEuEurope), flag: '🇪🇺', colorCrazy: 'from-amber-500 to-yellow-600', colorInstitutional: 'bg-[var(--border-3)]' },
     CHINA: { label: 'China', flag: '🇨🇳', colorCrazy: 'from-red-600 to-rose-600', colorInstitutional: 'bg-[var(--accent-400)]' },
     ASIA_EX_CHINA: { label: 'Asia ex-China', flag: '🌏', colorCrazy: 'from-emerald-600 to-teal-600', colorInstitutional: 'bg-[var(--text-4)]' },
-    ROW: { label: 'Rest of World', flag: '🌐', colorCrazy: 'from-purple-600 to-pink-600', colorInstitutional: 'bg-[var(--accent-300)]' }
+    ROW: { label: regionLabel('ROW', includeNonEuEurope), flag: '🌐', colorCrazy: 'from-purple-600 to-pink-600', colorInstitutional: 'bg-[var(--accent-300)]' }
   };
 
   // Group companies by region
   const regionStats = selectedRegions.map(regionKey => {
-    const list = filteredCompanies.filter(c => {
-      if (regionKey === 'EU') {
-        return c.region === 'EU' || c.region === 'EUROPE_NON_EU';
-      }
-      return c.region === regionKey;
-    });
+    const list = filteredCompanies.filter(c => displayRegion(c.region, includeNonEuEurope) === regionKey);
 
     const totalCap = list.reduce((acc, c) => acc + c.marketCap, 0);
     const techCount = list.filter(c => c.isTech).length;
@@ -93,14 +90,14 @@ export const RegionalKPICards = ({
           {usToEuRatio && (
             <div className="flex items-center gap-4 bg-[var(--surf-0)]/80 border border-[var(--border-1)] px-4 py-2 rounded-xl">
               <div className="text-center">
-                <span className="text-[10px] uppercase font-mono text-[var(--text-3)]">US : EU Market Cap Ratio</span>
+                <span className="text-[10px] uppercase font-mono text-[var(--text-3)]">US : {regionLabel('EU', includeNonEuEurope, true)} Market Cap Ratio</span>
                 <div className="text-xl font-bold text-[var(--figure)]">
                   {usToEuRatio}x
                 </div>
               </div>
               <div className="h-8 w-px bg-[var(--surf-2)] hidden sm:block"></div>
               <div className="text-xs text-[var(--text-2)] max-w-xs leading-relaxed hidden sm:block">
-                US arriviste cohort market cap is <strong className="text-[var(--figure)]">{usToEuRatio} times</strong> larger than the EU's under currently applied criteria.
+                US arriviste cohort market cap is <strong className="text-[var(--figure)]">{usToEuRatio} times</strong> larger than {includeNonEuEurope ? "Europe's" : "the EU's"} under currently applied criteria.
               </div>
             </div>
           )}

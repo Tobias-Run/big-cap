@@ -1,3 +1,4 @@
+import { regionLabel } from '../utils/regions';
 import React from 'react';
 import { CURRENT_YEAR } from '../utils/dateConstants';
 import { audioSynth } from '../utils/audioSynth';
@@ -32,10 +33,10 @@ export const ControlsBar = ({
   // real information the flag emoji wasn't already giving).
   const markets = [
     { key: 'US', label: 'United States', flag: '🇺🇸' },
-    { key: 'EU', label: 'European Union', flag: '🇪🇺' },
+    { key: 'EU', label: regionLabel('EU', includeNonEuEurope), flag: '🇪🇺' },
     { key: 'CHINA', label: 'China', flag: '🇨🇳' },
     { key: 'ASIA_EX_CHINA', label: 'Asia ex-China', flag: '🌏' },
-    { key: 'ROW', label: 'Rest of World', flag: '🌐' }
+    { key: 'ROW', label: regionLabel('ROW', includeNonEuEurope), flag: '🌐' }
   ];
 
   // The SAP preset exists to demonstrate the one threshold at which
@@ -249,14 +250,14 @@ export const ControlsBar = ({
                     ? 'bg-[var(--callout-blue-bg)] border-[var(--callout-blue-border)]/60 text-[var(--callout-blue-text)]'
                     : 'bg-[var(--surf-2)] border-[var(--border-2)] text-[var(--text-2)]'
                 }`}
-                title="Include non-EU European nations (UK, Switzerland, Norway) to observe ARM Holdings & AstraZeneca"
+                title="Group non-EU European companies with Europe; in Strict EU mode they belong to Rest of World"
               >
                 <div className="truncate pr-1">
                   <div className="font-semibold truncate">
                     {includeNonEuEurope ? "Broad Europe (inc UK)" : "Strict EU-27 Only"}
                   </div>
                   <div className="text-[10px] opacity-75 truncate">
-                    {includeNonEuEurope ? "ARM Holdings included" : "Post-Brexit boundary"}
+                    {includeNonEuEurope ? "UK counted in Europe" : "UK counted in Rest of World"}
                   </div>
                 </div>
                 <div className={`w-2 h-2 rounded-full flex-shrink-0 ${includeNonEuEurope ? 'bg-blue-400' : 'bg-slate-400'}`} />

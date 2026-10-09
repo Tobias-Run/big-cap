@@ -12,6 +12,7 @@ import { CrazyEffectsOverlay } from './components/CrazyEffectsOverlay';
 import { companiesData } from './data/companiesData';
 import { audioSynth } from './utils/audioSynth';
 import { Info } from 'lucide-react';
+import { displayRegion } from './utils/regions';
 import { CURRENT_YEAR } from './utils/dateConstants';
 
 function App() {
@@ -104,13 +105,7 @@ function App() {
       if (strictFromScratch && !company.isFromScratch) return false;
 
       // 5. Region selection & Europe geographic nuance
-      const region = company.region;
-      if (region === 'EUROPE_NON_EU') {
-        if (!includeNonEuEurope) return false;
-        if (!selectedRegions.includes('EU')) return false;
-      } else {
-        if (!selectedRegions.includes(region)) return false;
-      }
+      if (!selectedRegions.includes(displayRegion(company.region, includeNonEuEurope))) return false;
 
       return true;
     });
@@ -239,6 +234,7 @@ function App() {
             <BubbleClusterView
               filteredCompanies={filteredCompanies}
               selectedRegions={selectedRegions}
+              includeNonEuEurope={includeNonEuEurope}
               mode={mode}
               searchQuery={searchQuery}
               onSelectCompany={setSelectedCompany}
@@ -252,6 +248,7 @@ function App() {
           <RegionalKPICards
             filteredCompanies={filteredCompanies}
             selectedRegions={selectedRegions}
+            includeNonEuEurope={includeNonEuEurope}
             mode={mode}
             onSelectCompany={setSelectedCompany}
           />
