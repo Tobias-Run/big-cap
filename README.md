@@ -32,6 +32,26 @@ So all three are controls, not assumptions.
 Two visual modes: *Institutional* (restrained, follows your OS light/dark
 setting) and *Supernova* (loud, always dark, makes noises if you unmute it).
 
+## New exploration views
+
+- **Excluded Champions** explains every criterion excluding a company from
+  the current public screen. Results rank by the number of failing criteria,
+  then market cap. Each card previews the necessary filter changes and can
+  apply them to return to the chart. The shared rules live in
+  `src/utils/companyScreen.js`; geography follows the existing EU/Europe rule.
+- **Europe’s Next Generation** is a separate research watchlist with its own
+  search, geography and sector controls. The initial six candidates have
+  unverified current listing status, founding dates and financing valuations.
+  Company-site links are research starting points; no unsupported valuation
+  is displayed. The initial source verification was blocked by network access.
+  Populate dated primary-source records before claiming a verified private
+  universe. Private research entries never enter public charts, totals or CSV.
+
+A private valuation record requires an amount in the original currency,
+`asOf` date, transaction `kind`, primary `sourceUrl`, and an `uncertainty` note.
+Financing valuations are historical transaction observations, not public market
+capitalisations; profiles can subsequently IPO or be acquired.
+
 ## What the numbers are and are not
 
 Market capitalisations are a **static curated snapshot** around late-2024
@@ -57,6 +77,7 @@ company, whether fintech counts as high-tech — are documented in the app's
 npm install
 npm run dev      # dev server
 npm run lint     # oxlint
+npm test         # filter/exclusion and private-data invariants
 npm run build    # production build to dist/
 npm run preview  # serve the built output
 npm run deploy   # build and publish to gh-pages
@@ -66,8 +87,9 @@ Publishing goes through `npm run deploy` only. There is no deploy
 workflow, so merging to `master` does not update the live site.
 
 Stack: React 19, Vite 8, Tailwind 4, d3 (force simulation for the bubble
-layout), oxlint. No test suite yet — the filter pipeline in `App.jsx` is
-the part most worth covering first.
+layout), oxlint. Node tests cover the shared screen/exclusion rules and private-research data
+invariants. Run `npm test`; browser checks remain important for the interactive
+chart and dialogs.
 
 ### Layout
 

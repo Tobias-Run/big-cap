@@ -1,4 +1,7 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
+import { ExcludedChampions } from './components/ExcludedChampions';
+import { NextGeneration } from './components/NextGeneration';
+import { exclusionReasons } from './utils/companyScreen';
 import { Header } from './components/Header';
 import { ControlsBar } from './components/ControlsBar';
 import { BubbleClusterView } from './components/BubbleClusterView';
@@ -12,7 +15,6 @@ import { CrazyEffectsOverlay } from './components/CrazyEffectsOverlay';
 import { companiesData } from './data/companiesData';
 import { audioSynth } from './utils/audioSynth';
 import { Info } from 'lucide-react';
-import { displayRegion } from './utils/regions';
 import { CURRENT_YEAR } from './utils/dateConstants';
 
 function App() {
@@ -84,32 +86,18 @@ function App() {
     setSupernovaTrigger(prev => prev + 1);
   };
 
-  // Primary filtering pipeline
-  const filteredCompanies = useMemo(() => {
-    return companiesData.filter(company => {
-      // 1. Age threshold
-      if (!allAges) {
-        const age = CURRENT_YEAR - company.foundingYear;
-        if (age > ageThreshold) return false;
-      }
+  const screenFilters = useMemo(() => ({ ageThreshold, allAges, minMarketCap, sectorFilter, strictFromScratch, includeNonEuEurope, selectedRegions }), [ageThreshold, allAges, minMarketCap, sectorFilter, strictFromScratch, includeNonEuEurope, selectedRegions]);
+  const filteredCompanies = useMemo(() => companiesData.filter(company => exclusionReasons(company, screenFilters, CURRENT_YEAR).length === 0), [screenFilters]);
 
-      // 2. Minimum Market Cap
-      if (company.marketCap < minMarketCap) return false;
-
-      // 3. Sector filter (issue #5: 5 broad GICS-like categories, replacing
-      // the old binary High-Tech/Other filter — bubble color still uses
-      // isTech directly and is unaffected by this).
-      if (sectorFilter !== 'all' && company.sector !== sectorFilter) return false;
-
-      // 4. Strict from-scratch filter
-      if (strictFromScratch && !company.isFromScratch) return false;
-
-      // 5. Region selection & Europe geographic nuance
-      if (!selectedRegions.includes(displayRegion(company.region, includeNonEuEurope))) return false;
-
-      return true;
-    });
-  }, [ageThreshold, allAges, minMarketCap, sectorFilter, strictFromScratch, includeNonEuEurope, selectedRegions]);
+  const handleIncludeCompany = changes => {
+    if ('ageThreshold' in changes) setAgeThreshold(changes.ageThreshold);
+    if ('allAges' in changes) setAllAges(changes.allAges);
+    if ('minMarketCap' in changes) setMinMarketCap(changes.minMarketCap);
+    if ('sectorFilter' in changes) setSectorFilter(changes.sectorFilter);
+    if ('strictFromScratch' in changes) setStrictFromScratch(changes.strictFromScratch);
+    if ('selectedRegions' in changes) setSelectedRegions(changes.selectedRegions);
+    setActiveTab('bubbles');
+  };
 
   // Issue #6 (Supernova mode 2.0): a distinctive sound when the age slider's
   // movement makes a company pop in or out of the filtered set. Deliberately
@@ -176,7 +164,7 @@ function App() {
       />
 
       {/* Global Interactive Controls Bar */}
-      <ControlsBar
+      {activeTab !== 'next-generation' && <ControlsBar
         ageThreshold={ageThreshold}
         setAgeThreshold={setAgeThreshold}
         allAges={allAges}
@@ -195,12 +183,12 @@ function App() {
         setSearchQuery={setSearchQuery}
         onResetFilters={handleResetFilters}
         mode={mode}
-      />
+      />}
 
       {/* Main Content Area based on Active Tab */}
-      <main className="flex-1 flex flex-col">
+      <main className="flex-1 flex flex-col min-w-0">
         {/* Contextual Nuance Banner */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 w-full">
+        {activeTab !== 'next-generation' && <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 w-full">
           <div className={`p-3 rounded-xl border flex items-start gap-2.5 text-xs transition-colors ${
             showsMcAfeeBaseline
               ? 'bg-[var(--callout-amber-bg)] border-[var(--callout-amber-border)] text-[var(--callout-amber-text)]'
@@ -226,7 +214,10 @@ function App() {
               )}
             </div>
           </div>
-        </div>
+        </div>}
+
+        {activeTab === 'excluded' && <ExcludedChampions filters={screenFilters} onInclude={handleIncludeCompany} onSelectCompany={setSelectedCompany} />}
+        {activeTab === 'next-generation' && <NextGeneration />}
 
         {/* Tab 1: Interactive Bubble Clusters */}
         {activeTab === 'bubbles' && (
@@ -278,7 +269,7 @@ function App() {
           prices. */}
       <footer className="border-t border-[var(--border-1)]/80 bg-[var(--surf-0)]/60 px-4 sm:px-6 lg:px-8 py-3">
         <p className="max-w-7xl mx-auto text-[11px] text-[var(--text-4)] text-center leading-relaxed">
-          Not a stock tracker: market caps are a static, curated snapshot (see{' '}
+          {activeTab === 'next-generation' ? 'Research preview: valuations and current listing status are unverified. These profiles are separate from the public-company screen. ' : <>Not a stock tracker: market caps are a static, curated snapshot (see{' '}
           <button
             type="button"
             onClick={() => setIsLineageOpen(true)}
@@ -286,7 +277,7 @@ function App() {
           >
             Data Lineage
           </button>
-          {' '}for the reference date), not a live feed — day-to-day price moves aren't reflected here.
+          {' '}for the reference date), not a live feed — day-to-day price moves aren't reflected here.</>}
         </p>
       </footer>
 
