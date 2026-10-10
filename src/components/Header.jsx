@@ -52,14 +52,14 @@ export const Header = ({
             </div>
 
             <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-[var(--text-0)] mt-1.5 flex items-center gap-2">
-              <span>Public From-Scratch Global Giants</span>
+              <span>{activeTab === 'next-generation' ? 'Europe’s Next Generation' : 'Public From-Scratch Global Giants'}</span>
               <span className="text-sm font-normal text-[var(--text-3)] hidden sm:inline">
-                ($10B+ Market Cap Dynamics)
+                {activeTab === 'next-generation' ? '(Research Watchlist)' : '($10B+ Market Cap Dynamics)'}
               </span>
             </h1>
 
             <p className="text-xs sm:text-sm text-[var(--text-3)] mt-0.5">
-              Adjust the age cutoff, spinoff/from-scratch rule, and region filters below to see which companies clear the $10B+ bar.
+              {activeTab === 'next-generation' ? 'Explore research candidates beyond public markets, with explicit source and valuation uncertainty.' : 'Adjust the age cutoff, spinoff/from-scratch rule, and region filters below to see which companies clear the $10B+ bar.'}
             </p>
           </div>
 
@@ -205,6 +205,9 @@ export const Header = ({
             <TableIcon className={`w-3.5 h-3.5 ${isCrazy ? 'text-pink-400' : 'text-[var(--text-3)]'}`} />
             <span>Inspectable Data Table & CSV</span>
           </button>
+          {[['excluded', 'Excluded Champions'], ['next-generation', 'Europe’s Next Generation']].map(([key, label]) => (
+            <button key={key} type="button" aria-pressed={activeTab === key} onClick={() => setActiveTab(key)} className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap border ${activeTab === key ? 'bg-[var(--surf-2)] text-[var(--text-0)] border-[var(--border-2)]' : 'text-[var(--text-2)] border-transparent hover:bg-[var(--surf-1)]'}`}>{label}</button>
+          ))}
         </div>
       </div>
     </header>
