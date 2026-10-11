@@ -24,6 +24,10 @@ So all three are controls, not assumptions.
   Hovering or focusing a bubble shows the listing information already recorded
   in its ticker (including multiple exchanges where available). These are
   curated snapshot listings, not a live or exhaustive listing feed.
+- **Stock Exchange Clusters** — the filtered public companies grouped at every
+  exchange documented in their ticker. Multiple listings repeat a company's
+  full market cap; listing appearances must not be summed. Public totals and
+  CSV still count unique companies. Recorded listings are not a live registry.
 - **Regional KPIs & Ratios** — totals, high-tech share and the US:EU ratio
   under the currently active filters.
 - **Cohort Timeline** — the same set grouped by founding era.
@@ -40,12 +44,14 @@ setting) and *Supernova* (loud, always dark, makes noises if you unmute it).
   apply them to return to the chart. The shared rules live in
   `src/utils/companyScreen.js`; geography follows the existing EU/Europe rule.
 - **Europe’s Next Generation** is a separate research watchlist with its own
-  search, geography and sector controls. The initial six candidates have
-  unverified current listing status, founding dates and financing valuations.
-  Company-site links are research starting points; no unsupported valuation
-  is displayed. The initial source verification was blocked by network access.
-  Populate dated primary-source records before claiming a verified private
-  universe. Private research entries never enter public charts, totals or CSV.
+  search, geography and sector controls. Six candidates include editorial
+  assessments of potential, hurdles and evidence to watch. Financing records
+  for Mistral and Helsing were checked against company announcements on
+  2026-10-11; other valuations, founding dates and current listing status remain
+  unverified. Mistral's reported value is a lower bound, not an exact value.
+  Every figure shows its original currency, transaction date, source and
+  uncertainty; no cross-currency totals are produced. Private research entries
+  never enter public charts, totals or CSV.
 
 A private valuation record requires an amount in the original currency,
 `asOf` date, transaction `kind`, primary `sourceUrl`, and an `uncertainty` note.
@@ -90,6 +96,15 @@ Stack: React 19, Vite 8, Tailwind 4, d3 (force simulation for the bubble
 layout), oxlint. Node tests cover the shared screen/exclusion rules and private-research data
 invariants. Run `npm test`; browser checks remain important for the interactive
 chart and dialogs.
+
+### Chart labels and scale
+
+Region headings follow each cluster's actual bubble envelope on simulation
+updates and search nearby positions that avoid bubbles and other headings.
+They render above the bubble layer with a readable background as a fallback
+in crowded layouts. The scale legend occupies its own space below the chart.
+Its circles share the chart's zero-based square-root radius scale, so areas
+remain proportional to market cap in both visual modes.
 
 ### Layout
 

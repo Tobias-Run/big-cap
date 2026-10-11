@@ -220,7 +220,7 @@ function App() {
         {activeTab === 'next-generation' && <NextGeneration />}
 
         {/* Tab 1: Interactive Bubble Clusters */}
-        {activeTab === 'bubbles' && (
+        {(activeTab === 'bubbles' || activeTab === 'exchanges') && (
           <div className="flex-1 flex flex-col justify-center py-4">
             <BubbleClusterView
               filteredCompanies={filteredCompanies}
@@ -230,6 +230,7 @@ function App() {
               searchQuery={searchQuery}
               onSelectCompany={setSelectedCompany}
               supernovaTrigger={supernovaTrigger}
+              groupBy={activeTab === 'exchanges' ? 'exchange' : 'region'}
             />
           </div>
         )}
@@ -269,7 +270,7 @@ function App() {
           prices. */}
       <footer className="border-t border-[var(--border-1)]/80 bg-[var(--surf-0)]/60 px-4 sm:px-6 lg:px-8 py-3">
         <p className="max-w-7xl mx-auto text-[11px] text-[var(--text-4)] text-center leading-relaxed">
-          {activeTab === 'next-generation' ? 'Research preview: valuations and current listing status are unverified. These profiles are separate from the public-company screen. ' : <>Not a stock tracker: market caps are a static, curated snapshot (see{' '}
+          {activeTab === 'next-generation' ? 'Research watchlist: financing valuations are dated source observations; current listing status remains unverified. These profiles are separate from the public-company screen. ' : <>Not a stock tracker: market caps are a static, curated snapshot (see{' '}
           <button
             type="button"
             onClick={() => setIsLineageOpen(true)}

@@ -1,3 +1,6 @@
+import { exchangeInstances } from '../utils/exchanges.js';
+import { bubbleRadius } from '../utils/bubbleScale.js';
+import { placeClusterLabels } from '../utils/clusterLabels.js';
 import { displayRegion, regionLabel } from '../utils/regions';
 import React, { useEffect, useRef, useState, useMemo } from 'react';
 import * as d3 from 'd3';
@@ -36,9 +39,12 @@ export const BubbleClusterView = ({
   mode,
   searchQuery,
   onSelectCompany,
-  supernovaTrigger
+  supernovaTrigger,
+  groupBy = 'region'
 }) => {
   const isCrazy = mode === 'crazy';
+  const chartCompanies = useMemo(() => groupBy === 'exchange' ? exchangeInstances(filteredCompanies) : filteredCompanies, [filteredCompanies, groupBy]);
+  const activeRegions = useMemo(() => groupBy === 'exchange' ? [...new Set(chartCompanies.map(c => c.exchange))].sort() : selectedRegions, [groupBy, chartCompanies, selectedRegions]);
   const containerRef = useRef(null);
   const svgRef = useRef(null);
   const [hoveredNode, setHoveredNode] = useState(null);
@@ -94,24 +100,28 @@ export const BubbleClusterView = ({
         // is what keeps the chart entirely visible at any width.
         const width = Math.max(clientWidth, 320);
         // Height proportional to width and number of selected regions
-        const height = selectedRegions.length > 3 ? 840 : 740;
+        const height = groupBy === 'exchange' ? Math.max(740, Math.ceil(activeRegions.length / 3) * 380) : activeRegions.length > 3 ? 840 : 740;
         setDimensions({ width, height });
       }
     };
     updateSize();
     window.addEventListener('resize', updateSize);
     return () => window.removeEventListener('resize', updateSize);
-  }, [selectedRegions.length]);
+  }, [activeRegions.length, groupBy]);
 
   // Compute cluster center positions depending on which regions are active
   const clusterCenters = useMemo(() => {
     const { width, height } = dimensions;
-    const active = selectedRegions;
+    const active = activeRegions;
     const count = active.length;
 
     const centers = {};
 
-    if (count === 1) {
+    if (groupBy === 'exchange') {
+      const columns = Math.min(3, Math.max(1, count));
+      const rows = Math.max(1, Math.ceil(count / columns));
+      active.forEach((region, index) => { centers[region] = { x: width * ((index % columns) + 0.5) / columns, y: height * (Math.floor(index / columns) + 0.5) / rows }; });
+    } else if (count === 1) {
       centers[active[0]] = { x: width * 0.5, y: height * 0.5 };
     } else if (count === 2) {
       // Direct comparison mode: US on left (big), EU on right (as in the tweet!)
@@ -143,7 +153,7 @@ export const BubbleClusterView = ({
     }
 
     return centers;
-  }, [dimensions, selectedRegions]);
+  }, [dimensions, activeRegions, groupBy]);
 
   // Run D3 force simulation
   useEffect(() => {
@@ -157,18 +167,17 @@ export const BubbleClusterView = ({
     // same size as filters change - otherwise the largest company in view
     // would always render at max radius and the chart would silently
     // rescale under the user.
-    const rScale = d3.scaleSqrt()
-      .domain([0, 3500])
-      .range([3, isCrazy ? 82 : 78]);
+    const rScale = cap => bubbleRadius(cap, isCrazy);
 
     // Prepare node objects for simulation
-    const nodes = filteredCompanies.map(c => {
-      const regionTarget = displayRegion(c.region, includeNonEuEurope);
+    const nodes = chartCompanies.map(c => {
+      const regionTarget = groupBy === 'exchange' ? c.exchange : displayRegion(c.region, includeNonEuEurope);
       const targetCenter = clusterCenters[regionTarget] || { x: width / 2, y: height / 2 };
       
       return {
         ...c,
         r: rScale(c.marketCap),
+        labelRegion: regionTarget,
         targetX: targetCenter.x,
         targetY: targetCenter.y,
         // Start near target center with small random jitter
@@ -210,7 +219,7 @@ export const BubbleClusterView = ({
     const activePairs = supplyChainPairs.filter(([id1, id2]) => nodeMap.has(id1) && nodeMap.has(id2));
 
     let constellationLines = null;
-    if (isCrazy && activePairs.length > 0) {
+    if (groupBy === 'region' && isCrazy && activePairs.length > 0) {
       constellationLines = linesGroup.selectAll('line')
         .data(activePairs)
         .enter()
@@ -423,9 +432,24 @@ export const BubbleClusterView = ({
       .attr('pointer-events', 'none')
       .text(d => `$${d.marketCap >= 1000 ? `${(d.marketCap/1000).toFixed(1)}T` : `${d.marketCap}B`}`);
 
+    const headingGroups = svg.select('.labels-layer').selectAll('[data-region]');
+    const headings = [];
+    headingGroups.each(function () {
+      const region = this.getAttribute('data-region');
+      const bounds = this.querySelector('text').getBBox();
+      headings.push({ region, width: bounds.width + 16, height: bounds.height + 8, center: clusterCenters[region] });
+    });
+
     // Simulation tick update
     simulation.on('tick', () => {
       bubbles.attr('transform', d => `translate(${d.x},${d.y})`);
+      const positions = placeClusterLabels(nodes, headings, width, height);
+      headingGroups.each(function () {
+        const pos = positions.find(label => label.region === this.getAttribute('data-region'));
+        d3.select(this).attr('transform', `translate(${pos.x},${pos.y})`);
+        d3.select(this).select('rect').attr('width', pos.width).attr('height', pos.height);
+        d3.select(this).select('text').attr('x', pos.width / 2).attr('y', pos.height / 2);
+      });
 
       if (constellationLines) {
         constellationLines
@@ -437,7 +461,7 @@ export const BubbleClusterView = ({
 
       // Issue #4: non-EU-Europe lasso, recomputed every tick since the
       // force simulation keeps moving these nodes.
-      const nonEuNodes = nodes.filter(n => includeNonEuEurope && n.region === 'EUROPE_NON_EU');
+      const nonEuNodes = nodes.filter(n => groupBy === 'region' && includeNonEuEurope && n.region === 'EUROPE_NON_EU');
       const hullPoints = nonEuNodes.length > 0
         ? d3.polygonHull(nonEuHullBoundaryPoints(nonEuNodes))
         : null;
@@ -464,7 +488,7 @@ export const BubbleClusterView = ({
     // restart the force simulation (which reseeds every bubble's position
     // with a fresh random jitter, see `x`/`y` above and makes the whole
     // cluster jump on every keystroke). See the dedicated effect below.
-  }, [filteredCompanies, dimensions, clusterCenters, isCrazy, includeNonEuEurope]);
+  }, [filteredCompanies, dimensions, clusterCenters, isCrazy, includeNonEuEurope, activeRegions, chartCompanies, groupBy]);
 
   // Re-applies the search-match highlight to already-rendered bubbles
   // in-place, without touching the simulation or node positions above.
@@ -527,6 +551,8 @@ export const BubbleClusterView = ({
         <div className="absolute inset-0 bg-grid-pattern opacity-40" />
       </div>
 
+      {groupBy === 'exchange' && <p className="relative z-10 mx-4 my-3 p-3 rounded-lg bg-[var(--surf-1)] text-sm text-[var(--text-1)]">{filteredCompanies.length} unique companies · {chartCompanies.length} listing appearances. Each company appears at every exchange recorded in its ticker. Repeated bubbles carry the same company market cap: do not sum them. Listings are curated snapshot records, not verified current listings. Public KPIs and CSV still count each company once.</p>}
+
       {/* SVG Canvas for Force Simulation */}
       <svg
         ref={svgRef}
@@ -554,23 +580,27 @@ export const BubbleClusterView = ({
             the bubbles and their labels, ahead of nothing but the grid. */}
         <g className="non-eu-lasso-layer pointer-events-none" />
 
-        {/* Layer 2: Regional Island Labels */}
+        <g className="nodes-layer" />
+
+        {/* Region headings follow cluster envelopes and remain above bubbles. */}
         <g className="labels-layer pointer-events-none">
-          {selectedRegions.map(regionKey => {
+          {activeRegions.map(regionKey => {
             const center = clusterCenters[regionKey];
             if (!center) return null;
-            const meta = regionNames[regionKey] || { label: regionKey, flag: '📍' };
+            const meta = groupBy === 'exchange' ? { label: regionKey } : regionNames[regionKey] || { label: regionKey, flag: '📍' };
 
             return (
-              <g key={regionKey} transform={`translate(${center.x}, ${center.y - 190})`}>
+              <g key={regionKey} data-region={regionKey} transform={`translate(${center.x}, ${center.y})`}>
+                <rect rx="6" fill="var(--surf-0)" fillOpacity="0.95" />
                 <text
                   textAnchor="middle"
+                  dominantBaseline="central"
                   className={`font-black tracking-wider transition-colors ${
                     isCrazy 
                       ? 'text-purple-300 drop-shadow-[0_0_12px_rgba(168,85,247,0.8)]' 
                       : 'text-[var(--text-1)]'
                   }`}
-                  fontSize={isCrazy ? '26px' : '22px'}
+                  fontSize={groupBy === 'exchange' ? '18px' : isCrazy ? '26px' : '22px'}
                   fill="currentColor"
                 >
                   {meta.label}
@@ -580,36 +610,35 @@ export const BubbleClusterView = ({
           })}
         </g>
 
-        {/* Layer 3: Interactive Bubbles */}
-        <g className="nodes-layer" />
+
       </svg>
 
-      {/* Bottom Right Scale & Legend (Direct recreation of Andrew McAfee's chart legend!) */}
-      <div className={`absolute bottom-4 right-4 z-20 p-3.5 rounded-xl border backdrop-blur-md shadow-lg transition-all ${
+      {/* Legend has its own space below the chart; never cover companies. */}
+      <div className={`relative z-20 mx-4 mb-4 p-3.5 rounded-xl border transition-all ${
         isCrazy 
           ? 'bg-[var(--surf-0)]/80 border-purple-900/60 shadow-purple-950/50' 
           : 'bg-[var(--surf-1)]/90 border-[var(--border-1)] shadow-slate-950/80'
       }`}>
-        <div className="flex flex-col gap-2.5">
+        <div className="flex flex-wrap items-center justify-between gap-4">
           {/* Color legend */}
           <div className="space-y-1">
             <div className="flex items-center gap-2 text-xs font-medium">
               <span className="w-3 h-3 rounded-full bg-emerald-500 shadow-sm shadow-emerald-500/50"></span>
-              <span className="text-emerald-400 italic">Green: high-tech</span>
+              <span className="text-[var(--text-1)] italic">Green: high-tech</span>
             </div>
             <div className="flex items-center gap-2 text-xs font-medium">
               <span className="w-3 h-3 rounded-full bg-blue-500 shadow-sm shadow-blue-500/50"></span>
-              <span className="text-blue-400 italic">Blue: other</span>
+              <span className="text-[var(--text-1)] italic">Blue: other</span>
             </div>
           </div>
 
-          {includeNonEuEurope && filteredCompanies.some(c => c.region === 'EUROPE_NON_EU') && (
+          {groupBy === 'region' && includeNonEuEurope && filteredCompanies.some(c => c.region === 'EUROPE_NON_EU') && (
             <p className="max-w-56 text-xs text-[var(--text-2)]">
               <span className="inline-block w-6 border-t-2 border-dashed border-[var(--figure)] mr-2" />
               Dashed outline: non-EU European companies (including the UK), counted in Europe.
             </p>
           )}
-          {isCrazy && (
+          {groupBy === 'region' && isCrazy && (
             <p className="max-w-56 text-xs text-[var(--text-2)]">
               <span className="inline-block w-6 border-t-2 border-dashed border-purple-400 mr-2" />
               Purple dashed links: illustrative company connections, not ownership or measured trade flows.
@@ -618,27 +647,20 @@ export const BubbleClusterView = ({
 
           <div className="h-px bg-[var(--surf-2)] my-0.5"></div>
 
-          {/* Reference size circles */}
-          <div className="flex items-end justify-between gap-3 text-center">
-            <div className="flex flex-col items-center gap-1">
-              <div className="w-9 h-9 rounded-full border border-[var(--border-3)] bg-[var(--surf-2)]/40 flex items-center justify-center"></div>
-              <span className="text-[10px] font-mono text-[var(--text-3)]">$1T</span>
-            </div>
-
-            <div className="flex flex-col items-center gap-1">
-              <div className="w-5 h-5 rounded-full border border-[var(--border-3)] bg-[var(--surf-2)]/40"></div>
-              <span className="text-[10px] font-mono text-[var(--text-3)]">$100B</span>
-            </div>
-
-            <div className="flex flex-col items-center gap-1">
-              <div className="w-2.5 h-2.5 rounded-full border border-[var(--border-3)] bg-[var(--surf-2)]/40"></div>
-              <span className="text-[10px] font-mono text-[var(--text-3)]">$10B</span>
-            </div>
+          <div className="flex flex-wrap items-end gap-5" aria-label="Market capitalisation size scale">
+            {[1000, 100, 10].map(cap => {
+              const diameter = bubbleRadius(cap, isCrazy) * 2;
+              return (
+                <div key={cap} className="flex flex-col items-center gap-1">
+                  <svg width={diameter + 2} height={diameter + 2} aria-hidden="true" className="text-[var(--text-2)]">
+                    <circle cx={(diameter + 2) / 2} cy={(diameter + 2) / 2} r={diameter / 2} fill="var(--surf-2)" stroke="currentColor" />
+                  </svg>
+                  <span className="text-xs font-mono text-[var(--text-2)]">{cap === 1000 ? '$1T' : `$${cap}B`}</span>
+                </div>
+              );
+            })}
+            <span className="text-xs text-[var(--text-2)] pb-1">Bubble area ∝ market cap. Scale shared with the chart.</span>
           </div>
-
-          <span className="text-[9px] text-[var(--text-4)] font-mono text-center">
-            Bubble area ∝ Market Cap
-          </span>
         </div>
       </div>
 
@@ -723,6 +745,7 @@ export const BubbleClusterView = ({
                 </div>
                 <div className="text-xs text-[var(--text-3)] font-mono">
                   {quickViewCompany.ticker} • {quickViewCompany.country}
+                  {groupBy === 'exchange' && <span className="block">{quickViewCompany.listingCount} recorded listing(s) · repeated company</span>}
                 </div>
               </div>
 

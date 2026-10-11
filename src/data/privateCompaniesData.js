@@ -1,7 +1,7 @@
 /**
  * Research shortlist, not a verified current list of private companies.
- * Official sites are research starting points; source contents and current
- * listing status could not be verified during implementation (network 403).
+ * Two financing announcements were checked on 2026-10-11. Other figures
+ * and current listing status remain unverified; this is not a live feed.
  * Do not populate valuation without a dated primary-source statement.
  */
 export const privateCompaniesData = [
@@ -18,6 +18,25 @@ export const privateCompaniesData = [
   foundingYear: null,
   valuation: null
 }));
+
+const assessments = {
+  mistral: { opportunity: 'A European AI infrastructure and software champion serving international enterprises.', hurdle: 'Prove durable paid demand and sustainable economics despite expensive compute and global competition.', milestone: 'Look for recurring revenue, customer retention and audited cash-flow disclosure before calling this an IPO-ready champion.' },
+  helsing: { opportunity: 'A European defence-software and AI supplier with potential demand beyond its home market.', hurdle: 'Long procurement cycles, export controls and execution on hardware/software delivery.', milestone: 'Look for contracted revenue, successful deployments and a durable order book.' },
+  celonis: { opportunity: 'An international enterprise-software platform built around process intelligence.', hurdle: 'Demonstrate continued growth, product differentiation and defensible economics as enterprise AI evolves.', milestone: 'Look for audited revenue, retention and cash-generation evidence.' },
+  personio: { opportunity: 'A European HR-software platform addressing repeatable business workflows.', hurdle: 'Show efficient growth and differentiation in a competitive software market.', milestone: 'Look for recurring revenue quality, retention and an improving profitability trajectory.' },
+  revolut: { opportunity: 'A digital-finance group with potential to scale across multiple national markets.', hurdle: 'Sustain regulatory compliance, service quality and earnings as its footprint expands.', milestone: 'Look for audited profit quality, successful licensed-market launches and a stated listing plan.' },
+  monzo: { opportunity: 'A digital bank with potential to turn customer adoption into a durable banking franchise.', hurdle: 'Prove sustainable banking economics and successful expansion beyond core markets.', milestone: 'Look for audited profitability, deposits, credit quality and a stated listing plan.' }
+};
+const sourcedValuations = {
+  mistral: { amount: 21e9, qualifier: 'more than', currency: 'EUR', asOf: '2026-09-08', kind: 'Series D post-money financing valuation', sourceUrl: 'https://mistral.ai/news/mistral-makes-sovereign-open-weight-ai-to-frontier/', uncertainty: 'Company-reported lower bound; financing valuation, not a traded market cap. Publication date is listed in the company news index.', evidence: 'The announcement reports €3B raised, operations in 20 countries and 125+ enterprise customers. These are company-reported statements.' },
+  helsing: { amount: 18e9, currency: 'USD', asOf: '2026-07-13', kind: 'Series E financing valuation', sourceUrl: 'https://helsing.ai/newsroom/helsing-raises-1-8bn-in-series-e', uncertainty: 'Company-reported transaction valuation; not a live price or proof of IPO readiness.', evidence: 'The dated press release reports $1.8B raised and a company valuation of $18B.' }
+};
+for (const company of privateCompaniesData) {
+  company.assessment = assessments[company.id];
+  company.valuation = sourcedValuations[company.id] || null;
+  company.sourceCheckedAt = company.valuation ? '2026-10-11' : null;
+  company.researchStatus = company.valuation ? 'financing-source-checked' : 'pending';
+}
 
 // Valuation schema: amount (original currency), currency, asOf (ISO date),
 // kind (e.g. funding round / secondary transaction), sourceUrl and uncertainty.
