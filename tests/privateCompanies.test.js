@@ -9,9 +9,10 @@ test('private research candidates remain separate from the public universe', () 
   for (const c of privateCompaniesData) {
     assert.equal(publicIds.has(c.id), false);
     assert.equal('marketCap' in c, false);
-    assert.equal(c.valuation, null);
+    if (c.valuation) { assert.ok(hasSourcedValuation(c)); assert.equal(c.sourceCheckedAt, '2026-10-11'); }
     assert.equal(c.listingStatus, 'unverified');
-    assert.equal(c.researchStatus, 'pending');
+    assert.ok(['pending', 'financing-source-checked'].includes(c.researchStatus));
+    assert.ok(c.assessment.opportunity && c.assessment.hurdle && c.assessment.milestone);
     assert.ok(c.sourceUrl.startsWith('https://'));
   }
 });

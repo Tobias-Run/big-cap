@@ -205,7 +205,7 @@ export const Header = ({
             <TableIcon className={`w-3.5 h-3.5 ${isCrazy ? 'text-pink-400' : 'text-[var(--text-3)]'}`} />
             <span>Inspectable Data Table & CSV</span>
           </button>
-          {[['excluded', 'Excluded Champions'], ['next-generation', 'Europe’s Next Generation']].map(([key, label]) => (
+          {[['exchanges', 'Stock Exchange Clusters'], ['excluded', 'Excluded Champions'], ['next-generation', 'Europe’s Next Generation']].map(([key, label]) => (
             <button key={key} type="button" aria-pressed={activeTab === key} onClick={() => setActiveTab(key)} className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap border ${activeTab === key ? 'bg-[var(--surf-2)] text-[var(--text-0)] border-[var(--border-2)]' : 'text-[var(--text-2)] border-transparent hover:bg-[var(--surf-1)]'}`}>{label}</button>
           ))}
         </div>
