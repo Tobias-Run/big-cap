@@ -1,4 +1,5 @@
 import React from 'react';
+import { MARKET_CAP_DATE_LABEL } from '../data/marketCapSnapshot';
 import { CURRENT_YEAR } from '../utils/dateConstants';
 import { useModalA11y } from '../utils/useModalA11y';
 import { X, ExternalLink, MapPin, FileCheck, Users, Layers } from 'lucide-react';
@@ -27,14 +28,14 @@ export const CompanyDetailModal = ({ company, onClose, mode }) => {
         tabIndex={-1}
         // Clicks inside must not reach the backdrop handler above.
         onClick={(e) => e.stopPropagation()}
-        className={`w-full max-w-xl rounded-2xl border shadow-2xl overflow-hidden transition-all outline-none ${
+        className={`w-full max-w-xl max-h-[90vh] flex flex-col rounded-2xl border shadow-2xl overflow-hidden transition-all outline-none ${
           isCrazy
             ? 'bg-[var(--surf-0)] border-purple-800/60 shadow-[0_0_50px_rgba(168,85,247,0.3)]'
             : 'bg-[var(--surf-1)] border-[var(--border-2)] shadow-slate-950/80'
         }`}
       >
         {/* Header bar */}
-        <div className={`px-6 py-4 border-b flex items-center justify-between ${
+        <div className={`px-6 py-4 border-b flex-shrink-0 flex items-center justify-between ${
           company.isTech
             ? 'bg-[var(--callout-emerald-bg)] border-[var(--callout-emerald-border)]/40'
             : 'bg-[var(--callout-blue-bg)] border-[var(--callout-blue-border)]/40'
@@ -69,13 +70,13 @@ export const CompanyDetailModal = ({ company, onClose, mode }) => {
         </div>
 
         {/* Content body */}
-        <div className="p-6 space-y-5 max-h-[80vh] overflow-y-auto">
+        <div className="p-6 space-y-5 min-h-0 overflow-y-auto">
           {/* Key metrics grid */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-[var(--surf-0)]/60 p-3.5 rounded-xl border border-[var(--border-1)]">
             <div>
               <span className="text-[10px] text-[var(--text-4)] uppercase font-mono block">Market Cap</span>
               <span className="text-lg font-black text-[var(--figure)]">
-                ${company.marketCap >= 1000 ? `${(company.marketCap / 1000).toFixed(2)}T` : `${company.marketCap}B`}
+                ${company.marketCap >= 1000 ? `${(company.marketCap / 1000).toFixed(2)}T` : `${company.marketCap.toFixed(2)}B`}
               </span>
             </div>
 
@@ -99,6 +100,17 @@ export const CompanyDetailModal = ({ company, onClose, mode }) => {
                 {company.ipoYear || 'Private / N/A'}
               </span>
             </div>
+          </div>
+
+          <div className="text-xs text-[var(--text-2)] space-y-1.5">
+            <p>Market cap at <strong>{MARKET_CAP_DATE_LABEL}</strong>: {company.marketCapObservation.localMarketCap.toLocaleString('en-US')} {company.marketCapObservation.currency}.
+              {company.marketCapObservation.currency !== 'USD' && <> Converted at {company.marketCapObservation.usdRate.toPrecision(7)} USD per {company.marketCapObservation.currency} using a same-day reference rate.</>}
+            </p>
+            <a href={company.marketCapObservation.sourceUrl} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline inline-flex items-center gap-1">Historical market-cap source <ExternalLink className="w-3 h-3" /></a>
+            {company.marketCapObservation.fxSourceUrl && <a href={company.marketCapObservation.fxSourceUrl} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline block">Currency conversion source</a>}
+            {company.ipoDate && <p>IPO admission: {company.ipoDate}{company.ipoDateBasis && <> · {company.ipoDateBasis}</>}</p>}
+            {company.foundingYearBasis && <p>Founding-year basis: {company.foundingYearBasis}</p>}
+            {company.geographyBasis && <p>Regional classification: {company.geographyBasis}</p>}
           </div>
 
           {/* Lineage & Origin dossier */}
@@ -181,7 +193,7 @@ export const CompanyDetailModal = ({ company, onClose, mode }) => {
         </div>
 
         {/* Modal Footer */}
-        <div className="px-6 py-3 bg-[var(--surf-0)]/80 border-t border-[var(--border-1)]/80 flex justify-end">
+        <div className="px-6 py-3 flex-shrink-0 bg-[var(--surf-0)]/80 border-t border-[var(--border-1)]/80 flex justify-end">
           <button
             type="button"
             onClick={onClose}

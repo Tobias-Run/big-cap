@@ -270,9 +270,9 @@ export const ControlsBar = ({
         <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-1">
           <div className="flex items-center gap-3 flex-wrap w-full sm:w-auto">
             {/* Minimum Market Cap Filter */}
-            <div className="flex items-center gap-1.5 bg-[var(--surf-1)] border border-[var(--border-1)] rounded-lg px-2.5 py-1">
+            <div className="flex flex-wrap items-center gap-1.5 bg-[var(--surf-1)] border border-[var(--border-1)] rounded-lg px-2.5 py-1">
               <span className="text-[11px] font-semibold text-[var(--text-3)] uppercase">Min Cap:</span>
-              {[10, 25, 50, 100, 1000].map((cap) => (
+              {[0, 10, 25, 50, 100, 1000].map((cap) => (
                 <button
                   key={cap}
                   type="button"
@@ -284,7 +284,7 @@ export const ControlsBar = ({
                   }`}
                   title={cap === 10 ? "McAfee $10B baseline" : cap === 100 ? "Draghi €100B milestone" : cap === 1000 ? "$1 Trillion Club" : ""}
                 >
-                  {cap === 1000 ? "$1T+" : `$${cap}B+`}
+                  {cap === 0 ? "All sizes" : cap === 1000 ? "$1T+" : `$${cap}B+`}
                 </button>
               ))}
             </div>

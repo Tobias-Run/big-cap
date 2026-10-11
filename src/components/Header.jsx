@@ -54,12 +54,12 @@ export const Header = ({
             <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-[var(--text-0)] mt-1.5 flex items-center gap-2">
               <span>{activeTab === 'next-generation' ? 'Europe’s Next Generation' : 'Public From-Scratch Global Giants'}</span>
               <span className="text-sm font-normal text-[var(--text-3)] hidden sm:inline">
-                {activeTab === 'next-generation' ? '(Research Watchlist)' : '($10B+ Market Cap Dynamics)'}
+                {activeTab === 'next-generation' ? '(Research Watchlist)' : '(Market Cap & Company Origins)'}
               </span>
             </h1>
 
             <p className="text-xs sm:text-sm text-[var(--text-3)] mt-0.5">
-              {activeTab === 'next-generation' ? 'Explore research candidates beyond public markets, with explicit source and valuation uncertainty.' : 'Adjust the age cutoff, spinoff/from-scratch rule, and region filters below to see which companies clear the $10B+ bar.'}
+              {activeTab === 'next-generation' ? 'Explore research candidates beyond public markets, with explicit source and valuation uncertainty.' : 'Explore company age, origin, regions and size. The standard baseline is $10B+; choose All sizes to include smaller listings.'}
             </p>
           </div>
 

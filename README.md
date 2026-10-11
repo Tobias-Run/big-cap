@@ -60,13 +60,14 @@ capitalisations; profiles can subsequently IPO or be acquired.
 
 ## What the numbers are and are not
 
-Market capitalisations are a **static curated snapshot** around late-2024
-valuations. This is not a stock tracker and does not update with prices.
+Market capitalisations are a **dated snapshot at 30 September 2026**,
+expressed in USD. All 92 companies have an exact daily historical observation
+from Stock Analysis (Nasdaq Data Link or S&P Global Market Intelligence, as identified per historical series). This is not a stock tracker and does not update with prices.
 Company ages, by contrast, are computed against the current date, so the
 50-year filter keeps moving — a company that qualified last year may not
 this year. That asymmetry is deliberate and stated in the app.
 
-The dataset is 76 hand-curated companies, not a complete screen of every
+The dataset is 92 hand-curated companies, not a complete screen of every
 listed company above $10B. It is assembled to answer the <50-year
 question; the "All Ages" and 100-year presets therefore produce totals
 that omit many old giants and should be read as illustrative, not as
@@ -76,6 +77,46 @@ Classification calls that are genuinely contested — Saudi Aramco's
 concession origin, Linde's UK-vs-Ireland domicile, how to date a merged
 company, whether fintech counts as high-tech — are documented in the app's
 **Data Lineage** dossier rather than buried in the data.
+
+## September 2026 snapshot and recent IPOs
+
+The additions are SpaceX, Cerebras, Z.ai/Zhipu, MiniMax, CoreWeave, Circle,
+Figma, Klarna, Chime, Reddit, Astera Labs, Rubrik, Raspberry Pi, Galderma,
+Puig and Verisure. Listed companies stay separate from the private research
+watchlist. IPO admission dates and founding-year exceptions appear in dossiers.
+
+The standard $10B floor still applies. **All sizes** includes smaller IPOs such
+as Klarna ($4.70B) and Raspberry Pi ($1.78B). Being a recent IPO does not mean
+being a new business: Puig was founded in 1914; Galderma is a joint venture;
+Verisure and Raspberry Pi have institutional parent origins. Z.ai's university
+spinout is explicitly excluded by the strict greenfield rule. Reddit follows
+its independent 2005 founding, with subsequent acquisition/separation disclosed.
+Klarna follows its Swedish operating origin and principal IPO-era facilities,
+with its London registered parent disclosed as a geographic exception.
+
+The complete audit trail is in
+[data/market-cap-snapshots/2026-09-30.json](data/market-cap-snapshots/2026-09-30.json):
+original currency and value, exact observation date, FX rate/source, retrieval
+time and SHA-256 fingerprint of the fetched page. Non-USD caps use same-day ECB
+reference rates via Frankfurter v1; SAR uses Frankfurter v2's dated USD/SAR rate.
+The app ships a smaller projection in `src/data/marketCapSnapshot.json`; tests
+check it against the audit file. Values retain six decimal places in USD billions
+for calculation; the UI rounds to two decimal places. CSV exports retain dates,
+local values, FX rates and source links.
+
+Reproduce the snapshot with Python 3 and curl:
+
+```bash
+python scripts/fetch-market-cap-snapshot.py --date 2026-09-30
+```
+
+Downloaded evidence is cached in `/tmp/big-cap-market-cap-evidence`. Use a fresh
+`--cache-dir` to re-fetch. The importer fails if any company lacks an exact date
+or supported currency; it never substitutes a current cap, interpolates adjacent
+dates or uses IPO valuations. Market caps follow the provider's historical
+shares-outstanding methodology, and FX rates are daily reference rates, not
+synchronized exchange-closing ticks. The original 2024 Draghi/McAfee observations
+remain historical context and are not restated as September 2026 facts.
 
 ## Development
 
@@ -112,7 +153,7 @@ remain proportional to market cap in both visual modes.
 src/
   App.jsx                 filter pipeline + layout; owns all filter state
   components/             one file per view, plus the three modals
-  data/companiesData.js   the 76 companies
+  data/companiesData.js   76 established companies + 16 recent IPOs
   data/sourcesMetadata.js methodology, sources, contested classifications
   utils/dateConstants.js  CURRENT_YEAR — the single source of "now"
   utils/useModalA11y.js   focus trap, scroll lock, focus restore for dialogs

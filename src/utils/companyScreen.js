@@ -8,7 +8,7 @@ export function exclusionReasons(company, filters, currentYear) {
     reasons.push({ key: 'age', label: `Age ${age} exceeds the ${filters.ageThreshold}-year limit` });
   }
   if (company.marketCap < filters.minMarketCap) {
-    reasons.push({ key: 'marketCap', label: `$${company.marketCap}B is below the $${filters.minMarketCap}B minimum` });
+    reasons.push({ key: 'marketCap', label: `$${company.marketCap.toFixed(2)}B is below the $${filters.minMarketCap}B minimum` });
   }
   if (filters.sectorFilter !== 'all' && company.sector !== filters.sectorFilter) {
     reasons.push({ key: 'sector', label: `${company.sector} is outside the selected sector` });
@@ -34,7 +34,7 @@ export function inclusionChanges(company, filters, currentYear) {
       if (age > 100) changes.allAges = true;
       else changes.ageThreshold = age;
     }
-    if (key === 'marketCap') changes.minMarketCap = Math.max(...[10, 25, 50, 100, 1000].filter(cap => cap <= company.marketCap));
+    if (key === 'marketCap') changes.minMarketCap = Math.max(...[0, 10, 25, 50, 100, 1000].filter(cap => cap <= company.marketCap));
     if (key === 'sector') changes.sectorFilter = company.sector;
     if (key === 'origin') changes.strictFromScratch = false;
     if (key === 'region') changes.selectedRegions = [...filters.selectedRegions, displayRegion(company.region, filters.includeNonEuEurope)];
@@ -46,7 +46,7 @@ export function inclusionSummary(changes, includeNonEuEurope) {
   return Object.entries(changes).map(([key, value]) => {
     if (key === 'ageThreshold') return `Age limit → ${value} years`;
     if (key === 'allAges') return 'Age limit → All Ages';
-    if (key === 'minMarketCap') return `Minimum → $${value}B`;
+    if (key === 'minMarketCap') return value === 0 ? 'Minimum → All sizes' : `Minimum → $${value}B`;
     if (key === 'sectorFilter') return `Sector → ${value}`;
     if (key === 'strictFromScratch') return 'Include spinoffs, joint ventures and mergers';
     if (key === 'selectedRegions') return `Add ${regionLabel(value.at(-1), includeNonEuEurope)}`;

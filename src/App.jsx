@@ -13,6 +13,7 @@ import { DataLineageModal } from './components/DataLineageModal';
 import { InspirationPicModal } from './components/InspirationPicModal';
 import { CrazyEffectsOverlay } from './components/CrazyEffectsOverlay';
 import { companiesData } from './data/companiesData';
+import { MARKET_CAP_DATE_LABEL } from './data/marketCapSnapshot';
 import { audioSynth } from './utils/audioSynth';
 import { Info } from 'lucide-react';
 import { CURRENT_YEAR } from './utils/dateConstants';
@@ -134,7 +135,7 @@ function App() {
   const asml = companiesData.find(c => c.id === 'asml');
   const sap = companiesData.find(c => c.id === 'sap');
   const sapAge = CURRENT_YEAR - sap.foundingYear;
-  const formatCap = (cap) => (cap >= 1000 ? `$${(cap / 1000).toFixed(2)}T` : `$${cap}B`);
+  const formatCap = (cap) => (cap >= 1000 ? `$${(cap / 1000).toFixed(2)}T` : `$${cap.toFixed(2)}B`);
 
   return (
     <div
@@ -162,6 +163,10 @@ function App() {
         setActiveTab={setActiveTab}
         onSupernovaBurst={handleSupernovaBurst}
       />
+
+      {activeTab !== 'next-generation' && <div className="px-4 sm:px-6 lg:px-8 py-2 border-b border-[var(--border-1)] text-xs text-[var(--text-2)]">
+        <p className="max-w-7xl mx-auto">Market caps: <strong>{MARKET_CAP_DATE_LABEL}</strong> · USD · {companiesData.length} curated public companies</p>
+      </div>}
 
       {/* Global Interactive Controls Bar */}
       {activeTab !== 'next-generation' && <ControlsBar
@@ -270,7 +275,7 @@ function App() {
           prices. */}
       <footer className="border-t border-[var(--border-1)]/80 bg-[var(--surf-0)]/60 px-4 sm:px-6 lg:px-8 py-3">
         <p className="max-w-7xl mx-auto text-[11px] text-[var(--text-4)] text-center leading-relaxed">
-          {activeTab === 'next-generation' ? 'Research watchlist: financing valuations are dated source observations; current listing status remains unverified. These profiles are separate from the public-company screen. ' : <>Not a stock tracker: market caps are a static, curated snapshot (see{' '}
+          {activeTab === 'next-generation' ? 'Research watchlist: financing valuations are dated source observations; current listing status remains unverified. These profiles are separate from the public-company screen. ' : <>Not a stock tracker: market caps are fixed at {MARKET_CAP_DATE_LABEL} in USD (see{' '}
           <button
             type="button"
             onClick={() => setIsLineageOpen(true)}
@@ -278,7 +283,7 @@ function App() {
           >
             Data Lineage
           </button>
-          {' '}for the reference date), not a live feed — day-to-day price moves aren't reflected here.</>}
+          {' '}for sources and currency conversion), not a live feed — day-to-day price moves aren't reflected here.</>}
         </p>
       </footer>
 

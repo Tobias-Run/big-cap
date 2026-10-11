@@ -2,6 +2,7 @@ import React from 'react';
 import { useModalA11y } from '../utils/useModalA11y';
 import { X, BookOpen, Scale, AlertTriangle, ExternalLink, ShieldCheck, Award } from 'lucide-react';
 import { sourcesMetadata } from '../data/sourcesMetadata';
+import { MARKET_CAP_DATE_LABEL } from '../data/marketCapSnapshot';
 import { CURRENT_YEAR } from '../utils/dateConstants';
 
 export const DataLineageModal = ({ isOpen, onClose, mode }) => {
@@ -61,10 +62,18 @@ export const DataLineageModal = ({ isOpen, onClose, mode }) => {
             <AlertTriangle className="w-4 h-4 text-[var(--figure)] flex-shrink-0 mt-0.5" />
             <p>
               <strong className="text-[var(--callout-amber-text)]">Not a stock tracker.</strong> Market
-              capitalizations are a static snapshot curated around late-2024 valuations,
+              capitalizations are a static snapshot at {MARKET_CAP_DATE_LABEL}, in USD,
               not a live feed — they do not update with daily price moves. Company ages
               and the 50-year filter, by contrast, recalculate live against today's date.
             </p>
+          </div>
+
+          <div className="p-4 rounded-xl bg-[var(--surf-0)] border border-[var(--border-1)] space-y-2">
+            <h3 className="font-bold text-[var(--text-0)]">Public market-cap reference date: {MARKET_CAP_DATE_LABEL}</h3>
+            <p>All 92 companies have an exact daily observation for 30 September 2026 from Stock Analysis (S&amp;P Global Market Intelligence). Values are company equity market capitalizations, not IPO proceeds or private financing valuations. See each company dossier for its historical market-cap source.</p>
+            <p>Non-USD observations are converted using the same-day reference exchange rates supplied by Frankfurter (ECB rates for supported currencies; its dated USD/SAR series for Saudi riyals). Local values, currency, conversion rate and source dates are preserved in CSV exports. These rates are daily reference rates, not synchronized closing-time FX ticks.</p>
+            <p>Business origin, registered domicile and listing venue can differ. Klarna follows its Swedish operating origin and principal facilities at IPO, with its London holding-company office disclosed in the dossier. Z.ai and Raspberry Pi are treated as institutional spinouts under the strict greenfield rule. These are explicit editorial classifications, not exchange classifications.</p>
+            <a href="https://api.frankfurter.dev/v1/2026-09-30" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">View dated currency reference rates</a>
           </div>
 
           {/* Section 1: The Landmark Draghi Report */}

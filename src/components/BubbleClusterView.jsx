@@ -287,7 +287,7 @@ export const BubbleClusterView = ({
       .attr('role', 'button')
       .attr('aria-label', d =>
         `${d.name}, ${d.country}, market cap ${
-          d.marketCap >= 1000 ? `${(d.marketCap / 1000).toFixed(2)} trillion` : `${d.marketCap} billion`
+          d.marketCap >= 1000 ? `${(d.marketCap / 1000).toFixed(2)} trillion` : `${d.marketCap.toFixed(2)} billion`
         } dollars, founded ${d.foundingYear}. Activate for details.`)
       .on('keydown', (event, d) => {
         if (event.key !== 'Enter' && event.key !== ' ') return;
@@ -430,7 +430,7 @@ export const BubbleClusterView = ({
       .attr('fill', '#f1f5f9')
       .attr('opacity', 0.9)
       .attr('pointer-events', 'none')
-      .text(d => `$${d.marketCap >= 1000 ? `${(d.marketCap/1000).toFixed(1)}T` : `${d.marketCap}B`}`);
+      .text(d => `$${d.marketCap >= 1000 ? `${(d.marketCap/1000).toFixed(1)}T` : `${d.marketCap.toFixed(2)}B`}`);
 
     const headingGroups = svg.select('.labels-layer').selectAll('[data-region]');
     const headings = [];
@@ -693,7 +693,7 @@ export const BubbleClusterView = ({
           </div>
           <div className="flex items-baseline justify-between mt-1 text-xs">
             <span className="font-mono font-bold text-[var(--figure)]">
-              ${hoveredNode.marketCap >= 1000 ? `${(hoveredNode.marketCap/1000).toFixed(2)}T` : `${hoveredNode.marketCap}B`}
+              ${hoveredNode.marketCap >= 1000 ? `${(hoveredNode.marketCap/1000).toFixed(2)}T` : `${hoveredNode.marketCap.toFixed(2)}B`}
             </span>
             <span className="text-[var(--text-3)]">
               Founded {hoveredNode.foundingYear}
@@ -762,7 +762,7 @@ export const BubbleClusterView = ({
               <div>
                 <span className="text-[10px] uppercase font-mono text-[var(--text-4)] block">Market Cap</span>
                 <span className="text-sm font-black text-[var(--figure)]">
-                  ${quickViewCompany.marketCap >= 1000 ? `${(quickViewCompany.marketCap/1000).toFixed(2)}T` : `${quickViewCompany.marketCap}B`}
+                  ${quickViewCompany.marketCap >= 1000 ? `${(quickViewCompany.marketCap/1000).toFixed(2)}T` : `${quickViewCompany.marketCap.toFixed(2)}B`}
                 </span>
               </div>
 

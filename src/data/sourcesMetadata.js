@@ -42,7 +42,7 @@ export const sourcesMetadata = {
       {
         step: 1,
         name: "Universe Ingestion",
-        description: "Screened publicly listed global equities with market valuations exceeding $10 Billion USD across major stock exchanges (NYSE, NASDAQ, Euronext, Deutsche Börse, LSE, HKEX, TWSE, KRX, TSE, B3, TSX)."
+        description: "Curated 92 public companies across major exchanges, including 16 recent IPOs. All market caps have exact 30 September 2026 observations, converted to USD with same-day reference FX rates. The default $10 Billion screen is a filter, not a restriction on the research universe; this is not an exhaustive global stock screen."
       },
       {
         step: 2,

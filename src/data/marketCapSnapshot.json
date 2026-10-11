@@ -1,0 +1,925 @@
+{
+  "asOf": "2026-09-30",
+  "companies": {
+    "aapl": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "USD",
+      "localMarketCap": 4860153800000.0,
+      "usdRate": 1.0,
+      "marketCap": 4860.1538,
+      "sourceUrl": "https://stockanalysis.com/stocks/aapl/market-cap/",
+      "fxSourceUrl": null
+    },
+    "abbv": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "USD",
+      "localMarketCap": 462260200000.0,
+      "usdRate": 1.0,
+      "marketCap": 462.2602,
+      "sourceUrl": "https://stockanalysis.com/stocks/abbv/market-cap/",
+      "fxSourceUrl": null
+    },
+    "abnb": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "USD",
+      "localMarketCap": 94716939813.0,
+      "usdRate": 1.0,
+      "marketCap": 94.71694,
+      "sourceUrl": "https://stockanalysis.com/stocks/abnb/market-cap/",
+      "fxSourceUrl": null
+    },
+    "adbe": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "USD",
+      "localMarketCap": 93384600000.0,
+      "usdRate": 1.0,
+      "marketCap": 93.3846,
+      "sourceUrl": "https://stockanalysis.com/stocks/adbe/market-cap/",
+      "fxSourceUrl": null
+    },
+    "adyen": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "EUR",
+      "localMarketCap": 27671349058.0,
+      "usdRate": 1.1355,
+      "marketCap": 31.420817,
+      "sourceUrl": "https://stockanalysis.com/quote/ams/ADYEN/market-cap/",
+      "fxSourceUrl": "https://api.frankfurter.dev/v1/2026-09-30"
+    },
+    "alab": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "USD",
+      "localMarketCap": 61755492471.0,
+      "usdRate": 1.0,
+      "marketCap": 61.755492,
+      "sourceUrl": "https://stockanalysis.com/stocks/alab/market-cap/",
+      "fxSourceUrl": null
+    },
+    "amd": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "USD",
+      "localMarketCap": 998682900000.0,
+      "usdRate": 1.0,
+      "marketCap": 998.6829,
+      "sourceUrl": "https://stockanalysis.com/stocks/amd/market-cap/",
+      "fxSourceUrl": null
+    },
+    "amgn": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "USD",
+      "localMarketCap": 227881800000.0,
+      "usdRate": 1.0,
+      "marketCap": 227.8818,
+      "sourceUrl": "https://stockanalysis.com/stocks/amgn/market-cap/",
+      "fxSourceUrl": null
+    },
+    "amzn": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "USD",
+      "localMarketCap": 2687410000000.0,
+      "usdRate": 1.0,
+      "marketCap": 2687.41,
+      "sourceUrl": "https://stockanalysis.com/stocks/amzn/market-cap/",
+      "fxSourceUrl": null
+    },
+    "aramco": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "SAR",
+      "localMarketCap": 6100904628000.0,
+      "usdRate": 0.26666666666666666,
+      "marketCap": 1626.907901,
+      "sourceUrl": "https://stockanalysis.com/quote/tadawul/2222/market-cap/",
+      "fxSourceUrl": "https://api.frankfurter.dev/v2/rates?date=2026-09-30&base=USD&quotes=SAR"
+    },
+    "argx": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "USD",
+      "localMarketCap": 59968200000.0,
+      "usdRate": 1.0,
+      "marketCap": 59.9682,
+      "sourceUrl": "https://stockanalysis.com/stocks/argx/market-cap/",
+      "fxSourceUrl": null
+    },
+    "arm": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "USD",
+      "localMarketCap": 309379693622.0,
+      "usdRate": 1.0,
+      "marketCap": 309.379694,
+      "sourceUrl": "https://stockanalysis.com/stocks/arm/market-cap/",
+      "fxSourceUrl": null
+    },
+    "asml": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "EUR",
+      "localMarketCap": 613253599670.0,
+      "usdRate": 1.1355,
+      "marketCap": 696.349462,
+      "sourceUrl": "https://stockanalysis.com/quote/ams/ASML/market-cap/",
+      "fxSourceUrl": "https://api.frankfurter.dev/v1/2026-09-30"
+    },
+    "avgo": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "USD",
+      "localMarketCap": 1676451100000.0,
+      "usdRate": 1.0,
+      "marketCap": 1676.4511,
+      "sourceUrl": "https://stockanalysis.com/stocks/avgo/market-cap/",
+      "fxSourceUrl": null
+    },
+    "azn": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "GBP",
+      "localMarketCap": 190465799390.0,
+      "usdRate": 1.328645144682494,
+      "marketCap": 253.06146,
+      "sourceUrl": "https://stockanalysis.com/quote/lon/AZN/market-cap/",
+      "fxSourceUrl": "https://api.frankfurter.dev/v1/2026-09-30"
+    },
+    "baba": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "USD",
+      "localMarketCap": 250984900000.0,
+      "usdRate": 1.0,
+      "marketCap": 250.9849,
+      "sourceUrl": "https://stockanalysis.com/stocks/baba/market-cap/",
+      "fxSourceUrl": null
+    },
+    "bidu": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "USD",
+      "localMarketCap": 29492400000.0,
+      "usdRate": 1.0,
+      "marketCap": 29.4924,
+      "sourceUrl": "https://stockanalysis.com/stocks/bidu/market-cap/",
+      "fxSourceUrl": null
+    },
+    "bntx": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "USD",
+      "localMarketCap": 24693389178.0,
+      "usdRate": 1.0,
+      "marketCap": 24.693389,
+      "sourceUrl": "https://stockanalysis.com/stocks/bntx/market-cap/",
+      "fxSourceUrl": null
+    },
+    "byd": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "HKD",
+      "localMarketCap": 804897250783.0,
+      "usdRate": 0.12744822941803693,
+      "marketCap": 102.582729,
+      "sourceUrl": "https://stockanalysis.com/quote/hkg/1211/market-cap/",
+      "fxSourceUrl": "https://api.frankfurter.dev/v1/2026-09-30"
+    },
+    "catl": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "CNY",
+      "localMarketCap": 1365427682343.0,
+      "usdRate": 0.14915276500722446,
+      "marketCap": 203.657314,
+      "sourceUrl": "https://stockanalysis.com/quote/she/300750/market-cap/",
+      "fxSourceUrl": "https://api.frankfurter.dev/v1/2026-09-30"
+    },
+    "cbrs": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "USD",
+      "localMarketCap": 42203251884.0,
+      "usdRate": 1.0,
+      "marketCap": 42.203252,
+      "sourceUrl": "https://stockanalysis.com/stocks/cbrs/market-cap/",
+      "fxSourceUrl": null
+    },
+    "chkp": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "USD",
+      "localMarketCap": 13438200000.0,
+      "usdRate": 1.0,
+      "marketCap": 13.4382,
+      "sourceUrl": "https://stockanalysis.com/stocks/chkp/market-cap/",
+      "fxSourceUrl": null
+    },
+    "chym": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "USD",
+      "localMarketCap": 10085507357.0,
+      "usdRate": 1.0,
+      "marketCap": 10.085507,
+      "sourceUrl": "https://stockanalysis.com/stocks/chym/market-cap/",
+      "fxSourceUrl": null
+    },
+    "cost": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "USD",
+      "localMarketCap": 403716500000.0,
+      "usdRate": 1.0,
+      "marketCap": 403.7165,
+      "sourceUrl": "https://stockanalysis.com/stocks/cost/market-cap/",
+      "fxSourceUrl": null
+    },
+    "cpng": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "USD",
+      "localMarketCap": 24931487307.0,
+      "usdRate": 1.0,
+      "marketCap": 24.931487,
+      "sourceUrl": "https://stockanalysis.com/stocks/cpng/market-cap/",
+      "fxSourceUrl": null
+    },
+    "crcl": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "USD",
+      "localMarketCap": 20962626336.0,
+      "usdRate": 1.0,
+      "marketCap": 20.962626,
+      "sourceUrl": "https://stockanalysis.com/stocks/crcl/market-cap/",
+      "fxSourceUrl": null
+    },
+    "crm": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "USD",
+      "localMarketCap": 188936100000.0,
+      "usdRate": 1.0,
+      "marketCap": 188.9361,
+      "sourceUrl": "https://stockanalysis.com/stocks/crm/market-cap/",
+      "fxSourceUrl": null
+    },
+    "crwd": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "USD",
+      "localMarketCap": 271667874874.0,
+      "usdRate": 1.0,
+      "marketCap": 271.667875,
+      "sourceUrl": "https://stockanalysis.com/stocks/crwd/market-cap/",
+      "fxSourceUrl": null
+    },
+    "crwv": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "USD",
+      "localMarketCap": 48049868766.0,
+      "usdRate": 1.0,
+      "marketCap": 48.049869,
+      "sourceUrl": "https://stockanalysis.com/stocks/crwv/market-cap/",
+      "fxSourceUrl": null
+    },
+    "csco": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "USD",
+      "localMarketCap": 424340600000.0,
+      "usdRate": 1.0,
+      "marketCap": 424.3406,
+      "sourceUrl": "https://stockanalysis.com/stocks/csco/market-cap/",
+      "fxSourceUrl": null
+    },
+    "csu": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "CAD",
+      "localMarketCap": 61343757637.0,
+      "usdRate": 0.7050605402049053,
+      "marketCap": 43.251063,
+      "sourceUrl": "https://stockanalysis.com/quote/tsx/CSU/market-cap/",
+      "fxSourceUrl": "https://api.frankfurter.dev/v1/2026-09-30"
+    },
+    "dsy": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "EUR",
+      "localMarketCap": 27125948874.0,
+      "usdRate": 1.1355,
+      "marketCap": 30.801515,
+      "sourceUrl": "https://stockanalysis.com/quote/epa/DSY/market-cap/",
+      "fxSourceUrl": "https://api.frankfurter.dev/v1/2026-09-30"
+    },
+    "fig": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "USD",
+      "localMarketCap": 11203867404.0,
+      "usdRate": 1.0,
+      "marketCap": 11.203867,
+      "sourceUrl": "https://stockanalysis.com/stocks/fig/market-cap/",
+      "fxSourceUrl": null
+    },
+    "galderma": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "CHF",
+      "localMarketCap": 38674385201.0,
+      "usdRate": 1.1980375606668072,
+      "marketCap": 46.333366,
+      "sourceUrl": "https://stockanalysis.com/quote/swx/GALD/market-cap/",
+      "fxSourceUrl": "https://api.frankfurter.dev/v1/2026-09-30"
+    },
+    "googl": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "USD",
+      "localMarketCap": 4208098400000.0,
+      "usdRate": 1.0,
+      "marketCap": 4208.0984,
+      "sourceUrl": "https://stockanalysis.com/stocks/googl/market-cap/",
+      "fxSourceUrl": null
+    },
+    "hd": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "USD",
+      "localMarketCap": 283832700000.0,
+      "usdRate": 1.0,
+      "marketCap": 283.8327,
+      "sourceUrl": "https://stockanalysis.com/stocks/hd/market-cap/",
+      "fxSourceUrl": null
+    },
+    "hdfc": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "USD",
+      "localMarketCap": 114514700000.0,
+      "usdRate": 1.0,
+      "marketCap": 114.5147,
+      "sourceUrl": "https://stockanalysis.com/stocks/hdb/market-cap/",
+      "fxSourceUrl": null
+    },
+    "ifx": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "EUR",
+      "localMarketCap": 77141729711.0,
+      "usdRate": 1.1355,
+      "marketCap": 87.594434,
+      "sourceUrl": "https://stockanalysis.com/quote/etr/IFX/market-cap/",
+      "fxSourceUrl": "https://api.frankfurter.dev/v1/2026-09-30"
+    },
+    "infy": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "USD",
+      "localMarketCap": 43638200000.0,
+      "usdRate": 1.0,
+      "marketCap": 43.6382,
+      "sourceUrl": "https://stockanalysis.com/stocks/infy/market-cap/",
+      "fxSourceUrl": null
+    },
+    "intc": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "USD",
+      "localMarketCap": 606440100000.0,
+      "usdRate": 1.0,
+      "marketCap": 606.4401,
+      "sourceUrl": "https://stockanalysis.com/stocks/intc/market-cap/",
+      "fxSourceUrl": null
+    },
+    "isrg": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "USD",
+      "localMarketCap": 143653400000.0,
+      "usdRate": 1.0,
+      "marketCap": 143.6534,
+      "sourceUrl": "https://stockanalysis.com/stocks/isrg/market-cap/",
+      "fxSourceUrl": null
+    },
+    "itx": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "EUR",
+      "localMarketCap": 167961296603.0,
+      "usdRate": 1.1355,
+      "marketCap": 190.720052,
+      "sourceUrl": "https://stockanalysis.com/quote/bme/ITX/market-cap/",
+      "fxSourceUrl": "https://api.frankfurter.dev/v1/2026-09-30"
+    },
+    "jd": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "USD",
+      "localMarketCap": 36468600000.0,
+      "usdRate": 1.0,
+      "marketCap": 36.4686,
+      "sourceUrl": "https://stockanalysis.com/stocks/jd/market-cap/",
+      "fxSourceUrl": null
+    },
+    "keyence": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "JPY",
+      "localMarketCap": 19518418840800.0,
+      "usdRate": 0.006369551803444213,
+      "marketCap": 124.32358,
+      "sourceUrl": "https://stockanalysis.com/quote/tyo/6861/market-cap/",
+      "fxSourceUrl": "https://api.frankfurter.dev/v1/2026-09-30"
+    },
+    "klar": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "USD",
+      "localMarketCap": 4697793218.0,
+      "usdRate": 1.0,
+      "marketCap": 4.697793,
+      "sourceUrl": "https://stockanalysis.com/stocks/klar/market-cap/",
+      "fxSourceUrl": null
+    },
+    "lin": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "USD",
+      "localMarketCap": 218804200000.0,
+      "usdRate": 1.0,
+      "marketCap": 218.8042,
+      "sourceUrl": "https://stockanalysis.com/stocks/lin/market-cap/",
+      "fxSourceUrl": null
+    },
+    "lulu": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "USD",
+      "localMarketCap": 10157100000.0,
+      "usdRate": 1.0,
+      "marketCap": 10.1571,
+      "sourceUrl": "https://stockanalysis.com/stocks/lulu/market-cap/",
+      "fxSourceUrl": null
+    },
+    "mc": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "EUR",
+      "localMarketCap": 192308698530.0,
+      "usdRate": 1.1355,
+      "marketCap": 218.366527,
+      "sourceUrl": "https://stockanalysis.com/quote/epa/MC/market-cap/",
+      "fxSourceUrl": "https://api.frankfurter.dev/v1/2026-09-30"
+    },
+    "meituan": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "HKD",
+      "localMarketCap": 442521011315.0,
+      "usdRate": 0.12744822941803693,
+      "marketCap": 56.398519,
+      "sourceUrl": "https://stockanalysis.com/quote/hkg/3690/market-cap/",
+      "fxSourceUrl": "https://api.frankfurter.dev/v1/2026-09-30"
+    },
+    "meli": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "USD",
+      "localMarketCap": 87630900000.0,
+      "usdRate": 1.0,
+      "marketCap": 87.6309,
+      "sourceUrl": "https://stockanalysis.com/stocks/meli/market-cap/",
+      "fxSourceUrl": null
+    },
+    "meta": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "USD",
+      "localMarketCap": 1847400600000.0,
+      "usdRate": 1.0,
+      "marketCap": 1847.4006,
+      "sourceUrl": "https://stockanalysis.com/stocks/meta/market-cap/",
+      "fxSourceUrl": null
+    },
+    "minimax": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "HKD",
+      "localMarketCap": 87378674062.0,
+      "usdRate": 0.12744822941803693,
+      "marketCap": 11.136257,
+      "sourceUrl": "https://stockanalysis.com/quote/hkg/0100/market-cap/",
+      "fxSourceUrl": "https://api.frankfurter.dev/v1/2026-09-30"
+    },
+    "msft": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "USD",
+      "localMarketCap": 3808562300000.0,
+      "usdRate": 1.0,
+      "marketCap": 3808.5623,
+      "sourceUrl": "https://stockanalysis.com/stocks/msft/market-cap/",
+      "fxSourceUrl": null
+    },
+    "nflx": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "USD",
+      "localMarketCap": 289726900000.0,
+      "usdRate": 1.0,
+      "marketCap": 289.7269,
+      "sourceUrl": "https://stockanalysis.com/stocks/nflx/market-cap/",
+      "fxSourceUrl": null
+    },
+    "novo": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "USD",
+      "localMarketCap": 168161200000.0,
+      "usdRate": 1.0,
+      "marketCap": 168.1612,
+      "sourceUrl": "https://stockanalysis.com/stocks/nvo/market-cap/",
+      "fxSourceUrl": null
+    },
+    "now": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "USD",
+      "localMarketCap": 138566300000.0,
+      "usdRate": 1.0,
+      "marketCap": 138.5663,
+      "sourceUrl": "https://stockanalysis.com/stocks/now/market-cap/",
+      "fxSourceUrl": null
+    },
+    "ntes": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "USD",
+      "localMarketCap": 77616200000.0,
+      "usdRate": 1.0,
+      "marketCap": 77.6162,
+      "sourceUrl": "https://stockanalysis.com/stocks/ntes/market-cap/",
+      "fxSourceUrl": null
+    },
+    "nu": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "USD",
+      "localMarketCap": 61156518423.0,
+      "usdRate": 1.0,
+      "marketCap": 61.156518,
+      "sourceUrl": "https://stockanalysis.com/stocks/nu/market-cap/",
+      "fxSourceUrl": null
+    },
+    "nvda": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "USD",
+      "localMarketCap": 5503958000000.0,
+      "usdRate": 1.0,
+      "marketCap": 5503.958,
+      "sourceUrl": "https://stockanalysis.com/stocks/nvda/market-cap/",
+      "fxSourceUrl": null
+    },
+    "nxpi": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "USD",
+      "localMarketCap": 59896600000.0,
+      "usdRate": 1.0,
+      "marketCap": 59.8966,
+      "sourceUrl": "https://stockanalysis.com/stocks/nxpi/market-cap/",
+      "fxSourceUrl": null
+    },
+    "or": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "EUR",
+      "localMarketCap": 202014072603.0,
+      "usdRate": 1.1355,
+      "marketCap": 229.386979,
+      "sourceUrl": "https://stockanalysis.com/quote/epa/OR/market-cap/",
+      "fxSourceUrl": "https://api.frankfurter.dev/v1/2026-09-30"
+    },
+    "orcl": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "USD",
+      "localMarketCap": 415159000000.0,
+      "usdRate": 1.0,
+      "marketCap": 415.159,
+      "sourceUrl": "https://stockanalysis.com/stocks/orcl/market-cap/",
+      "fxSourceUrl": null
+    },
+    "panw": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "USD",
+      "localMarketCap": 324999600000.0,
+      "usdRate": 1.0,
+      "marketCap": 324.9996,
+      "sourceUrl": "https://stockanalysis.com/stocks/panw/market-cap/",
+      "fxSourceUrl": null
+    },
+    "pdd": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "USD",
+      "localMarketCap": 109642100000.0,
+      "usdRate": 1.0,
+      "marketCap": 109.6421,
+      "sourceUrl": "https://stockanalysis.com/stocks/pdd/market-cap/",
+      "fxSourceUrl": null
+    },
+    "pltr": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "USD",
+      "localMarketCap": 449492088684.0,
+      "usdRate": 1.0,
+      "marketCap": 449.492089,
+      "sourceUrl": "https://stockanalysis.com/stocks/pltr/market-cap/",
+      "fxSourceUrl": null
+    },
+    "puig": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "EUR",
+      "localMarketCap": 10189954360.0,
+      "usdRate": 1.1355,
+      "marketCap": 11.570693,
+      "sourceUrl": "https://stockanalysis.com/quote/bme/PUIG/market-cap/",
+      "fxSourceUrl": "https://api.frankfurter.dev/v1/2026-09-30"
+    },
+    "qcom": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "USD",
+      "localMarketCap": 193242000000.0,
+      "usdRate": 1.0,
+      "marketCap": 193.242,
+      "sourceUrl": "https://stockanalysis.com/stocks/qcom/market-cap/",
+      "fxSourceUrl": null
+    },
+    "race": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "USD",
+      "localMarketCap": 75715189953.0,
+      "usdRate": 1.0,
+      "marketCap": 75.71519,
+      "sourceUrl": "https://stockanalysis.com/stocks/race/market-cap/",
+      "fxSourceUrl": null
+    },
+    "rbrk": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "USD",
+      "localMarketCap": 23730138446.0,
+      "usdRate": 1.0,
+      "marketCap": 23.730138,
+      "sourceUrl": "https://stockanalysis.com/stocks/rbrk/market-cap/",
+      "fxSourceUrl": null
+    },
+    "rddt": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "USD",
+      "localMarketCap": 27404958884.0,
+      "usdRate": 1.0,
+      "marketCap": 27.404959,
+      "sourceUrl": "https://stockanalysis.com/stocks/rddt/market-cap/",
+      "fxSourceUrl": null
+    },
+    "rpi": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "GBP",
+      "localMarketCap": 1341462019.0,
+      "usdRate": 1.328645144682494,
+      "marketCap": 1.782327,
+      "sourceUrl": "https://stockanalysis.com/quote/lon/RPI/market-cap/",
+      "fxSourceUrl": "https://api.frankfurter.dev/v1/2026-09-30"
+    },
+    "sap": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "EUR",
+      "localMarketCap": 214288772000.0,
+      "usdRate": 1.1355,
+      "marketCap": 243.324901,
+      "sourceUrl": "https://stockanalysis.com/quote/etr/SAP/market-cap/",
+      "fxSourceUrl": "https://api.frankfurter.dev/v1/2026-09-30"
+    },
+    "sea": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "USD",
+      "localMarketCap": 59533000000.0,
+      "usdRate": 1.0,
+      "marketCap": 59.533,
+      "sourceUrl": "https://stockanalysis.com/stocks/se/market-cap/",
+      "fxSourceUrl": null
+    },
+    "sftby": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "JPY",
+      "localMarketCap": 36644887571270.0,
+      "usdRate": 0.006369551803444213,
+      "marketCap": 233.41151,
+      "sourceUrl": "https://stockanalysis.com/quote/tyo/9984/market-cap/",
+      "fxSourceUrl": "https://api.frankfurter.dev/v1/2026-09-30"
+    },
+    "shop": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "USD",
+      "localMarketCap": 190809300000.0,
+      "usdRate": 1.0,
+      "marketCap": 190.8093,
+      "sourceUrl": "https://stockanalysis.com/stocks/shop/market-cap/",
+      "fxSourceUrl": null
+    },
+    "sie": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "EUR",
+      "localMarketCap": 211582609001.0,
+      "usdRate": 1.1355,
+      "marketCap": 240.252053,
+      "sourceUrl": "https://stockanalysis.com/quote/etr/SIE/market-cap/",
+      "fxSourceUrl": "https://api.frankfurter.dev/v1/2026-09-30"
+    },
+    "smic": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "HKD",
+      "localMarketCap": 698396817630.0,
+      "usdRate": 0.12744822941803693,
+      "marketCap": 89.009438,
+      "sourceUrl": "https://stockanalysis.com/quote/hkg/0981/market-cap/",
+      "fxSourceUrl": "https://api.frankfurter.dev/v1/2026-09-30"
+    },
+    "smsn": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "KRW",
+      "localMarketCap": 1704599286810100.0,
+      "usdRate": 0.000737788000467818,
+      "marketCap": 1257.632899,
+      "sourceUrl": "https://stockanalysis.com/quote/krx/005930/market-cap/",
+      "fxSourceUrl": "https://api.frankfurter.dev/v1/2026-09-30"
+    },
+    "snow": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "USD",
+      "localMarketCap": 119679619800.0,
+      "usdRate": 1.0,
+      "marketCap": 119.67962,
+      "sourceUrl": "https://stockanalysis.com/stocks/snow/market-cap/",
+      "fxSourceUrl": null
+    },
+    "spcx": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "USD",
+      "localMarketCap": 2047595870348.0,
+      "usdRate": 1.0,
+      "marketCap": 2047.59587,
+      "sourceUrl": "https://stockanalysis.com/stocks/spcx/market-cap/",
+      "fxSourceUrl": null
+    },
+    "spot": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "USD",
+      "localMarketCap": 100297100000.0,
+      "usdRate": 1.0,
+      "marketCap": 100.2971,
+      "sourceUrl": "https://stockanalysis.com/stocks/spot/market-cap/",
+      "fxSourceUrl": null
+    },
+    "tcs": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "INR",
+      "localMarketCap": 7419250264411.0,
+      "usdRate": 0.010434614801439068,
+      "marketCap": 77.417019,
+      "sourceUrl": "https://stockanalysis.com/quote/nse/TCS/market-cap/",
+      "fxSourceUrl": "https://api.frankfurter.dev/v1/2026-09-30"
+    },
+    "team": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "USD",
+      "localMarketCap": 45385300000.0,
+      "usdRate": 1.0,
+      "marketCap": 45.3853,
+      "sourceUrl": "https://stockanalysis.com/stocks/team/market-cap/",
+      "fxSourceUrl": null
+    },
+    "tencent": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "HKD",
+      "localMarketCap": 3878329131691.0,
+      "usdRate": 0.12744822941803693,
+      "marketCap": 494.286181,
+      "sourceUrl": "https://stockanalysis.com/quote/hkg/0700/market-cap/",
+      "fxSourceUrl": "https://api.frankfurter.dev/v1/2026-09-30"
+    },
+    "tsla": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "USD",
+      "localMarketCap": 1401338900000.0,
+      "usdRate": 1.0,
+      "marketCap": 1401.3389,
+      "sourceUrl": "https://stockanalysis.com/stocks/tsla/market-cap/",
+      "fxSourceUrl": null
+    },
+    "tsmc": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "USD",
+      "localMarketCap": 2017956625337.0,
+      "usdRate": 1.0,
+      "marketCap": 2017.956625,
+      "sourceUrl": "https://stockanalysis.com/stocks/tsm/market-cap/",
+      "fxSourceUrl": null
+    },
+    "uber": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "USD",
+      "localMarketCap": 139935793890.0,
+      "usdRate": 1.0,
+      "marketCap": 139.935794,
+      "sourceUrl": "https://stockanalysis.com/stocks/uber/market-cap/",
+      "fxSourceUrl": null
+    },
+    "verisure": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "SEK",
+      "localMarketCap": 94962544889.0,
+      "usdRate": 0.1002118083134763,
+      "marketCap": 9.516368,
+      "sourceUrl": "https://stockanalysis.com/quote/sto/VSURE/market-cap/",
+      "fxSourceUrl": "https://api.frankfurter.dev/v1/2026-09-30"
+    },
+    "wise": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "GBP",
+      "localMarketCap": 8786359839.0,
+      "usdRate": 1.328645144682494,
+      "marketCap": 11.673954,
+      "sourceUrl": "https://stockanalysis.com/quote/lon/WISE/market-cap/",
+      "fxSourceUrl": "https://api.frankfurter.dev/v1/2026-09-30"
+    },
+    "wmt": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "USD",
+      "localMarketCap": 824474900000.0,
+      "usdRate": 1.0,
+      "marketCap": 824.4749,
+      "sourceUrl": "https://stockanalysis.com/stocks/wmt/market-cap/",
+      "fxSourceUrl": null
+    },
+    "xiaomi": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "HKD",
+      "localMarketCap": 649590617079.0,
+      "usdRate": 0.12744822941803693,
+      "marketCap": 82.789174,
+      "sourceUrl": "https://stockanalysis.com/quote/hkg/1810/market-cap/",
+      "fxSourceUrl": "https://api.frankfurter.dev/v1/2026-09-30"
+    },
+    "zhipu": {
+      "asOf": "2026-09-30",
+      "sourceDate": "2026-09-30",
+      "currency": "HKD",
+      "localMarketCap": 298464400690.0,
+      "usdRate": 0.12744822941803693,
+      "marketCap": 38.038759,
+      "sourceUrl": "https://stockanalysis.com/quote/hkg/2513/market-cap/",
+      "fxSourceUrl": "https://api.frankfurter.dev/v1/2026-09-30"
+    }
+  }
+}

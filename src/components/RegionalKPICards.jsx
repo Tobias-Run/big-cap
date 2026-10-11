@@ -226,7 +226,7 @@ export const RegionalKPICards = ({
                       {r.largest.name}
                     </span>
                     <span className="text-[var(--text-3)] font-mono ml-1.5">
-                      (${r.largest.marketCap >= 1000 ? `${(r.largest.marketCap/1000).toFixed(1)}T` : `${r.largest.marketCap}B`})
+                      (${r.largest.marketCap >= 1000 ? `${(r.largest.marketCap/1000).toFixed(1)}T` : `${r.largest.marketCap.toFixed(2)}B`})
                     </span>
                   </div>
                   <ArrowRight className="w-3.5 h-3.5 text-[var(--text-4)] group-hover:text-[var(--accent-400)] group-hover:translate-x-0.5 transition-all" />
