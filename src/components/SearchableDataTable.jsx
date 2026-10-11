@@ -71,7 +71,7 @@ export const SearchableDataTable = ({
     // "Sector" previously exported the High-Tech/Other flag despite its
     // name; both classifications exist in the app and mean different
     // things, so both are exported now rather than one shadowing the other.
-    const headers = ['Company Name', 'Ticker', 'Market Cap ($B USD)', 'Founding Year', 'Age', 'Sector', 'High-Tech', 'Industry', 'Country', 'Region', 'Origin Type', 'Is From-Scratch', 'Founders', 'Citation'];
+    const headers = ['Company Name', 'Ticker', 'Market Cap ($B USD)', 'Founding Year', 'Age', 'Sector', 'High-Tech', 'Industry', 'Country', 'Region', 'Origin Type', 'Is From-Scratch', 'Founders', 'Citation', 'Market Cap As Of', 'Market Cap Source Date', 'Market Cap Source', 'Local Market Cap', 'Local Currency', 'USD per Local Currency', 'FX Source', 'IPO Date'];
     const rows = processedData.map(c => [
       c.name,
       c.ticker,
@@ -86,7 +86,15 @@ export const SearchableDataTable = ({
       c.originType,
       c.isFromScratch ? 'Yes' : 'No',
       c.founders || '',
-      c.citation || ''
+      c.citation || '',
+      c.marketCapAsOf,
+      c.marketCapObservation.sourceDate,
+      c.marketCapObservation.sourceUrl,
+      c.marketCapObservation.localMarketCap,
+      c.marketCapObservation.currency,
+      c.marketCapObservation.usdRate,
+      c.marketCapObservation.fxSourceUrl || '',
+      c.ipoDate || ''
     ].map(csvCell));
 
     // Leading U+FEFF (byte-order mark), without which Excel mangles the
@@ -112,7 +120,7 @@ export const SearchableDataTable = ({
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-4">
+    <div className="w-full min-w-0 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-4">
       {/* Top action bar */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-[var(--surf-1)] border border-[var(--border-1)] p-3.5 rounded-xl">
         <div className="relative flex-1 sm:max-w-sm">
@@ -204,7 +212,7 @@ export const SearchableDataTable = ({
                       </div>
                     </td>
                     <td className="py-2.5 px-3 font-mono font-bold text-[var(--figure)]">
-                      ${c.marketCap >= 1000 ? `${(c.marketCap / 1000).toFixed(2)}T` : `${c.marketCap}B`}
+                      ${c.marketCap >= 1000 ? `${(c.marketCap / 1000).toFixed(2)}T` : `${c.marketCap.toFixed(2)}B`}
                     </td>
                     <td className="py-2.5 px-3 font-mono text-[var(--text-2)]">
                       {c.foundingYear}

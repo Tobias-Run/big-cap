@@ -27,7 +27,7 @@ export function ExcludedChampions({ filters, onInclude, onSelectCompany }) {
         {visible.map(({ company, reasons, changes }) => (
           <article key={company.id} className="min-w-0 rounded-2xl border border-[var(--border-1)] bg-[var(--surf-1)] p-5 flex flex-col gap-3">
             <div><h3 className="font-bold text-lg text-[var(--text-0)]">{company.name}</h3><p className="text-sm text-[var(--text-2)] break-words">{company.ticker} · {company.country}</p></div>
-            <p className="font-semibold text-[var(--text-1)]">${company.marketCap}B market cap · {CURRENT_YEAR - company.foundingYear} years old</p>
+            <p className="font-semibold text-[var(--text-1)]">${company.marketCap.toFixed(2)}B market cap · {CURRENT_YEAR - company.foundingYear} years old</p>
             <ul className="list-disc pl-5 space-y-1 text-sm text-[var(--text-2)]">{reasons.map(reason => <li key={reason.key}>{reason.label}</li>)}</ul>
             <div className="border-t border-[var(--border-1)] pt-3 mt-auto">
               <p className="text-sm font-semibold text-[var(--text-1)]">To include this company:</p>
